@@ -1,0 +1,30 @@
+.menu {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  border-radius: 5px;
+
+  .menu-card {
+    padding: 14px 43px;
+    color: #AFAFAF;
+    background: #DEDEDE;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+    text-decoration: none;
+
+    &.active , &:hover{
+      background: #FFE433;
+      color: #000000;
+    }
+
+    &:first-child {
+      border-radius: 5px 0px 0px 5px;
+    }
+
+    &:last-child {
+      border-radius: 0px 5px 5px 0px;
+    }
+
+  }
+}

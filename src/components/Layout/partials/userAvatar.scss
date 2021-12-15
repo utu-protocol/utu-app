@@ -1,0 +1,41 @@
+.user-avatar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  .token {
+    margin-right: 20px;
+    background: #FFE433;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+
+    .token-header {
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 18px;
+      margin-right: 5px;
+    }
+
+    .token-text {
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 18px;
+
+      width: 100px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .avatar {
+    img {
+      border-radius: 50%;
+    }
+  }
+}

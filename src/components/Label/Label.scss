@@ -1,0 +1,46 @@
+.utu-label {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 14px 20px;
+  border-radius: 50px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+
+  &.button {
+    cursor: pointer;
+  }
+
+  &.success {
+    color: #24A903;
+    border-color: #24A903;
+  }
+
+  &.danger {
+    color: #FF0000;
+    border-color: #FF0000;
+  }
+
+  &.basic {
+    color: rgba(0, 0, 0, 0.5);
+    border-color: rgba(0, 0, 0, 0.5);
+  }
+
+  &.secondary {
+    color: rgba(0, 0, 0, 0.5);
+    background: rgba(196, 196, 196, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-sizing: border-box;
+  }
+
+  &.primary {
+    background: #FFE433;
+    border-radius: 50px;
+    color: #000000;
+  }
+}
