@@ -4,7 +4,9 @@ import twitter from "../../assets/images/twitter.svg";
 import Label from "../../components/Label/Label";
 import discord from "../../assets/images/discord.svg";
 import telegram from "../../assets/images/telegram.svg";
+import metamask from "../../assets/images/metamask.svg";
 import TwitterConnect from "./partials/Twitter/TwitterConnect";
+import MetamaskConnect from "./partials/Metamask/MetamaskConnect";
 
 const Connect = () => {
     useEffect(() => {
@@ -42,6 +44,13 @@ const Connect = () => {
                              icon={telegram}
                              actions={[<Label title="+ 50 UTT" theme="secondary"/>, <Label title="Connected" theme="basic"/>]}
                 />
+
+                <DetailsCard title="Metamask"
+                             description="Earn up 0.01UTT for staying connected"
+                             icon={metamask}
+                             actions={[<MetamaskConnect/>]}
+                />
+
 
             </div>
         </div>
