@@ -9,6 +9,8 @@
     background: #FFE433;
     border-radius: 10px;
     margin-right: 30px;
+    margin-bottom: 15px;
+
     &:hover {
       opacity: .9;
     }
@@ -38,6 +40,14 @@
       line-height: 18px;
       margin-left: 10px;
 
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .token {
+    &-card {
+      width: 50%;
     }
   }
 }

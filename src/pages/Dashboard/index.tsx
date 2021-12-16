@@ -43,13 +43,15 @@ const Dashboard = () => {
                     All Activities
                 </div>
 
-                <DetailsCard title="12/7/2021"
+                <DetailsCard key="mm"
+                             title="12/7/2021"
                              description="Ronald has endorsed your review on MARAMOJA Transports"
                              icon={mm}
                              actions={[<Label title="+ 129 UTT" theme="success"/>]}
                 />
 
-                <DetailsCard title="12/7/2021"
+                <DetailsCard key="jumia"
+                             title="12/7/2021"
                              description="Ronald has endorsed your review on Jumia Kenya"
                              icon={jumia}
                              actions={[<Label title="- 30 UTT" theme="danger"/>]}

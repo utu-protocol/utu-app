@@ -22,3 +22,10 @@
     text-transform: uppercase;
   }
 }
+
+@media screen and (max-width: 600px) {
+  .user-dropdown {
+    width: 50vw;
+    left: 0;
+  }
+}
