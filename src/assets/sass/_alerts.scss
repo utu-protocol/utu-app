@@ -1,0 +1,51 @@
+@import "variables";
+
+.utu-alert {
+  width: 100%;
+  padding: 20px;
+  display: inline-block;
+  border-radius: 4px;
+
+  &.small {
+    padding: 10px;
+  }
+
+  &.flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    &-column {
+      flex-direction: column;
+    }
+  }
+
+
+  &.success {
+    color: $basic-color;
+    background: $success-color;
+  }
+
+  &.danger {
+    color: $basic-color;
+    background: $dander-color;
+  }
+
+  &.basic {
+    color: rgba(0, 0, 0, 0.5);
+    border-color: rgba(0, 0, 0, 0.5);
+  }
+
+  &.secondary {
+    color: $basic-color;
+    background: $secondary-color;
+  }
+
+  &.primary {
+    color: $basic-color;
+    background: $primary-color;
+  }
+
+
+}

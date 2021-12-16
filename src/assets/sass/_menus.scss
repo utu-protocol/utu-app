@@ -1,0 +1,18 @@
+
+.utu-menu-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+
+  &--item {
+    padding: 10px 5px;
+    margin-bottom: 10px;
+    width: 100%;
+
+    &.border {
+      border-bottom: 1px dashed rgba(0, 0, 0, 0.15);
+    }
+  }
+}

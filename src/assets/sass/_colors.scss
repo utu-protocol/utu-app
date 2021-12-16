@@ -1,0 +1,21 @@
+@import "variables";
+
+.success {
+  color: $success-color;
+}
+
+.danger {
+  color: $dander-color;
+}
+
+.primary {
+  color: $primary-color
+}
+
+.secondary {
+  color: $success-color;
+}
+
+.basic-disabled {
+  color: $disabled-color;
+}
