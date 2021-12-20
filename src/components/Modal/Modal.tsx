@@ -21,8 +21,8 @@ const Modal = ({onClose, onAction, children, show, style}: ModalProps) => {
                 </div>
 
                 <div className="actions">
-                    <Button onButtonClick={() => onAction} title="proceed" theme="primary" key="proceed-button"/>
-                    <Button onButtonClick={onClose} title="Cancel" theme="Secondary" key="proceed-button"/>
+                    <Button onButtonClick={() => onAction} title="Proceed" theme="primary" key="proceed-button"/>
+                    <Button onButtonClick={onClose} title="Cancel" theme="Secondary" key="close-button"/>
                 </div>
 
             </div>

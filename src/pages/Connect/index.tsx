@@ -4,7 +4,9 @@ import twitter from "../../assets/images/twitter.svg";
 import Label from "../../components/Label/Label";
 import discord from "../../assets/images/discord.svg";
 import telegram from "../../assets/images/telegram.svg";
+import metamask from "../../assets/images/metamask.svg";
 import TwitterConnect from "./partials/Twitter/TwitterConnect";
+import MetamaskConnect from "./partials/Metamask/MetamaskConnect";
 
 const Connect = () => {
     useEffect(() => {
@@ -24,24 +26,37 @@ const Connect = () => {
                     </p>
                 </div>
 
-                <DetailsCard title="Twitter"
+                <DetailsCard key="twitter"
+                             title="Twitter"
                              description="See your friends activities on UTU"
                              icon={twitter}
                              actions={[<TwitterConnect/>]}
                 />
 
-                <DetailsCard title="Discord"
+                <DetailsCard key="discord"
+                             title="Discord"
                              title_sub="Earning 0.01 UTT evry (X time) for staying connected"
                              description="Logged in as  Hakeem SalimRiz"
                              icon={discord}
-                             actions={[<Label title="+ 50 UTT" theme="secondary"/>, <Label title="Connected" theme="basic"/>]}
+                             actions={[<Label title="+ 50 UTT" theme="secondary"/>,
+                                 <Label title="Connected" theme="basic"/>]}
                 />
-                <DetailsCard title="Telegram"
+                <DetailsCard key="telegram"
+                             title="Telegram"
                              title_sub="Earning 0.01 UTT evry (X time) for staying connected"
                              description="Logged in as  Hakeem SalimRiz"
                              icon={telegram}
-                             actions={[<Label title="+ 50 UTT" theme="secondary"/>, <Label title="Connected" theme="basic"/>]}
+                             actions={[<Label title="+ 50 UTT" theme="secondary"/>,
+                                 <Label title="Connected" theme="basic"/>]}
                 />
+
+                <DetailsCard key="metamask"
+                             title="Metamask"
+                             description="Earn up 0.01UTT for staying connected"
+                             icon={metamask}
+                             actions={[<MetamaskConnect/>]}
+                />
+
 
             </div>
         </div>

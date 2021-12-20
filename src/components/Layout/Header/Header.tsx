@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./header.scss";
 import logo from "../../../assets/images/utu-light-logo.svg";
@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { connectWallet, disconnectWallet, initWallet, selectAddress } from "../../../redux/slices/wallet";
 
 const Header = () => {
+    const [responsive, setResponsive] = useState(false);
     const address = useAppSelector(selectAddress);
 
     const dispatch = useAppDispatch();
@@ -25,7 +26,7 @@ const Header = () => {
     }, [dispatch])
 
     return (
-        <header className="header">
+        <header className={responsive ? "header responsive" : "header"}>
             <nav className="menu">
                 <div className="menu-item">
                     <Link to="/">
@@ -48,6 +49,12 @@ const Header = () => {
                             logo={avatar}
                         />
                     )}
+                </div>
+
+                <div className="menu-item icon" onClick={() => setResponsive(!responsive)}>
+                    <div>
+                        &#9776;
+                    </div>
                 </div>
             </nav>
         </header>
