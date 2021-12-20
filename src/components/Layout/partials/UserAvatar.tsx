@@ -2,11 +2,11 @@ import React from "react";
 import "./userAvatar.scss";
 
 interface avatarProps {
-    token: string,
+    token: string | null | undefined,
     logo: string
 }
 
-const UserAvatar = ({token, logo}: avatarProps) => {
+const UserAvatar = ({ token, logo }: avatarProps) => {
     return (
         <div className="user-avatar">
             <div className="token">
@@ -15,7 +15,7 @@ const UserAvatar = ({token, logo}: avatarProps) => {
             </div>
 
             <div className="avatar">
-                <img src={logo} alt="Avatar" height="50"/>
+                <img src={logo} alt="Avatar" height="50" />
             </div>
         </div>
     );
