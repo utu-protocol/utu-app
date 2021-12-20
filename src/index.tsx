@@ -5,10 +5,14 @@ import "./assets/sass/main.scss";
 
 import Pages from './pages/index';
 import reportWebVitals from './reportWebVitals';
+import { store } from './redux/store';
+import { Provider } from 'react-redux';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Pages />
+    <Provider store={store}>
+      <Pages />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
