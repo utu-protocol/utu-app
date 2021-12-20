@@ -3,7 +3,7 @@ import "./userAvatar.scss";
 import UserMenuDropdown from "./UserMenuDropdown";
 
 interface avatarProps {
-    token: string,
+    token: string | null | undefined,
     logo: string
 }
 
