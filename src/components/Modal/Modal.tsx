@@ -11,8 +11,11 @@ interface ModalProps {
 }
 
 const Modal = ({onClose, onAction, children, show, style}: ModalProps) => {
+
+    const simpFn = () => {
+    };
     return (
-        <div className={show ? "utu-modal  show" : "utu-modal  hide"} >
+        <div className={show ? "utu-modal  show" : "utu-modal  hide"}>
             <div className="utu-modal--container" style={style}>
                 <div className="body">
                     {
@@ -21,7 +24,8 @@ const Modal = ({onClose, onAction, children, show, style}: ModalProps) => {
                 </div>
 
                 <div className="actions">
-                    <Button onButtonClick={() => onAction} title="Proceed" theme="primary" key="proceed-button"/>
+                    <Button onButtonClick={onAction ? onAction : simpFn} title="Proceed" theme="primary"
+                            key="proceed-button"/>
                     <Button onButtonClick={onClose} title="Cancel" theme="Secondary" key="close-button"/>
                 </div>
 
