@@ -4,6 +4,7 @@ import { AppThunk, RootState } from "../store";
 import Web3Modal from "web3modal";
 import { providers } from "ethers";
 import Web3 from "web3";
+import axios from "axios";
 
 const INFURA_ID = "460f40a260564ac4a4f4b3fffb032dad";
 
@@ -71,7 +72,9 @@ export const walletSlice = createSlice({
       state.networkId = action.payload.networkId;
     },
     resetWeb3Provider: (state) => {
-      state = initialState;
+      state.address = null;
+      state.chainId = null;
+      state.networkId = null;
     },
     setAddress: (state, action: PayloadAction<string>) => {
       state.address = action.payload;
@@ -110,20 +113,17 @@ export const subscribeProvider =
     if (!provider.on) {
       return;
     }
-    provider.on("close", () => dispatch(disconnectWallet()));
+    provider.on("disconnect", () => dispatch(disconnectWallet()));
     provider.on("accountsChanged", async (accounts: string[]) => {
+      if (!accounts.length) {
+        return dispatch(disconnectWallet());
+      }
       await dispatch(setAddress(accounts[0]));
     });
     provider.on("chainChanged", async (chainId: number) => {
       await dispatch(setChainId(chainId));
       const networkId = await web3.eth.net.getId();
       await dispatch(setNetworkId(networkId));
-    });
-
-    provider.on("networkChanged", async (networkId: number) => {
-      await dispatch(setNetworkId(networkId));
-      const chainId = await web3.eth.chainId();
-      await dispatch(setChainId(chainId));
     });
   };
 
@@ -163,6 +163,24 @@ export const disconnectWallet = (): AppThunk => async (dispatch) => {
   }
 
   dispatch(resetWeb3Provider());
+};
+
+export const connectApi = (): AppThunk => async (dispatch, getState) => {
+  const { address } = getState().wallet;
+  const signature = await web3.eth.personal.sign(
+    web3.eth.accounts.hashMessage("utu-trust-api"),
+    address
+  );
+  await axios.post(
+    `${process.env.REACT_APP_API_URL}/identity-api/verify-address`,
+    {
+      address,
+      signature,
+    },
+    {
+      withCredentials: true,
+    }
+  );
 };
 
 export default walletSlice.reducer;
