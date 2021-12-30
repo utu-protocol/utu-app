@@ -2,6 +2,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk, RootState } from "../store";
 import axios from "axios";
 const TWITTER_OATH_TOKEN = "TWITTER_OATH_TOKEN";
+require('dotenv').config();
+console.log(process.env.REACT_APP_API_URL)
+
 export interface RequestTokenState {
   oauth_token?: string | null;
   oauth_token_secret?: string | null;
@@ -69,7 +72,7 @@ export const selectSecret = (state: RootState) =>
 export const requestToken = (): AppThunk => async (dispatch) => {
   try {
     const response = await axios.post(
-      `${process.env.REACT_APP_API_URL}/social/logins/twitter/oauth/request_token`,
+      `${process.env.REACT_APP_API_URL}/logins/twitter/oauth/request_token`,
       {},
       {
         withCredentials: true,
@@ -99,7 +102,7 @@ export const getAccessToken =
           TWITTER_OATH_TOKEN
         );
         const response = await axios({
-          url: `${process.env.REACT_APP_API_URL}/social/logins/twitter/oauth/access_token`,
+          url: `${process.env.REACT_APP_API_URL}/logins/twitter/oauth/access_token`,
           method: "POST",
           data: {
             oauth_token,
