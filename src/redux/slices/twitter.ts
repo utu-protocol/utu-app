@@ -1,133 +1,155 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AppThunk, RootState } from "../store";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {AppThunk, RootState} from "../store";
 import axios from "axios";
+
 const TWITTER_OATH_TOKEN = "TWITTER_OATH_TOKEN";
 require('dotenv').config();
 console.log(process.env.REACT_APP_API_URL)
 
 export interface RequestTokenState {
-  oauth_token?: string | null;
-  oauth_token_secret?: string | null;
+    oauth_token?: string | null;
+    oauth_token_secret?: string | null;
 }
 
 export interface UserAccessTokenState {
-  oauth_token?: string | null;
-  oauth_token_secret?: string | null;
+    oauth_token?: string | null;
+    oauth_token_secret?: string | null;
 }
 
 interface TwitterSliceState {
-  request_token: RequestTokenState;
-  user_access_token: UserAccessTokenState;
+    request_token: RequestTokenState;
+    user_access_token: UserAccessTokenState;
 }
 
 const initialState: TwitterSliceState = {
-  request_token: {
-    oauth_token: null,
-    oauth_token_secret: null,
-  },
-  user_access_token: {
-    oauth_token: null,
-    oauth_token_secret: null,
-  },
+    request_token: {
+        oauth_token: null,
+        oauth_token_secret: null,
+    },
+    user_access_token: {
+        oauth_token: null,
+        oauth_token_secret: null,
+    },
 };
 
 export const twitterSlice = createSlice({
-  name: "twitter",
-  initialState,
-  reducers: {
-    setRequestToken: (state, action: PayloadAction<RequestTokenState>) => {
-      state.request_token = {
-        oauth_token: action.payload.oauth_token,
-        oauth_token_secret: action.payload.oauth_token_secret,
-      };
+    name: "twitter",
+    initialState,
+    reducers: {
+        setRequestToken: (state, action: PayloadAction<RequestTokenState>) => {
+            state.request_token = {
+                oauth_token: action.payload.oauth_token,
+                oauth_token_secret: action.payload.oauth_token_secret,
+            };
+        },
+        setUserAccessToken: (
+            state,
+            action: PayloadAction<UserAccessTokenState>
+        ) => {
+            state.user_access_token = {
+                oauth_token: action.payload.oauth_token,
+                oauth_token_secret: action.payload.oauth_token_secret,
+            };
+        },
+        resetRequestToken: (state) => {
+            state.request_token = initialState.request_token;
+        },
+        resetUserAccessToken: (state) => {
+            state.user_access_token = initialState.user_access_token;
+        },
     },
-    setUserAccessToken: (
-      state,
-      action: PayloadAction<UserAccessTokenState>
-    ) => {
-      state.user_access_token = {
-        oauth_token: action.payload.oauth_token,
-        oauth_token_secret: action.payload.oauth_token_secret,
-      };
-    },
-    resetRequestToken: (state) => {
-      state.request_token = initialState.request_token;
-    },
-    resetUserAccessToken: (state) => {
-      state.user_access_token = initialState.user_access_token;
-    },
-  },
 });
 
 export const {
-  setRequestToken,
-  setUserAccessToken,
-  resetRequestToken,
-  resetUserAccessToken,
+    setRequestToken,
+    setUserAccessToken,
+    resetRequestToken,
+    resetUserAccessToken,
 } = twitterSlice.actions;
 
 export const selectSecret = (state: RootState) =>
-  state.twitter.request_token.oauth_token_secret;
+    state.twitter.request_token.oauth_token_secret;
 
 export const requestToken = (): AppThunk => async (dispatch) => {
-  try {
-    const response = await axios.post(
-      `${process.env.REACT_APP_API_URL}/logins/twitter/oauth/request_token`,
-      {},
-      {
-        withCredentials: true,
-      }
-    );
-    const { oAuthToken, oAuthTokenSecret } = response.data;
-    dispatch(
-      setRequestToken({
-        oauth_token: oAuthToken,
-        oauth_token_secret: oAuthTokenSecret,
-      })
-    );
-    await localStorage.setItem(TWITTER_OATH_TOKEN, oAuthTokenSecret);
-    //Oauth Step 2
-    window.location.href = `https://api.twitter.com/oauth/authenticate?oauth_token=${oAuthToken}`;
-  } catch (e) {
-    console.log(e);
-  }
+    try {
+        const response = await axios.post(
+            `${process.env.REACT_APP_API_URL}/logins/twitter/oauth/request_token`,
+            {},
+            {
+                withCredentials: true,
+            }
+        );
+        const {oAuthToken, oAuthTokenSecret} = response.data;
+        dispatch(
+            setRequestToken({
+                oauth_token: oAuthToken,
+                oauth_token_secret: oAuthTokenSecret,
+            })
+        );
+        await localStorage.setItem(TWITTER_OATH_TOKEN, oAuthTokenSecret);
+        //Oauth Step 2
+        window.location.href = `https://api.twitter.com/oauth/authenticate?oauth_token=${oAuthToken}`;
+    } catch (e) {
+        console.log(e);
+    }
 };
 
-export const getAccessToken =
-  ({ oauth_token, oauth_verifier }: any): AppThunk =>
-  async (dispatch) => {
-    try {
-      if (oauth_token && oauth_verifier) {
-        const oauth_token_secret = await localStorage.getItem(
-          TWITTER_OATH_TOKEN
-        );
-        const response = await axios({
-          url: `${process.env.REACT_APP_API_URL}/logins/twitter/oauth/access_token`,
-          method: "POST",
-          data: {
-            oauth_token,
-            oauth_token_secret,
-            oauth_verifier,
-          },
-          withCredentials: true,
-        });
+export const getAccessToken = ({oauth_token, oauth_verifier, address}: any): AppThunk =>
+    async (dispatch) => {
+        try {
+            if (oauth_token && oauth_verifier) {
+                const oauth_token_secret = await localStorage.getItem(
+                    TWITTER_OATH_TOKEN
+                );
+                const response = await axios({
+                    url: `${process.env.REACT_APP_API_URL}/logins/twitter/oauth/access_token`,
+                    method: "POST",
+                    data: {
+                        oauth_token,
+                        oauth_token_secret,
+                        oauth_verifier,
+                    },
+                    withCredentials: true,
+                });
 
-        const { oauth_access_token, oauth_access_token_secret } = response.data;
+                const {oauth_access_token, oauth_access_token_secret, results} = response.data;
+                const {screen_name} = results
 
-        dispatch(
-          setUserAccessToken({
-            oauth_token: oauth_access_token,
-            oauth_token_secret: oauth_access_token_secret,
-          })
-        );
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
-export const sendAccessToken =
-  ({ oauth_token, oauth_token_secret }: any): AppThunk =>
-  async (dispatch) => {};
+                dispatch(
+                    setUserAccessToken({
+                        oauth_token: oauth_access_token,
+                        oauth_token_secret: oauth_access_token_secret,
+                    })
+                );
+
+                dispatch(sendAccessToken({oauth_access_token, oauth_access_token_secret, address, screen_name}))
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+export const sendAccessToken = ({oauth_access_token, oauth_access_token_secret, address, screen_name}: any): AppThunk =>
+    async (dispatch) => {
+        try {
+            console.log(oauth_access_token, oauth_access_token_secret, address)
+            const response = await axios({
+                url: `${process.env.REACT_APP_API_URL}/connections/twitter`,
+                method: "POST",
+                data: {
+                    token: oauth_access_token,
+                    secret: oauth_access_token_secret,
+                    address,
+                    username: screen_name
+                },
+                withCredentials: true,
+            });
+
+            console.log(response.data)
+        } catch (e) {
+            console.log(e)
+        }
+    };
 
 export default twitterSlice.reducer;

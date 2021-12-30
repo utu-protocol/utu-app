@@ -8,11 +8,13 @@ import {getAccessToken, requestToken, selectSecret} from "../../../../redux/slic
 import "./TwitterConnection.scss";
 import ConnectHelper from "../ConnectHelper/ConnectHelper";
 import queryString from 'query-string';
+import {selectAddress} from "../../../../redux/slices/wallet";
 
 const TwitterConnect = () => {
     const [connectModal, setConnectModal] = useState(false);
     const dispatch = useAppDispatch();
     const oauth_token_secret = useAppSelector(selectSecret);
+    const address = useAppSelector(selectAddress);
 
     const submitRequest = async () => {
         dispatch(requestToken())
@@ -23,7 +25,7 @@ const TwitterConnect = () => {
             const {oauth_token, oauth_verifier} = queryString.parse(window.location.search);
             if (oauth_token && oauth_verifier) {
                 try {
-                    dispatch(getAccessToken({oauth_token, oauth_verifier, oauth_token_secret}))
+                    dispatch(getAccessToken({oauth_token, oauth_verifier, address}))
                 } catch (error) {
                     console.error(error);
                 }
