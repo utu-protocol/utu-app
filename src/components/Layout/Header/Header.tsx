@@ -5,7 +5,7 @@ import logo from "../../../assets/images/utu-light-logo.svg";
 import avatar from "../../../assets/images/driver.png";
 import UserAvatar from "./partials/UserAvatar/UserAvatar";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import { connectWallet, disconnectWallet, initWallet, selectAddress } from "../../../redux/slices/wallet";
+import { connectWallet, disconnectWallet, initWallet, selectAddress, connectApi } from "../../../redux/slices/wallet";
 
 const Header = () => {
     const [responsive, setResponsive] = useState(false);
@@ -14,7 +14,8 @@ const Header = () => {
     const dispatch = useAppDispatch();
 
     const connect = async () => {
-        dispatch(connectWallet())
+        await dispatch(connectWallet());
+        await dispatch(connectApi());
     };
 
     const disconnect = async () => {
