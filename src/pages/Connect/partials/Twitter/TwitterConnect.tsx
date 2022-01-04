@@ -3,17 +3,17 @@ import Button from "../../../../components/Button";
 import Modal from "../../../../components/Modal/Modal";
 import twitter from "../../../../assets/images/twitter.svg"
 import {useAppDispatch, useAppSelector} from "../../../../redux/hooks";
-import {getAccessToken, requestToken, selectSecret} from "../../../../redux/slices/twitter";
+import {connectTwitter, requestToken} from "../../../../redux/slices/twitter";
 
 import "./TwitterConnection.scss";
 import ConnectHelper from "../ConnectHelper/ConnectHelper";
 import queryString from 'query-string';
 import {selectAddress} from "../../../../redux/slices/wallet";
+import toastr from "toastr";
 
 const TwitterConnect = () => {
     const [connectModal, setConnectModal] = useState(false);
     const dispatch = useAppDispatch();
-    const oauth_token_secret = useAppSelector(selectSecret);
     const address = useAppSelector(selectAddress);
 
     const submitRequest = async () => {
@@ -23,15 +23,15 @@ const TwitterConnect = () => {
     useEffect(() => {
         (() => {
             const {oauth_token, oauth_verifier} = queryString.parse(window.location.search);
-            if (oauth_token && oauth_verifier) {
+            if (oauth_token && oauth_verifier && address) {
                 try {
-                    dispatch(getAccessToken({oauth_token, oauth_verifier, address}))
-                } catch (error) {
-                    console.error(error);
+                    dispatch(connectTwitter({oauth_token, oauth_verifier, address}))
+                } catch (error: any) {
+                    toastr.error(error.toString(), 'Send Token Error!')
                 }
             }
         })();
-    }, []);
+    }, [address]);
 
     return (
         <Fragment>
