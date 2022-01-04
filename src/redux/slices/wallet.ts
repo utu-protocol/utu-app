@@ -7,6 +7,7 @@ import Web3 from "web3";
 import axios from "axios";
 
 const INFURA_ID = "460f40a260564ac4a4f4b3fffb032dad";
+export const UTU_API_AUTH_TOKEN = "UTU_API_AUTH_TOKEN";
 
 const providerOptions = {
   walletconnect: {
@@ -171,16 +172,17 @@ export const connectApi = (): AppThunk => async (dispatch, getState) => {
     web3.eth.accounts.hashMessage("utu-trust-api"),
     address
   );
-  await axios.post(
+  const { data } = await axios.post(
     `${process.env.REACT_APP_API_URL}/identity-api/verify-address`,
     {
       address,
       signature,
-    },
-    {
-      withCredentials: true,
     }
+    // {
+    //   withCredentials: true,
+    // }
   );
+  await localStorage.setItem(UTU_API_AUTH_TOKEN, data.access_token);
 };
 
 export default walletSlice.reducer;
