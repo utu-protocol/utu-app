@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk, RootState } from "../store";
 import axios from "axios";
+import { UTU_API_AUTH_TOKEN } from "./wallet";
 const TWITTER_OATH_TOKEN = "TWITTER_OATH_TOKEN";
 export interface RequestTokenState {
   oauth_token?: string | null;
@@ -68,11 +69,14 @@ export const selectSecret = (state: RootState) =>
 
 export const requestToken = (): AppThunk => async (dispatch) => {
   try {
+    const utu_api_token = await localStorage.getItem(UTU_API_AUTH_TOKEN);
     const response = await axios.post(
       `${process.env.REACT_APP_API_URL}/social/logins/twitter/oauth/request_token`,
       {},
       {
-        withCredentials: true,
+        headers: {
+          authorization: `Bearer ${utu_api_token}`,
+        },
       }
     );
     const { oAuthToken, oAuthTokenSecret } = response.data;
@@ -92,21 +96,27 @@ export const requestToken = (): AppThunk => async (dispatch) => {
 
 export const getAccessToken =
   ({ oauth_token, oauth_verifier }: any): AppThunk =>
-  async (dispatch) => {
+  async (dispatch, getState) => {
     try {
-      if (oauth_token && oauth_verifier) {
+      const { address } = getState().wallet;
+      console.log(address);
+      if (oauth_token && oauth_verifier && address) {
         const oauth_token_secret = await localStorage.getItem(
           TWITTER_OATH_TOKEN
         );
+        const utu_api_token = await localStorage.getItem(UTU_API_AUTH_TOKEN);
         const response = await axios({
-          url: `${process.env.REACT_APP_API_URL}/social/logins/twitter/oauth/access_token`,
+          url: `${process.env.REACT_APP_API_URL}/social/connections/twitter`,
           method: "POST",
           data: {
+            address,
             oauth_token,
             oauth_token_secret,
             oauth_verifier,
           },
-          withCredentials: true,
+          headers: {
+            authorization: `Bearer ${utu_api_token}`,
+          },
         });
 
         const { oauth_access_token, oauth_access_token_secret } = response.data;
