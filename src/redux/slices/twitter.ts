@@ -1,11 +1,10 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {AppThunk, RootState} from "../store";
+import {AppThunk} from "../store";
 import axios from "axios";
-import toastr from "toastr";
+import {notifier} from "../../components/Notification/notify";
 
 const TWITTER_OATH_TOKEN = "TWITTER_OATH_TOKEN";
 require('dotenv').config();
-console.log(process.env.REACT_APP_API_URL)
 
 export interface RequestTokenState {
     oauth_token?: string | null;
@@ -89,7 +88,7 @@ export const requestToken = (): AppThunk => async (dispatch) => {
         //Oauth Step 2
         window.location.href = `https://api.twitter.com/oauth/authenticate?oauth_token=${oAuthToken}`;
     } catch (e) {
-        toastr.error('Request token Error!')
+        notifier.alert("Error requesting token!")
     }
 };
 
@@ -111,7 +110,7 @@ export const connectTwitter = ({oauth_token, oauth_verifier, address}: any): App
             });
 
         } catch (e) {
-            toastr.error('Twitter connection Error!')
+            notifier.alert("Error connecting twitter")
         }
     };
 

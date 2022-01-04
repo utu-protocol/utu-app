@@ -9,7 +9,7 @@ import "./TwitterConnection.scss";
 import ConnectHelper from "../ConnectHelper/ConnectHelper";
 import queryString from 'query-string';
 import {selectAddress} from "../../../../redux/slices/wallet";
-import toastr from "toastr";
+import {notifier} from "../../../../components/Notification/notify";
 
 const TwitterConnect = () => {
     const [connectModal, setConnectModal] = useState(false);
@@ -27,7 +27,7 @@ const TwitterConnect = () => {
                 try {
                     dispatch(connectTwitter({oauth_token, oauth_verifier, address}))
                 } catch (error: any) {
-                    toastr.error(error.toString(), 'Send Token Error!')
+                    notifier.alert("Error connecting twitter")
                 }
             }
         })();
