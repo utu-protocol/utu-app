@@ -74,7 +74,7 @@ export const requestToken = (): AppThunk => async (dispatch) => {
   try {
     const utu_api_token = await localStorage.getItem(UTU_API_AUTH_TOKEN);
     const response = await axios.post(
-      `${process.env.REACT_APP_API_URL}/social/logins/twitter/oauth/request_token`,
+      `${process.env.REACT_APP_API_URL}/logins/twitter/oauth/request_token`,
       {},
       {
         headers: {
@@ -108,7 +108,7 @@ export const connectTwitter =
         );
         const utu_api_token = await localStorage.getItem(UTU_API_AUTH_TOKEN);
         const response = await axios({
-          url: `${process.env.REACT_APP_API_URL}/social/connections/twitter`,
+          url: `${process.env.REACT_APP_API_URL}/connections/twitter`,
           method: "POST",
           data: {
             address,
