@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from "react";
+import React, {useEffect} from "react";
 import "./dashboard.scss";
 import TokenCard from "./partials/TokenCard/TokenCard";
 import DetailsCard from "../partials/DetailsCard/DetailsCard";
