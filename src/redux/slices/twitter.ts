@@ -2,7 +2,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk, RootState } from "../store";
 import axios from "axios";
 import { UTU_API_AUTH_TOKEN } from "./wallet";
+import {notifier} from "../../components/Notification/notify";
 const TWITTER_OATH_TOKEN = "TWITTER_OATH_TOKEN";
+require('dotenv').config();
+
 export interface RequestTokenState {
   oauth_token?: string | null;
   oauth_token_secret?: string | null;
@@ -71,7 +74,7 @@ export const requestToken = (): AppThunk => async (dispatch) => {
   try {
     const utu_api_token = await localStorage.getItem(UTU_API_AUTH_TOKEN);
     const response = await axios.post(
-      `${process.env.REACT_APP_API_URL}/social/logins/twitter/oauth/request_token`,
+      `${process.env.REACT_APP_API_URL}/logins/twitter/oauth/request_token`,
       {},
       {
         headers: {
@@ -90,23 +93,22 @@ export const requestToken = (): AppThunk => async (dispatch) => {
     //Oauth Step 2
     window.location.href = `https://api.twitter.com/oauth/authenticate?oauth_token=${oAuthToken}`;
   } catch (e) {
-    console.log(e);
+    notifier.alert("Error requesting token!")
   }
 };
 
-export const getAccessToken =
+export const connectTwitter =
   ({ oauth_token, oauth_verifier }: any): AppThunk =>
   async (dispatch, getState) => {
     try {
       const { address } = getState().wallet;
-      console.log(address);
       if (oauth_token && oauth_verifier && address) {
         const oauth_token_secret = await localStorage.getItem(
           TWITTER_OATH_TOKEN
         );
         const utu_api_token = await localStorage.getItem(UTU_API_AUTH_TOKEN);
         const response = await axios({
-          url: `${process.env.REACT_APP_API_URL}/social/connections/twitter`,
+          url: `${process.env.REACT_APP_API_URL}/connections/twitter`,
           method: "POST",
           data: {
             address,
@@ -129,7 +131,7 @@ export const getAccessToken =
         );
       }
     } catch (e) {
-      console.log(e);
+      notifier.alert("Error connecting twitter!")
     }
   };
 

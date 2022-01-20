@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from "react";
+import React, {useEffect} from "react";
 import DetailsCard from "../partials/DetailsCard/DetailsCard";
 import twitter from "../../assets/images/twitter.svg";
 import Label from "../../components/Label/Label";
