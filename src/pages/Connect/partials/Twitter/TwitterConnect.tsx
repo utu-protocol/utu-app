@@ -3,12 +3,13 @@ import Button from "../../../../components/Button";
 import Modal from "../../../../components/Modal/Modal";
 import twitter from "../../../../assets/images/twitter.svg"
 import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
-import { getAccessToken, requestToken, selectSecret } from "../../../../redux/slices/twitter";
+import { connectTwitter, requestToken, selectSecret } from "../../../../redux/slices/twitter";
 
 import "./TwitterConnection.scss";
 import ConnectHelper from "../ConnectHelper/ConnectHelper";
 import queryString from 'query-string';
 import { selectAddress } from "../../../../redux/slices/wallet";
+import {notifier} from "../../../../components/Notification/notify";
 
 const TwitterConnect = () => {
     const [connectModal, setConnectModal] = useState(false);
@@ -23,9 +24,10 @@ const TwitterConnect = () => {
         const { oauth_token, oauth_verifier } = queryString.parse(window.location.search);
         if (oauth_token && oauth_verifier && address) {
             try {
-                dispatch(getAccessToken({ oauth_token, oauth_verifier, oauth_token_secret }))
+                dispatch(connectTwitter({ oauth_token, oauth_verifier, oauth_token_secret }))
             } catch (error) {
                 console.error(error);
+                notifier.alert("Error connecting twitter")
             }
         }
     }, [dispatch, address, oauth_token_secret])
