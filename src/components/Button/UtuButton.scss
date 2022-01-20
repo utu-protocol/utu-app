@@ -1,0 +1,115 @@
+.utu-btn {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  border: none;
+  background-color: #1d3557;
+  color: #f1faee;
+  padding: 0.8rem 1.5rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+  box-shadow: 0 1rem 2rem -1rem rgba(0, 0, 0, 0.445);
+
+  &:hover {
+    background-color: #003049;
+    color: #eae2b7;
+    box-shadow: 0 1rem 1rem -1rem rgba(0, 0, 0, 0.445);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: .8;
+  }
+
+  &__text {
+    margin-left: 0.8rem;
+    color: #f1faee;
+  }
+
+  &__spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .spinner {
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    border: 3px solid #dddf00;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s infinite;
+  }
+
+
+  //themes
+  &.success {
+    color: #24A903;
+    border: 1px solid #24A903;
+
+    .utu-btn__text {
+      color: #24A903;
+    }
+  }
+
+  &.danger {
+    color: #FF0000;
+    border: 1px solid #FF0000;
+    background-color: transparent;
+
+    .utu-btn__text {
+      color: #FF0000;
+    }
+
+  }
+
+  &.basic {
+    color: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    background-color: transparent;
+
+    .utu-btn__text {
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  &.secondary {
+    color: rgba(0, 0, 0, 0.5);
+    background: rgba(196, 196, 196, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-sizing: border-box;
+
+    .utu-btn__text {
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  &.primary {
+    background: #FFE433;
+    border-radius: 50px;
+    color: #000000;
+
+    .utu-btn__text {
+      color: #000000;
+    }
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0);
+  }
+  50% {
+    transform: rotate(180deg);
+    border-top-color: #fcab41;
+    border-bottom-color: #80ffdb;
+    border-right-color: transparent;
+    border-left-color: transparent;
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -4,6 +4,7 @@ import {AppThunk} from "../store";
 import dotenv from 'dotenv';
 import axios from "axios";
 import {UTU_API_AUTH_TOKEN} from "./wallet";
+import {notifier} from "../../components/Notification/notify";
 
 dotenv.config();
 
@@ -12,13 +13,17 @@ interface TelegramSliceState {
     phone_number: string | null;
     codeSent: boolean,
     showCode: boolean,
+    submittingCode: boolean,
+    submittingPhone: boolean
 }
 
 const initialState: TelegramSliceState = {
     phoneCodeHash: null,
     phone_number: null,
     showCode: false,
-    codeSent: false
+    codeSent: false,
+    submittingCode: false,
+    submittingPhone: false
 }
 
 export const telegramSLice = createSlice({
@@ -37,6 +42,12 @@ export const telegramSLice = createSlice({
         setTokenSent: (state, action: PayloadAction<boolean>) => {
             state.codeSent = action.payload;
         },
+        setSubmittingCode: (state, action: PayloadAction<boolean>) => {
+            state.submittingCode = action.payload;
+        },
+        setSubmittingPhone: (state, action: PayloadAction<boolean>) => {
+            state.submittingPhone = action.payload;
+        }
     }
 });
 
@@ -44,12 +55,15 @@ export const {
     setPhoneCodeHash,
     setPhoneNumber,
     setTokenSent,
-    setShowCode
+    setShowCode,
+    setSubmittingCode,
+    setSubmittingPhone
 } = telegramSLice.actions;
 
 export const requestCode = ({phone}: any): AppThunk => async (dispatch, getState) => {
     try {
         const utu_api_token = await localStorage.getItem(UTU_API_AUTH_TOKEN);
+        dispatch(setSubmittingPhone(true));
 
         const response = await axios.post(
             `${process.env.REACT_APP_API_URL}/logins/telegram/token`,
@@ -68,15 +82,20 @@ export const requestCode = ({phone}: any): AppThunk => async (dispatch, getState
         dispatch(setPhoneCodeHash(phoneCodeHash));
         dispatch(setPhoneNumber(phone));
         dispatch(setShowCode(true));
+        dispatch(setSubmittingPhone(false));
 
+        notifier.success(message);
     } catch (e) {
+        dispatch(setSubmittingPhone(false));
         console.log(e)
+        notifier.alert("Error requesting telegram login code!")
     }
 }
 
 export const sendToken = ({phone_code}: any): AppThunk => async (dispatch, getState) => {
     try {
         const {phoneCodeHash, phone_number} = getState().telegram;
+        dispatch(setSubmittingCode(true));
 
         const utu_api_token = await localStorage.getItem(UTU_API_AUTH_TOKEN);
 
@@ -95,9 +114,14 @@ export const sendToken = ({phone_code}: any): AppThunk => async (dispatch, getSt
         );
         const {message} = response.data;
         dispatch(setTokenSent(true));
+        dispatch(setSubmittingCode(false));
+
+        notifier.success(message);
 
     } catch (e) {
-        console.log(e)
+        dispatch(setSubmittingCode(false));
+        console.log(e);
+        notifier.alert("Error submitting telegram login information!")
     }
 }
 

@@ -10,6 +10,7 @@ import {requestCode, sendToken} from "../../../../redux/slices/telegram";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../redux/store";
 import Checkmark from "../../../../components/Checkmark/Checkmark";
+import UtuButton from "../../../../components/Button/UtuButton";
 
 const TelegramConnect = () => {
     const [connectModal, setConnectModal] = useState(false);
@@ -19,6 +20,8 @@ const TelegramConnect = () => {
     const [phoneCode, setPhoneCode] = useState("");
     const codeVisible = useSelector((state: RootState) => state.telegram.showCode);
     const codeSent = useSelector((state: RootState) => state.telegram.codeSent);
+    const submittingCode: any = useSelector((state: RootState) => state.telegram.submittingCode);
+    const submittingPhone: any = useSelector((state: RootState) => state.telegram.submittingPhone);
 
     const requestPhoneCode = async () => {
         dispatch(requestCode({phone: phoneNumber}));
@@ -40,7 +43,8 @@ const TelegramConnect = () => {
             />
 
             <Modal
-                onAction={() => setConnectModal(false)}
+                actions={false}
+                closeIcon={true}
                 onClose={() => setConnectModal(false)}
                 show={connectModal}
                 style={{maxWidth: 500, minHeight: "60%"}}
@@ -57,7 +61,7 @@ const TelegramConnect = () => {
                         </div>
                         :
                         <div>
-                            <label>phone number</label>
+                            <label>Phone Number</label>
                             <input
                                 type="text"
                                 placeholder="your phone number"
@@ -69,7 +73,7 @@ const TelegramConnect = () => {
                             {
                                 codeVisible &&
                                 <div>
-                                    <label>code</label>
+                                    <label>Code</label>
                                     <input
                                         type="text"
                                         placeholder="sent code"
@@ -79,16 +83,14 @@ const TelegramConnect = () => {
                                 </div>
                             }
 
-                            {
-                                codeVisible ?
-                                    <button className="tg_btn" onClick={submitCode}>
-                                        Submit
-                                    </button>
-                                    :
-                                    <button className="tg_btn" onClick={requestPhoneCode}>
-                                        Next
-                                    </button>
-                            }
+                            <div className="telegram-actions">
+                                {
+                                    codeVisible ?
+                                        <UtuButton title="Submit" onButtonClick={submitCode} loading={submittingCode}/>
+                                        :
+                                        <UtuButton onButtonClick={requestPhoneCode} title="Next" loading={submittingPhone} />
+                                }
+                            </div>
 
                         </div>
                 }
