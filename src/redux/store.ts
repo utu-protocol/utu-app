@@ -1,11 +1,13 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import walletReducer from './slices/wallet';
 import twitterReducer from './slices/twitter';
+import telegramReducer from "./slices/telegram";
 
 export const store = configureStore({
   reducer: {
     wallet: walletReducer,
-    twitter: twitterReducer
+    twitter: twitterReducer,
+    telegram: telegramReducer
   },
 });
 
