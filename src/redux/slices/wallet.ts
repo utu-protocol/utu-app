@@ -3,11 +3,11 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import { AppThunk, RootState } from "../store";
 import Web3Modal from "web3modal";
 import { providers } from "ethers";
-import Web3 from "web3";
-import axios from "axios";
+// @ts-ignore
+import { addressSignatureVerification } from "@ututrust/web-components";
 
 const INFURA_ID = "460f40a260564ac4a4f4b3fffb032dad";
-export const UTU_API_AUTH_TOKEN = "UTU_API_AUTH_TOKEN";
+export const UTU_API_AUTH_TOKEN = "utu-identity-data";
 
 const providerOptions = {
   walletconnect: {
@@ -19,7 +19,7 @@ const providerOptions = {
 };
 
 let web3Modal: any;
-let web3: any;
+let provider: any;
 
 if (typeof window !== "undefined") {
   web3Modal = new Web3Modal({
@@ -29,37 +29,19 @@ if (typeof window !== "undefined") {
   });
 }
 
-if (web3Modal) {
-  console.log(web3Modal.cachedProvider);
-}
 
 export interface WalletState {
   address?: string | null;
   chainId?: number | null;
-  networkId?: number | null;
+  networkName?: string | null;
 }
 
 const initialState: WalletState = {
   address: null,
   chainId: null,
-  networkId: null,
+  networkName: null,
 };
 
-export const initWeb3 = (provider: any) => {
-  const web3: any = new Web3(provider);
-
-  web3.eth.extend({
-    methods: [
-      {
-        name: "chainId",
-        call: "eth_chainId",
-        outputFormatter: web3.utils.hexToNumber,
-      },
-    ],
-  });
-
-  return web3;
-};
 
 export const walletSlice = createSlice({
   name: "wallet",
@@ -70,12 +52,12 @@ export const walletSlice = createSlice({
     setWeb3Provider: (state, action: PayloadAction<WalletState>) => {
       state.address = action.payload.address;
       state.chainId = action.payload.chainId;
-      state.networkId = action.payload.networkId;
+      state.networkName = action.payload.networkName;
     },
     resetWeb3Provider: (state) => {
       state.address = null;
       state.chainId = null;
-      state.networkId = null;
+      state.networkName = null;
     },
     setAddress: (state, action: PayloadAction<string>) => {
       state.address = action.payload;
@@ -83,8 +65,8 @@ export const walletSlice = createSlice({
     setChainId: (state, action: PayloadAction<number>) => {
       state.chainId = action.payload;
     },
-    setNetworkId: (state, action: PayloadAction<number>) => {
-      state.networkId = action.payload;
+    setNetworkName: (state, action: PayloadAction<string>) => {
+      state.networkName = action.payload;
     },
   },
 });
@@ -94,7 +76,7 @@ export const {
   resetWeb3Provider,
   setAddress,
   setChainId,
-  setNetworkId,
+  setNetworkName,
 } = walletSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
@@ -123,13 +105,13 @@ export const subscribeProvider =
     });
     provider.on("chainChanged", async (chainId: number) => {
       await dispatch(setChainId(chainId));
-      const networkId = await web3.eth.net.getId();
-      await dispatch(setNetworkId(networkId));
+      const { name } = await new providers.Web3Provider(provider).getNetwork;
+      await dispatch(setNetworkName(name));
     });
   };
 
 export const connectWallet = (): AppThunk => async (dispatch) => {
-  const provider = await web3Modal.connect();
+  provider = await web3Modal.connect();
 
   // We plug the initial `provider` into ethers.js and get back
   // a Web3Provider. This will add on methods from ethers.js and
@@ -139,18 +121,17 @@ export const connectWallet = (): AppThunk => async (dispatch) => {
   const signer = web3Provider.getSigner();
   const address = await signer.getAddress();
 
-  web3 = initWeb3(provider);
-  const networkId = await web3.eth.net.getId();
-  const chainId = await web3.eth.chainId();
+  const network = await web3Provider.getNetwork();
+  const networkName = network.name;
+  const chainId = network.chainId;
 
   dispatch(subscribeProvider(provider));
   // The value we return becomes the `fulfilled` action payload
   const data = {
     address,
     chainId,
-    networkId,
+    networkName,
   };
-
   dispatch(setWeb3Provider(data));
 
   return data;
@@ -168,21 +149,11 @@ export const disconnectWallet = (): AppThunk => async (dispatch) => {
 
 export const connectApi = (): AppThunk => async (dispatch, getState) => {
   const { address } = getState().wallet;
-  const signature = await web3.eth.personal.sign(
-    web3.eth.accounts.hashMessage("utu-trust-api"),
-    address
+  return addressSignatureVerification(
+    process.env.REACT_APP_API_URL,
+    address,
+    provider
   );
-  const { data } = await axios.post(
-    `${process.env.REACT_APP_API_URL}/identity-api/verify-address`,
-    {
-      address,
-      signature,
-    }
-    // {
-    //   withCredentials: true,
-    // }
-  );
-  await localStorage.setItem(UTU_API_AUTH_TOKEN, data.access_token);
 };
 
 export default walletSlice.reducer;

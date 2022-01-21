@@ -32,6 +32,13 @@ const initialState: TwitterSliceState = {
   },
 };
 
+export const getUTUApiAccessToken = async () => {
+  const utu_api_token = await localStorage.getItem(UTU_API_AUTH_TOKEN);
+  if (!utu_api_token) return null;
+  const { access_token } = JSON.parse(utu_api_token);
+  return access_token;
+};
+
 export const twitterSlice = createSlice({
   name: "twitter",
   initialState,
@@ -72,10 +79,12 @@ export const selectSecret = (state: RootState) =>
 
 export const requestToken = (): AppThunk => async (dispatch) => {
   try {
-    const utu_api_token = await localStorage.getItem(UTU_API_AUTH_TOKEN);
+    const utu_api_token = await getUTUApiAccessToken();
     const response = await axios.post(
-      `${process.env.REACT_APP_API_URL}/logins/twitter/oauth/request_token`,
-      {},
+      `${process.env.REACT_APP_API_URL}/social/logins/twitter/oauth/request_token`,
+      {
+        callback_url: `${window.location.origin}/connect`,
+      },
       {
         headers: {
           authorization: `Bearer ${utu_api_token}`,
@@ -106,7 +115,7 @@ export const connectTwitter =
         const oauth_token_secret = await localStorage.getItem(
           TWITTER_OATH_TOKEN
         );
-        const utu_api_token = await localStorage.getItem(UTU_API_AUTH_TOKEN);
+        const utu_api_token = await getUTUApiAccessToken();
         const response = await axios({
           url: `${process.env.REACT_APP_API_URL}/connections/twitter`,
           method: "POST",
