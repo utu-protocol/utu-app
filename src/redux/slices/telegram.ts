@@ -95,6 +95,8 @@ export const requestCode = ({phone}: any): AppThunk => async (dispatch, getState
 export const sendToken = ({phone_code}: any): AppThunk => async (dispatch, getState) => {
     try {
         const {phoneCodeHash, phone_number} = getState().telegram;
+        const {address} = getState().wallet;
+
         dispatch(setSubmittingCode(true));
 
         const utu_api_token = await localStorage.getItem(UTU_API_AUTH_TOKEN);
@@ -104,7 +106,8 @@ export const sendToken = ({phone_code}: any): AppThunk => async (dispatch, getSt
             {
                 phone_number,
                 phone_code_hash: phoneCodeHash,
-                phone_code
+                phone_code,
+                address
             },
             {
                 headers: {
