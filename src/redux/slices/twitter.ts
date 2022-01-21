@@ -79,7 +79,9 @@ export const requestToken = (): AppThunk => async (dispatch) => {
     const utu_api_token = await getUTUApiAccessToken();
     const response = await axios.post(
       `${process.env.REACT_APP_API_URL}/social/logins/twitter/oauth/request_token`,
-      {},
+      {
+        callback_url: `${window.location.origin}/connect`,
+      },
       {
         headers: {
           authorization: `Bearer ${utu_api_token}`,
