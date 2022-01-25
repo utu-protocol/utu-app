@@ -37,6 +37,13 @@ const initialState: TwitterSliceState = {
     connectingTwitter: false
 };
 
+export const getUTUApiAccessToken = async () => {
+    const utu_api_token = await localStorage.getItem(UTU_API_AUTH_TOKEN);
+    if (!utu_api_token) return null;
+    const {access_token} = JSON.parse(utu_api_token);
+    return access_token;
+};
+
 export const twitterSlice = createSlice({
     name: "twitter",
     initialState,
@@ -85,11 +92,13 @@ export const selectSecret = (state: RootState) =>
 
 export const requestToken = (): AppThunk => async (dispatch) => {
     try {
-        const utu_api_token = await localStorage.getItem(UTU_API_AUTH_TOKEN);
+        const utu_api_token = await getUTUApiAccessToken();
         dispatch(setLoadingToken(true))
         const response = await axios.post(
-            `${process.env.REACT_APP_API_URL}/logins/twitter/oauth/request_token`,
-            {},
+            `${process.env.REACT_APP_API_URL}/social/logins/twitter/oauth/request_token`,
+            {
+                callback_url: `${window.location.origin}/connect`,
+            },
             {
                 headers: {
                     authorization: `Bearer ${utu_api_token}`,
@@ -105,10 +114,10 @@ export const requestToken = (): AppThunk => async (dispatch) => {
         );
         await localStorage.setItem(TWITTER_OATH_TOKEN, oAuthTokenSecret);
         dispatch(setLoadingToken(false))
-
         //Oauth Step 2
         window.location.href = `https://api.twitter.com/oauth/authenticate?oauth_token=${oAuthToken}`;
     } catch (e) {
+        console.log(e);
         dispatch(setLoadingToken(false))
         notifier.alert("Error requesting token!")
     }
@@ -118,13 +127,15 @@ export const connectTwitter =
     ({oauth_token, oauth_verifier}: any): AppThunk =>
         async (dispatch, getState) => {
             const {address} = getState().wallet;
+
             if (oauth_token && oauth_verifier && address) {
-                const oauth_token_secret =  localStorage.getItem(
+                const oauth_token_secret = await localStorage.getItem(
                     TWITTER_OATH_TOKEN
                 );
-                const utu_api_token =  localStorage.getItem(UTU_API_AUTH_TOKEN);
-                const response =  axios({
-                    url: `${process.env.REACT_APP_API_URL}/connections/twitter`,
+                const utu_api_token = await getUTUApiAccessToken();
+
+                const response = axios({
+                    url: `${process.env.REACT_APP_API_URL}/social/connections/twitter`,
                     method: "POST",
                     data: {
                         address,
