@@ -16,7 +16,7 @@ const TelegramConnect = () => {
     const [connectModal, setConnectModal] = useState(false);
 
     const dispatch = useAppDispatch();
-    const [phoneNumber, setPhoneNumber] = useState("+254711733346");
+    const [phoneNumber, setPhoneNumber] = useState("");
     const [phoneCode, setPhoneCode] = useState("");
     const codeVisible = useSelector((state: RootState) => state.telegram.showCode);
     const codeSent = useSelector((state: RootState) => state.telegram.codeSent);
@@ -64,7 +64,7 @@ const TelegramConnect = () => {
                             <label>Phone Number</label>
                             <input
                                 type="text"
-                                placeholder="your phone number"
+                                placeholder="Your phone number (+2547XXXXXX)"
                                 value={phoneNumber}
                                 onChange={(e) => setPhoneNumber(e.target.value)}
                             />
