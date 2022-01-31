@@ -117,7 +117,6 @@ export const requestToken = (): AppThunk => async (dispatch) => {
         //Oauth Step 2
         window.location.href = `https://api.twitter.com/oauth/authenticate?oauth_token=${oAuthToken}`;
     } catch (e) {
-        console.log(e);
         dispatch(setLoadingToken(false))
         notifier.alert("Error requesting token!")
     }
@@ -135,7 +134,7 @@ export const connectTwitter =
                 const utu_api_token = await getUTUApiAccessToken();
 
                 const response = axios({
-                    url: `${process.env.REACT_APP_API_URL}/social/connections/twitter`,
+                    url: `${process.env.REACT_APP_API_URL}/connections/twitter`,
                     method: "POST",
                     data: {
                         address,
