@@ -64,7 +64,7 @@ const TelegramConnect = () => {
                             <label>Phone Number</label>
                             <input
                                 type="text"
-                                placeholder="Your phone number (+2547XXXXXX)"
+                                placeholder="Enter your phone number (+2547XXXXXX)"
                                 value={phoneNumber}
                                 onChange={(e) => setPhoneNumber(e.target.value)}
                             />
