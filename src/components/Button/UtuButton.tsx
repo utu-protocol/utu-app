@@ -5,12 +5,14 @@ interface ButtonProps {
     theme?: string,
     title: string,
     onButtonClick: () => void,
-    loading?: boolean
+    loading?: boolean,
+    center?: boolean
 }
 
-const UtuButton = ({theme, title, onButtonClick, loading = false}: ButtonProps) => {
+const UtuButton = ({theme, title, onButtonClick, loading = false, center = true}: ButtonProps) => {
     return (
-        <button className={'utu-btn ' + theme} onClick={onButtonClick} disabled={loading}>
+        <button className={`utu-btn ${theme} ${center ? 'btn-center ' : ''} `} onClick={onButtonClick}
+                disabled={loading}>
             {loading ?
                 <div className="utu-btn__spinner">
                     <span className="spinner"/>

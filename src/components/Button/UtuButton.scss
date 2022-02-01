@@ -1,5 +1,4 @@
 .utu-btn {
-  display: flex;
   align-items: center;
   font-size: 14px;
   border: none;
@@ -44,6 +43,10 @@
     animation: spin 1s infinite;
   }
 
+  &.btn-center {
+    text-align: center;
+    width: 100%;
+  }
 
   //themes
   &.success {
