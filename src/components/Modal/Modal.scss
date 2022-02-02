@@ -29,6 +29,44 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
+    .utu-modal-close {
+      position: absolute;
+      right: 0;
+      top: 10px;
+      width: 32px;
+      height: 32px;
+      opacity: 0.8;
+      cursor: pointer;
+
+      -webkit-transition: -webkit-transform 1s ease-in-out;
+      transition: transform 1s ease-in-out;
+      transform-origin: center;
+      transform-style: preserve-3D;
+
+      &:hover {
+        opacity: 1;
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+      }
+
+      &:before, &:after {
+        position: absolute;
+        left: 15px;
+        content: ' ';
+        height: 33px;
+        width: 2px;
+        background-color: #333;
+      }
+
+      &:before {
+        transform: rotate(45deg);
+      }
+
+      &:after {
+        transform: rotate(-45deg);
+      }
+    }
   }
 
   .body {
