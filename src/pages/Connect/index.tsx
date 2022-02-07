@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from "react";
+import React, {useEffect} from "react";
 import DetailsCard from "../partials/DetailsCard/DetailsCard";
 import twitter from "../../assets/images/twitter.svg";
 import Label from "../../components/Label/Label";
@@ -7,6 +7,7 @@ import telegram from "../../assets/images/telegram.svg";
 import metamask from "../../assets/images/metamask.svg";
 import TwitterConnect from "./partials/Twitter/TwitterConnect";
 import MetamaskConnect from "./partials/Metamask/MetamaskConnect";
+import TelegramConnect from "./partials/Telegram/TelegramConnect";
 
 const Connect = () => {
     useEffect(() => {
@@ -43,11 +44,9 @@ const Connect = () => {
                 />
                 <DetailsCard key="telegram"
                              title="Telegram"
-                             title_sub="Earning 0.01 UTT evry (X time) for staying connected"
-                             description="Logged in as  Hakeem SalimRiz"
+                             description="Earn up 0.01UTT for staying connected"
                              icon={telegram}
-                             actions={[<Label title="+ 50 UTT" theme="secondary"/>,
-                                 <Label title="Connected" theme="basic"/>]}
+                             actions={[<TelegramConnect/>]}
                 />
 
                 <DetailsCard key="metamask"
