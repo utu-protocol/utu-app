@@ -14,7 +14,9 @@ interface TelegramSliceState {
     codeSent: boolean,
     showCode: boolean,
     submittingCode: boolean,
-    submittingPhone: boolean
+    submittingPhone: boolean,
+    telegram_connected : boolean,
+    telegram_UTT_balance: number
 }
 
 const initialState: TelegramSliceState = {
@@ -23,7 +25,9 @@ const initialState: TelegramSliceState = {
     showCode: false,
     codeSent: false,
     submittingCode: false,
-    submittingPhone: false
+    submittingPhone: false,
+    telegram_connected : true,
+    telegram_UTT_balance: 0,
 }
 
 export const telegramSLice = createSlice({

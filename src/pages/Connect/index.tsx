@@ -9,10 +9,19 @@ import TwitterConnect from "./partials/Twitter/TwitterConnect";
 import MetamaskConnect from "./partials/Metamask/MetamaskConnect";
 import TelegramConnect from "./partials/Telegram/TelegramConnect";
 
+import {useSelector} from "react-redux";
+import {RootState} from "../../redux/store";
+
 const Connect = () => {
     useEffect(() => {
         document.title = 'Connect to Earn | Utu Wallet';
     });
+
+    const telegramConnect = useSelector((state: RootState) => state.telegram.telegram_connected);
+    const twitterConnect = useSelector((state: RootState) => state.twitter.twitter_connected);
+
+    const telegramUTTBalance = useSelector((state: RootState) => state.telegram.telegram_UTT_balance);
+    const twitterUTTBalance = useSelector((state: RootState) => state.twitter.twitter_UTT_balance);
 
     return (
         <div className="container-body">
@@ -31,7 +40,8 @@ const Connect = () => {
                              title="Twitter"
                              description="See your friends activities on UTU"
                              icon={twitter}
-                             actions={[<TwitterConnect/>]}
+                             actions={ twitterConnect ? [<Label title={`+ ${twitterUTTBalance} UTT`} theme="secondary"/>,
+                             <Label title="Connected" theme="basic"/>] : [<TwitterConnect/>]}
                 />
 
                 <DetailsCard key="discord"
@@ -46,7 +56,8 @@ const Connect = () => {
                              title="Telegram"
                              description="Earn up 0.01UTT for staying connected"
                              icon={telegram}
-                             actions={[<TelegramConnect/>]}
+                             actions={ telegramConnect ? [<Label title={`+ ${telegramUTTBalance} UTT`}  theme="secondary"/>,
+                                 <Label title="Connected" theme="basic"/>] : [<TelegramConnect/>]}
                 />
 
                 <DetailsCard key="metamask"
