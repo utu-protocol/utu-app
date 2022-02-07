@@ -1,20 +1,27 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useCallback} from "react";
 import {useAppDispatch} from "../../../redux/hooks";
 import {connectApi, connectWallet, initWallet} from "../../../redux/slices/wallet";
+import UtuButton from "../../../components/Button/UtuButton";
+import "./ConnectBanner.scss";
 
 const ConnectBanner = () => {
     const dispatch = useAppDispatch();
 
-    useEffect(()=>{
-        dispatch(initWallet());
-
+    const connect = useCallback(() => {
         dispatch(connectWallet());
-         dispatch(connectApi());
+        dispatch(connectApi());
     }, [dispatch]);
 
-  return (
-      <div />
-  )
+    useEffect(() => {
+        dispatch(initWallet());
+        connect();
+    }, [dispatch, connect]);
+
+    return (
+        <div className="connect-landing">
+            <UtuButton title="Connect Wallet" center={false} onButtonClick={connect} />
+        </div>
+    )
 }
 
 export default ConnectBanner;
