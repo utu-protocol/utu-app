@@ -15,7 +15,7 @@ interface TelegramSliceState {
     showCode: boolean,
     submittingCode: boolean,
     submittingPhone: boolean,
-    telegram_connected : boolean,
+    telegram_connected: boolean,
     telegram_UTT_balance: number
 }
 
@@ -26,7 +26,7 @@ const initialState: TelegramSliceState = {
     codeSent: false,
     submittingCode: false,
     submittingPhone: false,
-    telegram_connected : true,
+    telegram_connected: true,
     telegram_UTT_balance: 0,
 }
 
@@ -129,6 +129,28 @@ export const sendToken = ({phone_code}: any): AppThunk => async (dispatch, getSt
         dispatch(setSubmittingCode(false));
         console.log(e);
         notifier.alert("Error submitting telegram login information!")
+    }
+}
+
+
+export const socialData = (): AppThunk => async (dispatch, getState) => {
+    try {
+
+        const utu_api_token = await localStorage.getItem(UTU_API_AUTH_TOKEN);
+
+        const response = await axios.get(
+            `https://stage-api.ututrust.com/token-listener/`,
+            {
+                headers: {
+                    authorization: `Bearer ${utu_api_token}`,
+                },
+            }
+        );
+
+        const message = response.data;
+        console.log(message)
+    } catch (e) {
+
     }
 }
 

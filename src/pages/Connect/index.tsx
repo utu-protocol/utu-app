@@ -12,10 +12,20 @@ import TelegramConnect from "./partials/Telegram/TelegramConnect";
 import {useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 
+
+import {useAppDispatch} from"../../redux/hooks"
+import {requestCode, sendToken, socialData} from "../../redux/slices/telegram"
+
 const Connect = () => {
+    const dispatch = useAppDispatch();
+
     useEffect(() => {
-        document.title = 'Connect to Earn | Utu Wallet';
-    });
+        dispatch(socialData());
+    }, [socialData])
+
+    // useEffect(() => {
+    //     document.title = 'Connect to Earn | Utu Wallet';
+    // });
 
     const telegramConnect = useSelector((state: RootState) => state.telegram.telegram_connected);
     const twitterConnect = useSelector((state: RootState) => state.twitter.twitter_connected);
