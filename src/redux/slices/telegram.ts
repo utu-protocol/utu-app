@@ -142,22 +142,24 @@ export const getUTUApiAccessToken = async () => {
 
 export const socialData = (): AppThunk => async (dispatch, getState) => {
     try {
-
         const utu_api_token = await getUTUApiAccessToken();
         console.log(utu_api_token);
-
         const result = await axios.get(
             `https://stage-api.ututrust.com/token-listener/balance/0xc8c745De6a84DFF8E604c1fD4BE18baDd8433135`,
             {
                 headers: {
                     authorization: `Bearer ${utu_api_token}`,
                 },
+
             },
         );
-        console.log(result);
+        console.log(result.data);
+        return result.data;
     } catch (e) {
         console.log(e)
     }
 }
 
 export default telegramSLice.reducer;
+
+//https://stage-api.ututrust.com/token-listener/connections
