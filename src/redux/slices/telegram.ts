@@ -132,25 +132,31 @@ export const sendToken = ({phone_code}: any): AppThunk => async (dispatch, getSt
     }
 }
 
+export const getUTUApiAccessToken = async () => {
+    const utu_api_token = await localStorage.getItem(UTU_API_AUTH_TOKEN);
+    if (!utu_api_token) return null;
+    const {access_token} = JSON.parse(utu_api_token);
+    return access_token;
+};
+
 
 export const socialData = (): AppThunk => async (dispatch, getState) => {
     try {
 
-        const utu_api_token = await localStorage.getItem(UTU_API_AUTH_TOKEN);
+        const utu_api_token = await getUTUApiAccessToken();
+        console.log(utu_api_token);
 
-        const response = await axios.get(
-            `https://stage-api.ututrust.com/token-listener/`,
+        const result = await axios.get(
+            `https://stage-api.ututrust.com/token-listener/balance/0xc8c745De6a84DFF8E604c1fD4BE18baDd8433135`,
             {
                 headers: {
                     authorization: `Bearer ${utu_api_token}`,
                 },
-            }
+            },
         );
-
-        const message = response.data;
-        console.log(message)
+        console.log(result);
     } catch (e) {
-
+        console.log(e)
     }
 }
 
