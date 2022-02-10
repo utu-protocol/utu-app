@@ -14,6 +14,25 @@ const Dashboard = () => {
     const {utt_balance, total_you_have_staked, total_staked_on_you} = useSelector((state: RootState) => state.balance);
     const dispatch = useAppDispatch();
 
+    const tokenData = [
+        {
+            label: "UTT Balance",
+            amount: utt_balance,
+            amount_label: "UTT"
+        },
+        {
+            label: "Amount Staked on you",
+            amount: total_you_have_staked,
+            amount_label: "UTT"
+        },
+        {
+            label: "Total Amount Staked",
+            amount: total_staked_on_you,
+            amount_label: "UTT"
+        }
+
+    ]
+
     useEffect(() => {
         dispatch(getUttBalance())
         dispatch(getTotalStakedOnYou())
@@ -27,24 +46,9 @@ const Dashboard = () => {
     return (
         <div className="container-body">
             <div className="cards-container">
-                <TokenCard
-                    label="UTT Balance"
-                    amount={utt_balance}
-                    amount_label="UTT"
-                    key="utt-balance"/>
-
-                <TokenCard
-                    label="Amount Staked on you"
-                    amount={total_staked_on_you}
-                    amount_label="UTT"
-                    key="amount-stacked-on-you"/>
-
-                <TokenCard
-                    label="Total Amount Staked"
-                    amount={total_you_have_staked}
-                    amount_label="UTT"
-                    key="amount-stacked-on-you"/>
-
+                {
+                    tokenData.map((data, key) => <TokenCard  {...data} key={key}/>)
+                }
             </div>
 
             <div className="details-cards">
