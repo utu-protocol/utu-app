@@ -5,27 +5,21 @@ import DetailsCard from "../partials/DetailsCard/DetailsCard";
 import mm from "../../assets/images/mm.svg";
 import jumia from "../../assets/images/jumia.svg";
 import Label from "../../components/Label/Label";
-
-const tokenData = [
-    {
-        label: "UTT Balance",
-        amount: "5200",
-        amount_label: "UTT"
-    },
-    {
-        label: "Amount Staked on you",
-        amount: "5200",
-        amount_label: "UTT"
-    },
-    {
-        label: "Total Amount Staked",
-        amount: "5200",
-        amount_label: "UTT"
-    }
-
-]
+import {useSelector} from "react-redux";
+import {RootState} from "../../redux/store";
+import {useAppDispatch} from "../../redux/hooks";
+import {getTotalStakedOnYou, getTotalYouStaked, getUttBalance} from "../../redux/slices/balance";
 
 const Dashboard = () => {
+    const {utt_balance, total_you_have_staked, total_staked_on_you} = useSelector((state: RootState) => state.balance);
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(getUttBalance())
+        dispatch(getTotalStakedOnYou())
+        dispatch(getTotalYouStaked())
+    }, [dispatch]);
+
     useEffect(() => {
         document.title = 'Dashboard | Utu Wallet';
     });
@@ -33,9 +27,24 @@ const Dashboard = () => {
     return (
         <div className="container-body">
             <div className="cards-container">
-                {
-                    tokenData.map((data, key) => <TokenCard  {...data} key={key}/>)
-                }
+                <TokenCard
+                    label="UTT Balance"
+                    amount={utt_balance}
+                    amount_label="UTT"
+                    key="utt-balance"/>
+
+                <TokenCard
+                    label="Amount Staked on you"
+                    amount={total_staked_on_you}
+                    amount_label="UTT"
+                    key="amount-stacked-on-you"/>
+
+                <TokenCard
+                    label="Total Amount Staked"
+                    amount={total_you_have_staked}
+                    amount_label="UTT"
+                    key="amount-stacked-on-you"/>
+
             </div>
 
             <div className="details-cards">

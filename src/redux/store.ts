@@ -3,13 +3,15 @@ import walletReducer from './slices/wallet';
 import twitterReducer from './slices/twitter';
 import telegramReducer from "./slices/telegram";
 import connectionStatusReducer from "./slices/connectionStatus";
+import balanceSlice from "./slices/balance";
 
 export const store = configureStore({
   reducer: {
     wallet: walletReducer,
     twitter: twitterReducer,
     telegram: telegramReducer,
-    connectionStatus:connectionStatusReducer
+    connectionStatus:connectionStatusReducer,
+    balance: balanceSlice
   },
 });
 
