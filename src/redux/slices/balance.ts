@@ -3,7 +3,6 @@ import {getUTUApiAccessToken} from "./telegram";
 import {AppThunk} from "../store";
 import axios from "axios";
 import dotenv from "dotenv";
-import {fchmod} from "fs";
 dotenv.config();
 
 interface BalanceSliceState {

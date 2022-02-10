@@ -2,6 +2,9 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {getUTUApiAccessToken} from "./telegram";
 import {AppThunk} from "../store";
 import axios from "axios";
+import dotenv from "dotenv";
+dotenv.config();
+
 
 interface IConnectionStatus {
     connectionType: any,
@@ -33,7 +36,7 @@ export const connectionStatus = (): AppThunk => async (dispatch, getState) => {
         const {address} = getState().wallet;
         const utu_api_token = await getUTUApiAccessToken();
         const result = await axios.get(
-            `https://stage-api.ututrust.com/token-listener/connections/${address}`,
+            `${process.env.REACT_APP_API_BASE_URL}/connections/${address}`,
             {
                 headers: {
                     authorization: `Bearer ${utu_api_token}`,
