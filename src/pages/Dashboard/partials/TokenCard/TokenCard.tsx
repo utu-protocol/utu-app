@@ -2,7 +2,7 @@ import React from "react";
 import "./TokenCard.scss";
 interface tokenCardProps {
     label: string,
-    amount: string,
+    amount: any,
     amount_label?: string
 }
 

@@ -5,30 +5,35 @@ import DetailsCard from "../partials/DetailsCard/DetailsCard";
 import mm from "../../assets/images/mm.svg";
 import jumia from "../../assets/images/jumia.svg";
 import Label from "../../components/Label/Label";
-
-const tokenData = [
-    {
-        label: "UTT Balance",
-        amount: "5200",
-        amount_label: "UTT"
-    },
-    {
-        label: "Amount Staked on you",
-        amount: "5200",
-        amount_label: "UTT"
-    },
-    {
-        label: "Total Amount Staked",
-        amount: "5200",
-        amount_label: "UTT"
-    }
-
-]
+import {useSelector} from "react-redux";
+import {RootState} from "../../redux/store";
 
 const Dashboard = () => {
+    const UTTBalance = useSelector((state: RootState) => state.connectionStatus.UTT_balance);
+
+    const tokenData = [
+        {
+            label: "UTT Balance",
+            amount: {UTTBalance},
+            amount_label: "UTT"
+        },
+        {
+            label: "Amount Staked on you",
+            amount: "5200",
+            amount_label: "UTT"
+        },
+        {
+            label: "Total Amount Staked",
+            amount: "5200",
+            amount_label: "UTT"
+        }
+
+    ]
+
     useEffect(() => {
         document.title = 'Dashboard | Utu Wallet';
     });
+
 
     return (
         <div className="container-body">
