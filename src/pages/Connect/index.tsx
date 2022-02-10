@@ -11,7 +11,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 
 
-import {useAppDispatch} from"../../redux/hooks"
+import {useAppDispatch} from "../../redux/hooks"
 import {connectionStatus} from "../../redux/slices/connectionStatus"
 
 
@@ -28,6 +28,10 @@ const Connect = () => {
 
     const connectionType = useSelector((state: RootState) => state.connectionStatus.connectionType);
 
+    const isConnected = (social: string) => {
+        return connectionType.some((value: any) => value.type === social);
+    }
+
     return (
         <div className="container-body">
             <div className="details-cards">
@@ -40,28 +44,23 @@ const Connect = () => {
                         memberships.
                     </p>
                 </div>
-                {
-                    connectionType.map((connection: any) => (
-                        <>
-                            <DetailsCard key="twitter"
-                                         title="Twitter"
-                                         description="See your friends activities on UTU"
-                                         icon={twitter}
-                                         actions={connection.type === "Twitter" ? [<Label title={`+50UTT`}
-                                                                                        theme="secondary"/>,
-                                             <Label title="Connected" theme="basic"/>] : [<TwitterConnect/>]}
-                            />
+                <DetailsCard key="twitter"
+                             title="Twitter"
+                             description="See your friends activities on UTU"
+                             icon={twitter}
+                             actions={isConnected("Twitter") ?
+                                 [<Label title={`+50UTT`} theme="secondary"/>,
+                                     <Label title="Connected" theme="basic"/>] : [<TwitterConnect/>]}
+                />
 
-                            <DetailsCard key="telegram"
-                                         title="Telegram"
-                                         description="Earn up 0.01UTT for staying connected"
-                                         icon={telegram}
-                                         actions={connection.type === "Telegram" ? [<Label title={`+50UTT`}
-                                                                                         theme="secondary"/>,
-                                             <Label title="Connected" theme="basic"/>] : [<TelegramConnect/>]}
-                            />
-                        </>
-                    ))}
+                <DetailsCard key="telegram"
+                             title="Telegram"
+                             description="Earn up 0.01UTT for staying connected"
+                             icon={telegram}
+                             actions={isConnected("Telegram") ?
+                                 [<Label title={`+50UTT`} theme="secondary"/>,
+                                     <Label title="Connected" theme="basic"/>] : [<TelegramConnect/>]}
+                />
 
 
                 {/*<DetailsCard key="discord"*/}

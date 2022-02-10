@@ -8,7 +8,7 @@ interface IConnectionStatus {
 }
 
 const initialState: IConnectionStatus = {
-    connectionType: null
+    connectionType: []
 }
 
 
