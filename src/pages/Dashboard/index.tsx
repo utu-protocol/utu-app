@@ -20,7 +20,7 @@ const Dashboard = () => {
         total_you_staked_loading,
         staked_on_you_loading
     } = useSelector((state: RootState) => state.balance);
-    const {endorsements} = useSelector((state: RootState) => state.endorsement);
+    const {endorsements, endorsements_loading} = useSelector((state: RootState) => state.endorsement);
 
     const dispatch = useAppDispatch();
 
@@ -86,9 +86,12 @@ const Dashboard = () => {
                         //              actions={[<Label key="jumia-label" title="- 30 UTT" theme="danger"/>]}
                         // />
                         :
-                        <div className="empty-now">
-                            No Activities for now!
-                        </div>
+                        endorsements_loading ?
+                            <DetailsCard title="" description="" loading={endorsements_loading}/>
+                            :
+                            <div className="empty-now">
+                                No Activities for now!
+                            </div>
                 }
 
 

@@ -6,11 +6,14 @@ import dotenv from "dotenv";
 dotenv.config();
 
 interface EndorsementState {
-    endorsements: any[]
+    endorsements: any[],
+    endorsements_loading: boolean
 }
 
 const initialState: EndorsementState = {
-    endorsements: []
+    endorsements: [],
+    endorsements_loading: false
+
 }
 
 export const endorsementSlice = createSlice({
@@ -19,14 +22,18 @@ export const endorsementSlice = createSlice({
     reducers: {
         setEndorsements: (state, action: PayloadAction<any[]>) => {
             state.endorsements = action.payload
+        },
+        setEndorsementLoading: (state, action: PayloadAction<boolean>) => {
+            state.endorsements_loading = action.payload
         }
     }
 });
 
-export const {setEndorsements} = endorsementSlice.actions;
+export const {setEndorsements, setEndorsementLoading} = endorsementSlice.actions;
 
 export const getEndorsements = (): AppThunk => async (dispatch, getState) => {
     try {
+        dispatch(setEndorsementLoading(true))
         const {address} = getState().wallet;
         const utu_api_token = await getUTUApiAccessToken();
 
@@ -42,8 +49,10 @@ export const getEndorsements = (): AppThunk => async (dispatch, getState) => {
         const {endorsements} = result.data;
 
         dispatch(setEndorsements(endorsements));
+        dispatch(setEndorsementLoading(false))
     } catch (e) {
         console.log(e)
+        dispatch(setEndorsementLoading(false))
     }
 }
 

@@ -23,7 +23,6 @@ const TokenCard = ({label, amount, amount_label, loading=false}: tokenCardProps)
                         </div>
                         <div className="token--amount">
                             {amount}
-
                             <small>
                                 {amount_label}
                             </small>
