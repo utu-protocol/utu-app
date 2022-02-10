@@ -28,7 +28,6 @@ const Connect = () => {
 
     const connectionType = useSelector((state: RootState) => state.connectionStatus.connectionType);
 
-
     return (
         <div className="container-body">
             <div className="details-cards">
