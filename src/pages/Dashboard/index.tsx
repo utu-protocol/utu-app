@@ -12,7 +12,14 @@ import {getTotalStakedOnYou, getTotalYouStaked, getUttBalance} from "../../redux
 import {getEndorsements} from "../../redux/slices/endorsement";
 
 const Dashboard = () => {
-    const {utt_balance, total_you_have_staked, total_staked_on_you} = useSelector((state: RootState) => state.balance);
+    const {
+        utt_balance,
+        total_you_have_staked,
+        total_staked_on_you,
+        balance_loading,
+        total_you_staked_loading,
+        staked_on_you_loading
+    } = useSelector((state: RootState) => state.balance);
     const {endorsements} = useSelector((state: RootState) => state.endorsement);
 
     const dispatch = useAppDispatch();
@@ -21,20 +28,23 @@ const Dashboard = () => {
         {
             label: "UTT Balance",
             amount: utt_balance,
-            amount_label: "UTT"
+            amount_label: "UTT",
+            loading: balance_loading
         },
         {
             label: "Amount Staked on you",
             amount: total_you_have_staked,
-            amount_label: "UTT"
+            amount_label: "UTT",
+            loading: staked_on_you_loading
         },
         {
             label: "Total Amount Staked",
             amount: total_staked_on_you,
-            amount_label: "UTT"
+            amount_label: "UTT",
+            loading: total_you_staked_loading
         }
 
-]
+    ]
 
     useEffect(() => {
         dispatch(getUttBalance())
@@ -52,7 +62,7 @@ const Dashboard = () => {
         <div className="container-body">
             <div className="cards-container">
                 {
-                    tokenData.map((data, key) => <TokenCard  {...data} key={key}/>)
+                    tokenData.map((data, key) => <TokenCard {...data} key={key}/>)
                 }
             </div>
 
@@ -60,20 +70,27 @@ const Dashboard = () => {
                 <div className="details-cards--title">
                     All Activities
                 </div>
+                {
+                    endorsements.length > 0 ?
+                        <DetailsCard key="mm"
+                                     title="12/7/2021"
+                                     description="Ronald has endorsed your review on MARAMOJA Transports"
+                                     icon={mm}
+                                     actions={[<Label key="mm-label" title="+ 129 UTT" theme="success"/>]}
+                        />
 
-                <DetailsCard key="mm"
-                             title="12/7/2021"
-                             description="Ronald has endorsed your review on MARAMOJA Transports"
-                             icon={mm}
-                             actions={[<Label key="mm-label" title="+ 129 UTT" theme="success"/>]}
-                />
+                        // <DetailsCard key="jumia"
+                        //              title="12/7/2021"
+                        //              description="Ronald has endorsed your review on Jumia Kenya"
+                        //              icon={jumia}
+                        //              actions={[<Label key="jumia-label" title="- 30 UTT" theme="danger"/>]}
+                        // />
+                        :
+                        <div className="empty-now">
+                            No Activities for now!
+                        </div>
+                }
 
-                <DetailsCard key="jumia"
-                             title="12/7/2021"
-                             description="Ronald has endorsed your review on Jumia Kenya"
-                             icon={jumia}
-                             actions={[<Label key="jumia-label" title="- 30 UTT" theme="danger"/>]}
-                />
 
             </div>
         </div>
