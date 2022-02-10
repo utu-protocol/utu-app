@@ -9,7 +9,6 @@ interface IConnectionStatus {
 }
 
 const initialState: IConnectionStatus = {
-
     connectionType: null,
     UTT_balance: null,
 }
@@ -27,7 +26,6 @@ export const connectionStatusSLice = createSlice({
         }
     }
 });
-
 
 export const {
     setUTTBalance,

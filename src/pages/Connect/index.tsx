@@ -56,14 +56,14 @@ const Connect = () => {
                              <Label title="Connected" theme="basic"/>] : [<TwitterConnect/>]}
                 />
 
-                <DetailsCard key="discord"
-                             title="Discord"
-                             title_sub="Earning 0.01 UTT evry (X time) for staying connected"
-                             description="Logged in as  Hakeem SalimRiz"
-                             icon={discord}
-                             actions={[<Label title="+ 50 UTT" theme="secondary"/>,
-                                 <Label title="Connected" theme="basic"/>]}
-                />
+                {/*<DetailsCard key="discord"*/}
+                {/*             title="Discord"*/}
+                {/*             title_sub="Earning 0.01 UTT evry (X time) for staying connected"*/}
+                {/*             description="Logged in as  Hakeem SalimRiz"*/}
+                {/*             icon={discord}*/}
+                {/*             actions={[<Label title="+ 50 UTT" theme="secondary"/>,*/}
+                {/*                 <Label title="Connected" theme="basic"/>]}*/}
+                {/*/>*/}
                 <DetailsCard key="telegram"
                              title="Telegram"
                              description="Earn up 0.01UTT for staying connected"
@@ -72,12 +72,12 @@ const Connect = () => {
                                  <Label title="Connected" theme="basic"/>] : [<TelegramConnect/>]}
                 />
 
-                <DetailsCard key="metamask"
-                             title="Metamask"
-                             description="Earn up 0.01UTT for staying connected"
-                             icon={metamask}
-                             actions={[<MetamaskConnect/>]}
-                />
+                {/*<DetailsCard key="metamask"*/}
+                {/*             title="Metamask"*/}
+                {/*             description="Earn up 0.01UTT for staying connected"*/}
+                {/*             icon={metamask}*/}
+                {/*             actions={[<MetamaskConnect/>]}*/}
+                {/*/>*/}
 
 
             </div>
