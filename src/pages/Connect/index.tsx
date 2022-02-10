@@ -41,14 +41,29 @@ const Connect = () => {
                         memberships.
                     </p>
                 </div>
+                {
+                    connectionType.map((connection: any) => (
+                        <>
+                            <DetailsCard key="twitter"
+                                         title="Twitter"
+                                         description="See your friends activities on UTU"
+                                         icon={twitter}
+                                         actions={connection.type === "Twitter" ? [<Label title={`+50UTT`}
+                                                                                        theme="secondary"/>,
+                                             <Label title="Connected" theme="basic"/>] : [<TwitterConnect/>]}
+                            />
 
-                <DetailsCard key="twitter"
-                             title="Twitter"
-                             description="See your friends activities on UTU"
-                             icon={twitter}
-                             actions={ connectionType === "Twitter" ? [<Label title={`+ 0 UTT`} theme="secondary"/>,
-                             <Label title="Connected" theme="basic"/>] : [<TwitterConnect/>]}
-                />
+                            <DetailsCard key="telegram"
+                                         title="Telegram"
+                                         description="Earn up 0.01UTT for staying connected"
+                                         icon={telegram}
+                                         actions={connection.type === "Telegram" ? [<Label title={`+50UTT`}
+                                                                                         theme="secondary"/>,
+                                             <Label title="Connected" theme="basic"/>] : [<TelegramConnect/>]}
+                            />
+                        </>
+                    ))}
+
 
                 {/*<DetailsCard key="discord"*/}
                 {/*             title="Discord"*/}
@@ -58,13 +73,7 @@ const Connect = () => {
                 {/*             actions={[<Label title="+ 50 UTT" theme="secondary"/>,*/}
                 {/*                 <Label title="Connected" theme="basic"/>]}*/}
                 {/*/>*/}
-                <DetailsCard key="telegram"
-                             title="Telegram"
-                             description="Earn up 0.01UTT for staying connected"
-                             icon={telegram}
-                             actions={ connectionType === "Telegram"  ? [<Label title={`+ 0 UTT`}  theme="secondary"/>,
-                                 <Label title="Connected" theme="basic"/>] : [<TelegramConnect/>]}
-                />
+
 
                 {/*<DetailsCard key="metamask"*/}
                 {/*             title="Metamask"*/}

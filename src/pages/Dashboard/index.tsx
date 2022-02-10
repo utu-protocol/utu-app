@@ -31,7 +31,7 @@ const Dashboard = () => {
             amount_label: "UTT"
         }
 
-    ]
+]
 
     useEffect(() => {
         dispatch(getUttBalance())

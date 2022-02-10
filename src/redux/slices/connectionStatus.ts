@@ -4,7 +4,7 @@ import {AppThunk} from "../store";
 import axios from "axios";
 
 interface IConnectionStatus {
-    connectionType: string |null
+    connectionType: any,
 }
 
 const initialState: IConnectionStatus = {
@@ -16,7 +16,7 @@ export const connectionStatusSLice = createSlice({
     name: "connectionStatus",
     initialState,
     reducers: {
-        setConnectionStatus: (state, action: PayloadAction<string>) => {
+        setConnectionStatus: (state, action: PayloadAction<any>) => {
             state.connectionType = action.payload;
         }
     }
@@ -42,8 +42,8 @@ export const connectionStatus = (): AppThunk => async (dispatch, getState) => {
             },
         );
 
-        console.log(result.data.connections.type)
-        dispatch(setConnectionStatus(result.data.connections.type));
+        console.log(result.data.connections)
+        dispatch(setConnectionStatus(result.data.connections));
     } catch (e) {
         console.log(e)
     }
