@@ -14,24 +14,26 @@ import {RootState} from "../../redux/store";
 
 
 import {useAppDispatch} from"../../redux/hooks"
-import {requestCode, sendToken, socialData} from "../../redux/slices/telegram"
+import {requestCode, sendToken} from "../../redux/slices/telegram"
+import {connectionStatus} from "../../redux/slices/connectionStatus"
+
 
 const Connect = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(socialData());
-    }, [socialData])
+        dispatch(connectionStatus());
+    }, [connectionStatus])
 
     // useEffect(() => {
     //     document.title = 'Connect to Earn | Utu Wallet';
     // });
 
-    const telegramConnect = useSelector((state: RootState) => state.telegram.telegram_connected);
-    const twitterConnect = useSelector((state: RootState) => state.twitter.twitter_connected);
+    const UTTBalance = useSelector((state: RootState) => state.connectionStatus.UTT_balance);
 
-    const telegramUTTBalance = useSelector((state: RootState) => state.telegram.telegram_UTT_balance);
-    const twitterUTTBalance = useSelector((state: RootState) => state.twitter.twitter_UTT_balance);
+    const connectionType = useSelector((state: RootState) => state.connectionStatus.connectionType);
+    // const twitterConnect = useSelector((state: RootState) => state.twitter.twitter_connected);
+
 
     return (
         <div className="container-body">
@@ -50,7 +52,7 @@ const Connect = () => {
                              title="Twitter"
                              description="See your friends activities on UTU"
                              icon={twitter}
-                             actions={ twitterConnect ? [<Label title={`+ ${twitterUTTBalance} UTT`} theme="secondary"/>,
+                             actions={ connectionType == "Twitter" ? [<Label title={`+ ${UTTBalance} UTT`} theme="secondary"/>,
                              <Label title="Connected" theme="basic"/>] : [<TwitterConnect/>]}
                 />
 
@@ -66,7 +68,7 @@ const Connect = () => {
                              title="Telegram"
                              description="Earn up 0.01UTT for staying connected"
                              icon={telegram}
-                             actions={ telegramConnect ? [<Label title={`+ ${telegramUTTBalance} UTT`}  theme="secondary"/>,
+                             actions={ connectionType == "Telegram"  ? [<Label title={`+ ${UTTBalance} UTT`}  theme="secondary"/>,
                                  <Label title="Connected" theme="basic"/>] : [<TelegramConnect/>]}
                 />
 

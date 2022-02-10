@@ -22,8 +22,6 @@ interface TwitterSliceState {
     user_access_token: UserAccessTokenState;
     loadingToken: boolean,
     connectingTwitter: boolean,
-    twitter_connected : boolean,
-    twitter_UTT_balance: number
 }
 
 const initialState: TwitterSliceState = {
@@ -37,9 +35,6 @@ const initialState: TwitterSliceState = {
     },
     loadingToken: false,
     connectingTwitter: false,
-    twitter_connected : true,
-    twitter_UTT_balance: 50,
-    
 };
 
 export const getUTUApiAccessToken = async () => {
