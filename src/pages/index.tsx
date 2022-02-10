@@ -5,15 +5,26 @@ import {
 import Layout from "../components/Layout";
 import Routes from "../routes";
 import Menu from "../components/Layout/Menu/Menu";
+import {useAppSelector} from "../redux/hooks";
+import {selectAddress} from "../redux/slices/wallet";
+import ConnectBanner from "./partials/ConnectBanner/ConnectBanner";
 
 const Pages = () => {
+    const address = useAppSelector(selectAddress);
+
     return (
         <Router>
             <Layout>
                 <div className="container">
-                    <Menu/>
-
-                    <Routes/>
+                    {
+                        address ?
+                            <div>
+                                <Menu/>
+                                <Routes/>
+                            </div>
+                            :
+                            <ConnectBanner/>
+                    }
                 </div>
             </Layout>
         </Router>
