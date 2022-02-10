@@ -15,8 +15,6 @@ interface TelegramSliceState {
     showCode: boolean,
     submittingCode: boolean,
     submittingPhone: boolean,
-    telegram_connected : boolean,
-    telegram_UTT_balance: number
 }
 
 const initialState: TelegramSliceState = {
@@ -26,8 +24,6 @@ const initialState: TelegramSliceState = {
     codeSent: false,
     submittingCode: false,
     submittingPhone: false,
-    telegram_connected : true,
-    telegram_UTT_balance: 0,
 }
 
 export const telegramSLice = createSlice({
@@ -51,7 +47,7 @@ export const telegramSLice = createSlice({
         },
         setSubmittingPhone: (state, action: PayloadAction<boolean>) => {
             state.submittingPhone = action.payload;
-        }
+        },
     }
 });
 
@@ -61,7 +57,7 @@ export const {
     setTokenSent,
     setShowCode,
     setSubmittingCode,
-    setSubmittingPhone
+    setSubmittingPhone,
 } = telegramSLice.actions;
 
 export const requestCode = ({phone}: any): AppThunk => async (dispatch, getState) => {
@@ -132,4 +128,14 @@ export const sendToken = ({phone_code}: any): AppThunk => async (dispatch, getSt
     }
 }
 
+export const getUTUApiAccessToken = async () => {
+    const utu_api_token = await localStorage.getItem(UTU_API_AUTH_TOKEN);
+    if (!utu_api_token) return null;
+    const {access_token} = JSON.parse(utu_api_token);
+    return access_token;
+};
+
 export default telegramSLice.reducer;
+
+//https://stage-api.ututrust.com/token-listener/connections
+//https://stage-api.ututrust.com/token-listener/balance/0xc8c745De6a84DFF8E604c1fD4BE18baDd8433135
