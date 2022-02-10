@@ -3,7 +3,8 @@ import walletReducer from './slices/wallet';
 import twitterReducer from './slices/twitter';
 import telegramReducer from "./slices/telegram";
 import connectionStatusReducer from "./slices/connectionStatus";
-import balanceSlice from "./slices/balance";
+import balanceReducer from "./slices/balance";
+import endorsementReducer from "./slices/endorsement";
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
     twitter: twitterReducer,
     telegram: telegramReducer,
     connectionStatus:connectionStatusReducer,
-    balance: balanceSlice
+    balance: balanceReducer,
+    endorsement: endorsementReducer
   },
 });
 

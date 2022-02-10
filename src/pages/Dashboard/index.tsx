@@ -9,9 +9,12 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {useAppDispatch} from "../../redux/hooks";
 import {getTotalStakedOnYou, getTotalYouStaked, getUttBalance} from "../../redux/slices/balance";
+import {getEndorsements} from "../../redux/slices/endorsement";
 
 const Dashboard = () => {
     const {utt_balance, total_you_have_staked, total_staked_on_you} = useSelector((state: RootState) => state.balance);
+    const {endorsements} = useSelector((state: RootState) => state.endorsement);
+
     const dispatch = useAppDispatch();
 
     const tokenData = [
@@ -36,7 +39,9 @@ const Dashboard = () => {
     useEffect(() => {
         dispatch(getUttBalance())
         dispatch(getTotalStakedOnYou())
-        dispatch(getTotalYouStaked())
+        dispatch(getTotalYouStaked());
+        dispatch(getEndorsements());
+
     }, [dispatch]);
 
     useEffect(() => {
