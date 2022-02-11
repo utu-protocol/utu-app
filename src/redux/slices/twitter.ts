@@ -21,7 +21,7 @@ interface TwitterSliceState {
     request_token: RequestTokenState;
     user_access_token: UserAccessTokenState;
     loadingToken: boolean,
-    connectingTwitter: boolean
+    connectingTwitter: boolean,
 }
 
 const initialState: TwitterSliceState = {
@@ -34,7 +34,7 @@ const initialState: TwitterSliceState = {
         oauth_token_secret: null,
     },
     loadingToken: false,
-    connectingTwitter: false
+    connectingTwitter: false,
 };
 
 export const getUTUApiAccessToken = async () => {
@@ -95,7 +95,7 @@ export const requestToken = (): AppThunk => async (dispatch) => {
         const utu_api_token = await getUTUApiAccessToken();
         dispatch(setLoadingToken(true))
         const response = await axios.post(
-            `${process.env.REACT_APP_API_URL}/social/logins/twitter/oauth/request_token`,
+            `${process.env.REACT_APP_API_URL}/logins/twitter/oauth/request_token`,
             {
                 callback_url: `${window.location.origin}/connect`,
             },
