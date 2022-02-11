@@ -1,8 +1,13 @@
 import React from "react";
 import "./UserMenuDropdown.scss";
 import metamask from "../../../../../assets/images/metamask.svg"
+import {useSelector} from "react-redux";
+import {RootState} from "../../../../../redux/store";
+import {maskValues} from "../../../../../utils/helper";
 
 const UserMenuDropdown = () => {
+    const {address, networkName} = useSelector((state: RootState) => state.wallet);
+
     return (
         <div className="user-dropdown">
             <div className="dropdown-title">
@@ -31,18 +36,18 @@ const UserMenuDropdown = () => {
 
                 <div className="utu-menu-list--item flex flex-justify-between flex-column border">
                     <div className="fs-l mb-5 bold">Address</div>
-                    <div className="basic-disabled ">90x8y...f56s</div>
+                    <div className="basic-disabled ">{maskValues(address)}</div>
                 </div>
 
                 <div className="utu-menu-list--item flex flex-justify-between flex-column border">
                     <div className="fs-l mb-5 bold">Network</div>
-                    <div className="basic-disabled">Ethereum Main Network</div>
+                    <div className="basic-disabled">{networkName}</div>
                 </div>
 
                 <div className="utu-menu-list--item ">
                     <div className="utu-alert flex small primary">
                         <div className="bold">
-                            Connect to MetaMask
+                            Connected to MetaMask
                         </div>
 
                         <div className="flex flex-justify-between flex-items-center">
