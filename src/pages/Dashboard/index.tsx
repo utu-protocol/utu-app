@@ -2,8 +2,6 @@ import React, {useEffect} from "react";
 import "./dashboard.scss";
 import TokenCard from "./partials/TokenCard/TokenCard";
 import DetailsCard from "../partials/DetailsCard/DetailsCard";
-import mm from "../../assets/images/mm.svg";
-import jumia from "../../assets/images/jumia.svg";
 import Label from "../../components/Label/Label";
 import {useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
@@ -21,6 +19,7 @@ const Dashboard = () => {
         staked_on_you_loading
     } = useSelector((state: RootState) => state.balance);
     const {endorsements, endorsements_loading} = useSelector((state: RootState) => state.endorsement);
+    const {address} = useSelector((state: RootState) => state.wallet);
 
     const dispatch = useAppDispatch();
 
@@ -72,19 +71,15 @@ const Dashboard = () => {
                 </div>
                 {
                     endorsements.length > 0 ?
-                        <DetailsCard key="mm"
-                                     title="12/7/2021"
-                                     description="Ronald has endorsed your review on MARAMOJA Transports"
-                                     icon={mm}
-                                     actions={[<Label key="mm-label" title="+ 129 UTT" theme="success"/>]}
-                        />
-
-                        // <DetailsCard key="jumia"
-                        //              title="12/7/2021"
-                        //              description="Ronald has endorsed your review on Jumia Kenya"
-                        //              icon={jumia}
-                        //              actions={[<Label key="jumia-label" title="- 30 UTT" theme="danger"/>]}
-                        // />
+                        endorsements.map((endorsement, index) =>
+                            <DetailsCard key={index}
+                                         title={`${endorsement.source === address ? 'Endorsement issued' : 'Endorsement received'}`}
+                                         description={`${endorsement.source === address ? 'You have issued an endorsement of value ' : 'You received an endorsement of value '} ${endorsement.value}`}
+                                         icon=""
+                                         actions={[<Label key={index}
+                                                          title={`${endorsement.source === address ? '- ' : '+ '} ${endorsement.value}` }
+                                                          theme={`${endorsement.source === address ? 'danger' : 'success'}`}/>]}
+                            />)
                         :
                         endorsements_loading ?
                             <DetailsCard title="" description="" loading={endorsements_loading}/>
