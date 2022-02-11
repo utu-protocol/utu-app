@@ -60,6 +60,45 @@
       margin-right: 10px;
     }
   }
+
+  &__loading {
+    max-width: 100%;
+
+    .description {
+      flex: 1;
+    }
+    .icon {
+      width: 70px;
+      min-height: 70px;
+      border-radius: 4px;
+
+    }
+
+    .details {
+      flex: 1;
+    }
+
+    .title {
+      width: 100%;
+      min-height: 28px;
+      border-radius: 4px;
+    }
+
+    .information {
+      min-height: 42px;
+      border-radius: 4px;
+      width: 100%;
+    }
+
+    .action {
+      max-width: 120px;
+      flex: 1;
+      min-height: 40px;
+      margin-left: 20px;
+      border-radius: 4px;
+
+    }
+  }
 }
 
 @media screen and (max-width: 600px) {

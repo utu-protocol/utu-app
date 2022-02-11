@@ -3,7 +3,7 @@ import "./Label.scss";
 
 interface LabelProps {
     theme?: string,
-    title: string
+    title: any
 }
 
 const Label = ({theme, title}: LabelProps) => {

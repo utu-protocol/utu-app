@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 import "./DetailsCard.scss";
 
 interface detailsCardProp {
@@ -6,34 +6,53 @@ interface detailsCardProp {
     title: string,
     description: string,
     title_sub?: string,
-    actions?: any[]
+    actions?: any[],
+    loading?: boolean
 }
 
-const DetailsCard = ({icon, title, description, title_sub, actions}: detailsCardProp) => {
+const DetailsCard = ({icon, title, description, title_sub, actions, loading=false}: detailsCardProp) => {
     return (
-        <div className="details-card">
-            <div className="description">
-                <div className="icon">
-                    <img src={icon} alt="Avatar" height="50"/>
-                </div>
+        <Fragment>
+            {
+                loading ?
+                    <div className="details-card details-card__loading">
+                        <div className="description">
+                            <div className="icon skeleton" />
 
-                <div className="details">
-                    <div className="title">
-                        {title}
-                        <span className="title--sub">{title_sub ? ' - ' + title_sub : ''}</span>
+                            <div className="details">
+                                <div className="title skeleton" />
+                                <div className="information skeleton"/>
+                            </div>
+                        </div>
+
+                        <div className="action skeleton"/>
                     </div>
+                    :
+                    <div className="details-card">
+                        <div className="description">
+                            <div className="icon">
+                                <img src={icon} alt="Avatar" height="50"/>
+                            </div>
 
-                    <div className="information">
-                        {description}
+                            <div className="details">
+                                <div className="title">
+                                    {title}
+                                    <span className="title--sub">{title_sub ? ' - ' + title_sub : ''}</span>
+                                </div>
+
+                                <div className="information">
+                                    {description}
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div className="action">
+                            {actions}
+                        </div>
                     </div>
-                </div>
-
-            </div>
-
-            <div className="action">
-                {actions}
-            </div>
-        </div>
+            }
+        </Fragment>
     )
 }
 
