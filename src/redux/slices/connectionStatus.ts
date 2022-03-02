@@ -36,7 +36,7 @@ export const connectionStatus = (): AppThunk => async (dispatch, getState) => {
         const {address} = getState().wallet;
         const utu_api_token = await getUTUApiAccessToken();
         const result = await axios.get(
-            `${process.env.REACT_APP_API_BASE_URL}/connections/${address}`,
+            `${process.env.REACT_APP_API_BASE_URL}/connections?target_address=${address}`,
             {
                 headers: {
                     authorization: `Bearer ${utu_api_token}`,
