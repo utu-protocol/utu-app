@@ -38,7 +38,7 @@ export const getEndorsements = (): AppThunk => async (dispatch, getState) => {
         const utu_api_token = await getUTUApiAccessToken();
 
         const result = await axios.get(
-            `${process.env.REACT_APP_API_BASE_URL}/endorsements?source_address=${address}`,
+            `${process.env.REACT_APP_API_TOKEN_LISTENER_URL}/endorsements?source_address=${address}`,
             {
                 headers: {
                     authorization: `Bearer ${utu_api_token}`,
