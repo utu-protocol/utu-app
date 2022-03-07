@@ -1,21 +1,20 @@
-import React, {useEffect, useCallback} from "react";
-import {useAppDispatch} from "../../../redux/hooks";
-import {connectApi, connectWallet, initWallet} from "../../../redux/slices/wallet";
+import { useEffect } from "react";
+import { useAppDispatch } from "../../../redux/hooks";
+import { connectApi, connectWallet, initWallet } from "../../../redux/slices/wallet";
 import UtuButton from "../../../components/Button/UtuButton";
 import "./ConnectBanner.scss";
 
 const ConnectBanner = () => {
     const dispatch = useAppDispatch();
 
-    const connect = useCallback(() => {
-        dispatch(connectWallet());
-        dispatch(connectApi());
-    }, [dispatch]);
+    const connect = async () => {
+        await dispatch(connectWallet());
+        await dispatch(connectApi());
+    };
 
     useEffect(() => {
         dispatch(initWallet());
-        connect();
-    }, [dispatch, connect]);
+    }, [dispatch]);
 
     return (
         <div className="connect-landing">

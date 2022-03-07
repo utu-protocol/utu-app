@@ -148,12 +148,16 @@ export const disconnectWallet = (): AppThunk => async (dispatch) => {
 };
 
 export const connectApi = (): AppThunk => async (dispatch, getState) => {
-  const { address } = getState().wallet;
   return addressSignatureVerification(
     process.env.REACT_APP_API_URL,
-    address,
-    provider
   );
+};
+
+export const getUTUApiAccessToken = async () => {
+  const utu_api_token = await localStorage.getItem(UTU_API_AUTH_TOKEN);
+  if (!utu_api_token) return null;
+  const {access_token} = JSON.parse(utu_api_token);
+  return access_token;
 };
 
 export default walletSlice.reducer;

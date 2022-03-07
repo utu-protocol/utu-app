@@ -1,8 +1,8 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {getUTUApiAccessToken} from "./telegram";
 import {AppThunk} from "../store";
 import axios from "axios";
 import dotenv from "dotenv";
+import { getUTUApiAccessToken } from "./wallet";
 dotenv.config();
 
 interface BalanceSliceState {
@@ -68,7 +68,7 @@ export const getUttBalance = (): AppThunk => async (dispatch, getState) => {
         const utu_api_token = await getUTUApiAccessToken();
 
         const result = await axios.get(
-            `${process.env.REACT_APP_API_BASE_URL}/balance/${address}`,
+            `${process.env.REACT_APP_API_TOKEN_LISTENER_URL}/balance/${address}`,
             {
                 headers: {
                     authorization: `Bearer ${utu_api_token}`,
@@ -92,7 +92,7 @@ export const getTotalYouStaked = (): AppThunk => async (dispatch, getState) => {
         const utu_api_token = await getUTUApiAccessToken();
 
         const result = await axios.get(
-            `${process.env.REACT_APP_API_BASE_URL}/total-staked-amount?target_address=${address}`,
+            `${process.env.REACT_APP_API_TOKEN_LISTENER_URL}/total-staked-amount?target_address=${address}`,
             {
                 headers: {
                     authorization: `Bearer ${utu_api_token}`,
@@ -117,7 +117,7 @@ export const getTotalStakedOnYou = (): AppThunk => async (dispatch, getState) =>
         const utu_api_token = await getUTUApiAccessToken();
 
         const result = await axios.get(
-            `${process.env.REACT_APP_API_BASE_URL}/total-staked-amount?source_address=${address}`,
+            `${process.env.REACT_APP_API_TOKEN_LISTENER_URL}/total-staked-amount?source_address=${address}`,
             {
                 headers: {
                     authorization: `Bearer ${utu_api_token}`,
