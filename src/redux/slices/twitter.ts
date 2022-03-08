@@ -124,6 +124,9 @@ export const connectTwitter =
       const oauth_token_secret = await localStorage.getItem(TWITTER_OATH_TOKEN);
       const utu_api_token = await getUTUApiAccessToken();
 
+      const newURL = window.location.href.split("?")[0];
+      window.history.pushState("object", document.title, newURL);
+
       const response = axios({
         url: `${process.env.REACT_APP_API_SOCIAL_CONNECTOR_URL}/connections/twitter`,
         method: "POST",
@@ -143,8 +146,6 @@ export const connectTwitter =
         "Twitter connection was successful!!",
         "Something went wrong connecting twitter, try again or contact tech support"
       );
-
-      // window.location.href ="/connect"
     }
   };
 
