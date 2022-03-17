@@ -48,7 +48,7 @@ const Connect = () => {
                              title="Twitter"
                              description="See your friends activities on UTU"
                              icon={twitter}
-                             actions={isConnected("Twitter") ?
+                             actions={isConnected("twitter") ?
                                  [<Label key="twitter-utt" title={`+50UTT`} theme="secondary"/>,
                                      <Label key="twitter-status" title="Connected" theme="basic"/>] : [<TwitterConnect key="twitter-connect"/>]}
                 />
@@ -57,7 +57,7 @@ const Connect = () => {
                              title="Telegram"
                              description="Earn up 0.01UTT for staying connected"
                              icon={telegram}
-                             actions={isConnected("Telegram") ?
+                             actions={isConnected("telegram") ?
                                  [<Label key="telegram-utt" title={`+50UTT`} theme="secondary"/>,
                                      <Label key="telegram-status" title="Connected" theme="basic"/>] : [<TelegramConnect key="telegram-connect"/>]}
                 />
