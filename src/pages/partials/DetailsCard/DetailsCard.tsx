@@ -30,9 +30,7 @@ const DetailsCard = ({icon, title, description, title_sub, actions, loading=fals
                     :
                     <div className="details-card">
                         <div className="description">
-                            <div className="icon">
-                                <img src={icon} alt="Avatar" height="50"/>
-                            </div>
+
 
                             <div className="details">
                                 <div className="title">

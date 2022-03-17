@@ -75,7 +75,6 @@ const Dashboard = () => {
                             <DetailsCard key={index}
                                          title={`${endorsement.source === address ? 'Endorsement issued' : 'Endorsement received'}`}
                                          description={`${endorsement.source === address ? 'You have issued an endorsement of value ' : 'You received an endorsement of value '} ${endorsement.value}`}
-                                         icon=""
                                          actions={[<Label key={index}
                                                           title={`${endorsement.source === address ? '- ' : '+ '} ${endorsement.value}` }
                                                           theme={`${endorsement.source === address ? 'danger' : 'success'}`}/>]}
