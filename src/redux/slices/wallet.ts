@@ -29,7 +29,6 @@ if (typeof window !== "undefined") {
   });
 }
 
-
 export interface WalletState {
   address?: string | null;
   chainId?: number | null;
@@ -41,7 +40,6 @@ const initialState: WalletState = {
   chainId: null,
   networkName: null,
 };
-
 
 export const walletSlice = createSlice({
   name: "wallet",
@@ -143,20 +141,18 @@ export const disconnectWallet = (): AppThunk => async (dispatch) => {
   if (provider?.disconnect && typeof provider.disconnect === "function") {
     await provider.disconnect();
   }
-
+  localStorage.removeItem(UTU_API_AUTH_TOKEN);
   dispatch(resetWeb3Provider());
 };
 
 export const connectApi = (): AppThunk => async (dispatch, getState) => {
-  return addressSignatureVerification(
-    process.env.REACT_APP_API_URL,
-  );
+  return addressSignatureVerification(process.env.REACT_APP_API_URL);
 };
 
 export const getUTUApiAccessToken = async () => {
   const utu_api_token = await localStorage.getItem(UTU_API_AUTH_TOKEN);
   if (!utu_api_token) return null;
-  const {access_token} = JSON.parse(utu_api_token);
+  const { access_token } = JSON.parse(utu_api_token);
   return access_token;
 };
 
