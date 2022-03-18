@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
     BrowserRouter as Router
 } from "react-router-dom";
@@ -11,7 +11,9 @@ import ConnectBanner from "./partials/ConnectBanner/ConnectBanner";
 
 const Pages = () => {
     const address = useAppSelector(selectAddress);
-
+    useEffect(() => {
+        document.title = 'Welcome | Utu Wallet';
+    });
     return (
         <Router>
             <Layout>
