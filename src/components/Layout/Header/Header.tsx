@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./header.scss";
 import logo from "../../../assets/images/utu-light-logo.svg";
-import avatar from "../../../assets/images/driver.png";
+import avatar from "../../../assets/images/profile.svg";
 import UserAvatar from "./partials/UserAvatar/UserAvatar";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { connectWallet, disconnectWallet, initWallet, selectAddress, connectApi } from "../../../redux/slices/wallet";
