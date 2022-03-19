@@ -29,7 +29,7 @@ const Connect = () => {
     const connectionType = useSelector((state: RootState) => state.connectionStatus.connectionType);
 
     const isConnected = (social: string) => {
-        return connectionType.some((value: any) => value.type === social);
+        return connectionType.some((value: any) => value.type === social.toLowerCase());
     }
 
     return (
@@ -50,7 +50,8 @@ const Connect = () => {
                              icon={twitter}
                              actions={isConnected("twitter") ?
                                  [<Label key="twitter-utt" title={`+50UTT`} theme="secondary"/>,
-                                     <Label key="twitter-status" title="Connected" theme="basic"/>] : [<TwitterConnect key="twitter-connect"/>]}
+                                     <Label key="twitter-status" title="Connected" theme="basic"/>] : [<TwitterConnect
+                                     key="twitter-connect"/>]}
                 />
 
                 <DetailsCard key="telegram"
@@ -59,7 +60,8 @@ const Connect = () => {
                              icon={telegram}
                              actions={isConnected("telegram") ?
                                  [<Label key="telegram-utt" title={`+50UTT`} theme="secondary"/>,
-                                     <Label key="telegram-status" title="Connected" theme="basic"/>] : [<TelegramConnect key="telegram-connect"/>]}
+                                     <Label key="telegram-status" title="Connected" theme="basic"/>] : [<TelegramConnect
+                                     key="telegram-connect"/>]}
                 />
 
 
