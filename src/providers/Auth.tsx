@@ -4,6 +4,7 @@ import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { apiRequest } from '../api';
 import { connectApi, getUTUApiAccessToken } from "../redux/slices/wallet";
+import Defer from 'lodash.defer';
 
 const AuthProvider = ({ children }: {
     children: any
@@ -20,30 +21,29 @@ const AuthProvider = ({ children }: {
             window.location.href = '/';
         }
     };
-
-    const checkIfAccessTokenExist = useCallback(async () => {
-        const accessToken = await getUTUApiAccessToken();
-        if (accessToken) return;
-        dispatch(connectApi());
-    }, [dispatch])
-
     const checkAccessTokenValidity = useCallback(async () => {
-        const accessToken = await getUTUApiAccessToken();
-        if (!accessToken) return;
         try {
             await apiRequest.get(`${process.env.REACT_APP_API_SOCIAL_CONNECTOR_URL}/status`);
         } catch (e: any) {
             if (e.response && e.response.status === 401) {
-                dispatch(connectApi());
+                console.log('401 error')
+                await dispatch(connectApi());
             }
         }
-    }, [dispatch])
+    }, [dispatch]);
+
+    const checkIfAccessTokenExist = useCallback(async () => {
+        const accessToken = await getUTUApiAccessToken();
+        if (accessToken) return checkAccessTokenValidity();
+        await dispatch(connectApi());
+    }, [dispatch, checkAccessTokenValidity])
+
+
 
     useEffect(() => {
         if (!address) return redirectToHome();
-        checkAccessTokenValidity();
-        checkIfAccessTokenExist();
-    }, [address]);
+        Defer(checkIfAccessTokenExist);
+    }, [address, checkIfAccessTokenExist]);
 
     return <>{children}</>;
 };

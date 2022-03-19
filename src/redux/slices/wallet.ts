@@ -141,7 +141,7 @@ export const disconnectWallet = (): AppThunk => async (dispatch) => {
   if (provider?.disconnect && typeof provider.disconnect === "function") {
     await provider.disconnect();
   }
-  localStorage.removeItem(UTU_API_AUTH_TOKEN);
+  await localStorage.removeItem(UTU_API_AUTH_TOKEN);
   dispatch(resetWeb3Provider());
 };
 
