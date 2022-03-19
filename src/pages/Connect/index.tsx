@@ -29,7 +29,7 @@ const Connect = () => {
     const connectionType = useSelector((state: RootState) => state.connectionStatus.connectionType);
 
     const isConnected = (social: string) => {
-        return connectionType.some((value: any) => value.type === social.toLowerCase());
+        return connectionType.some((value: any) => value.type.toLowerCase() === social.toLowerCase());
     }
 
     return (
