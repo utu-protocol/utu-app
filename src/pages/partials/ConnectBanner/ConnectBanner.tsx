@@ -9,7 +9,6 @@ const ConnectBanner = () => {
 
     const connect = async () => {
         await dispatch(connectWallet());
-        await dispatch(connectApi());
     };
 
     useEffect(() => {
