@@ -43,7 +43,7 @@ const TwitterConnect = () => {
 
     return (
         <Fragment>
-            <Button onButtonClick={() => setConnectModal(true)} title="Connect to earn 50 UTT" theme="primary"
+            <Button onButtonClick={() => setConnectModal(true)} title="Connect to earn 10,000 UTT" theme="primary"
                     key="twitter-connect"/>
 
             <Modal onClose={() => setConnectModal(false)} show={connectModal} style={{maxWidth: 500, minHeight: "60%"}}

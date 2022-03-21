@@ -8,6 +8,8 @@ import reportWebVitals from './reportWebVitals';
 import { store } from './redux/store';
 import { Provider } from 'react-redux';
 
+document.title = 'Welcome | Utu Wallet';
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>

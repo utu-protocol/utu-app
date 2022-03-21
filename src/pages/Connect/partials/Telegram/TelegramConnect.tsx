@@ -37,7 +37,7 @@ const TelegramConnect = () => {
         <Fragment>
             <Button
                 onButtonClick={() => setConnectModal(true)}
-                title="Connect to earn 50 UTT"
+                title="Connect to earn 10,000 UTT"
                 theme="primary"
                 key="twitter-connect"
             />
