@@ -15,7 +15,6 @@ const Header = () => {
 
     const connect = async () => {
         await dispatch(connectWallet());
-        await dispatch(connectApi());
     };
 
     const disconnect = async () => {
