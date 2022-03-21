@@ -2,9 +2,11 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { AppThunk, RootState } from "../store";
 import Web3Modal from "web3modal";
-import { providers } from "ethers";
+import { providers, utils } from "ethers";
 // @ts-ignore
 import { addressSignatureVerification } from "@ututrust/web-components";
+import { CHAIN_ID } from "../../config";
+import supportedChains from "../../lib/chains";
 
 const INFURA_ID = "460f40a260564ac4a4f4b3fffb032dad";
 export const UTU_API_AUTH_TOKEN = "utu-identity-data";
@@ -124,6 +126,7 @@ export const connectWallet = (): AppThunk => async (dispatch) => {
   const chainId = network.chainId;
 
   dispatch(subscribeProvider(provider));
+  await switchNetwork(chainId);
   // The value we return becomes the `fulfilled` action payload
   const data = {
     address,
@@ -147,6 +150,34 @@ export const disconnectWallet = (): AppThunk => async (dispatch) => {
 
 export const connectApi = (): AppThunk => async (dispatch, getState) => {
   return addressSignatureVerification(process.env.REACT_APP_API_URL);
+};
+
+const switchNetwork = async (chainId: string | number) => {
+  if (Number(chainId) === Number(CHAIN_ID)) return;
+  // @ts-ignore
+  const network = supportedChains.find(
+    (chain) => chain.chain_id === Number(CHAIN_ID)
+  );
+  if (!network) return;
+  await provider.request({
+    method: "wallet_addEthereumChain",
+    params: [
+      {
+        chainId: utils.hexStripZeros(utils.hexlify(network?.chain_id)),
+        chainName: network.name,
+        nativeCurrency: network.native_currency,
+        rpcUrls: [network.rpc_url],
+      },
+    ],
+  });
+  await provider.request({
+    method: "wallet_switchEthereumChain",
+    params: [
+      {
+        chainId: utils.hexStripZeros(utils.hexlify(network.chain_id)),
+      },
+    ],
+  });
 };
 
 export const getUTUApiAccessToken = async () => {
