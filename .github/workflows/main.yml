@@ -26,5 +26,5 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: yarn install
-    - run: react-scripts build
-    - run: react-scripts test
+    - run: npm run build
+    - run: npm test
