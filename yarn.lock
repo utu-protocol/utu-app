@@ -2516,10 +2516,10 @@
     "@typescript-eslint/types" "4.33.0"
     eslint-visitor-keys "^2.0.0"
 
-"@ututrust/web-components@^1.1.13":
-  version "1.1.13"
-  resolved "https://registry.yarnpkg.com/@ututrust/web-components/-/web-components-1.1.13.tgz#675782137b75d0d0fb5d4846e820d5cca41724df"
-  integrity sha512-6l5+jZJWpwtHZ3qgfcpK5bCqMgYfPS/z9TMESJkHNvfCuLL5B/9Lp9PYBcmr3hNeyAWFpo7pregqTVTyz6AzeQ==
+"@ututrust/web-components@^1.1.15":
+  version "1.1.15"
+  resolved "https://registry.yarnpkg.com/@ututrust/web-components/-/web-components-1.1.15.tgz#f6df8c5041c8f5ee5d2e1422aff44c6b4ab424ad"
+  integrity sha512-tIvRCetFWgLrQ2lxAP3uYIVlKC2WnszFGeTLsb0N9EzpANqHOaGVA4f5S5rOLSq1o8V+S+BwTau6VKmR8/A/IQ==
   dependencies:
     axios "^0.21.1"
     core-js "^3.8.3"
