@@ -22,6 +22,7 @@ const providerOptions = {
 
 let web3Modal: any;
 let provider: any;
+let currentChainId: number;
 
 if (typeof window !== "undefined") {
   web3Modal = new Web3Modal({
@@ -104,8 +105,9 @@ export const subscribeProvider =
       await dispatch(setAddress(accounts[0]));
     });
     provider.on("chainChanged", async (chainId: number) => {
+      currentChainId = chainId;
       await dispatch(setChainId(chainId));
-      const { name } = await new providers.Web3Provider(provider).getNetwork;
+      const { name } = await new providers.Web3Provider(provider).getNetwork();
       await dispatch(setNetworkName(name));
     });
   };
@@ -123,14 +125,13 @@ export const connectWallet = (): AppThunk => async (dispatch) => {
 
   const network = await web3Provider.getNetwork();
   const networkName = network.name;
-  const chainId = network.chainId;
+  currentChainId = network.chainId;
 
   dispatch(subscribeProvider(provider));
-  await switchNetwork(chainId);
   // The value we return becomes the `fulfilled` action payload
   const data = {
     address,
-    chainId,
+    chainId: currentChainId,
     networkName,
   };
   dispatch(setWeb3Provider(data));
@@ -139,6 +140,7 @@ export const connectWallet = (): AppThunk => async (dispatch) => {
 };
 
 export const disconnectWallet = (): AppThunk => async (dispatch) => {
+  console.log('disconnect wallet');
   const provider = await web3Modal.cachedProvider;
   await web3Modal.clearCachedProvider();
   if (provider?.disconnect && typeof provider.disconnect === "function") {
@@ -153,32 +155,45 @@ export const connectApi = (): AppThunk => async (dispatch, getState) => {
   return window.location.reload();
 };
 
-const switchNetwork = async (chainId: string | number) => {
-  if (Number(chainId) === Number(CHAIN_ID)) return;
+export const switchNetwork = async () => {
+  if (Number(currentChainId) === Number(CHAIN_ID)) return;
   // @ts-ignore
   const network = supportedChains.find(
     (chain) => chain.chain_id === Number(CHAIN_ID)
   );
   if (!network) return;
-  await provider.request({
-    method: "wallet_addEthereumChain",
-    params: [
-      {
-        chainId: utils.hexStripZeros(utils.hexlify(network?.chain_id)),
-        chainName: network.name,
-        nativeCurrency: network.native_currency,
-        rpcUrls: [network.rpc_url],
-      },
-    ],
-  });
-  await provider.request({
-    method: "wallet_switchEthereumChain",
-    params: [
-      {
-        chainId: utils.hexStripZeros(utils.hexlify(network.chain_id)),
-      },
-    ],
-  });
+  try {
+    await provider.request({
+      method: 'wallet_switchEthereumChain',
+      params: [
+        {
+          chainId: utils.hexStripZeros(utils.hexlify(network.chain_id)),
+        },
+      ],
+    })
+  } catch (e: any) {
+    if (e.code === 4902) {
+      await provider.request({
+        method: 'wallet_addEthereumChain',
+        params: [
+          {
+            chainId: utils.hexStripZeros(utils.hexlify(network?.chain_id)),
+            chainName: network.name,
+            nativeCurrency: network.native_currency,
+            rpcUrls: [network.rpc_url],
+          },
+        ],
+      })
+      await provider.request({
+        method: 'wallet_switchEthereumChain',
+        params: [
+          {
+            chainId: utils.hexStripZeros(utils.hexlify(network.chain_id)),
+          },
+        ],
+      })
+    }
+  }
 };
 
 export const getUTUApiAccessToken = async () => {

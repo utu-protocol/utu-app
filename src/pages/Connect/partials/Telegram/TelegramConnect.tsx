@@ -1,16 +1,17 @@
-import React, {Fragment, useState} from "react";
+import React, { Fragment, useState } from "react";
 import Button from "../../../../components/Button";
 import Modal from "../../../../components/Modal/Modal";
 import ConnectHelper from "../ConnectHelper/ConnectHelper";
 import telegram from "../../../../assets/images/telegram.svg";
 
 import "./TelegramConnect.scss";
-import {useAppDispatch} from "../../../../redux/hooks";
-import {requestCode, sendToken} from "../../../../redux/slices/telegram";
-import {useSelector} from "react-redux";
-import {RootState} from "../../../../redux/store";
+import { useAppDispatch } from "../../../../redux/hooks";
+import { requestCode, sendToken } from "../../../../redux/slices/telegram";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../redux/store";
 import Checkmark from "../../../../components/Checkmark/Checkmark";
 import UtuButton from "../../../../components/Button/UtuButton";
+import { switchNetwork } from "../../../../redux/slices/wallet";
 
 const TelegramConnect = () => {
     const [connectModal, setConnectModal] = useState(false);
@@ -24,7 +25,7 @@ const TelegramConnect = () => {
     const submittingPhone: any = useSelector((state: RootState) => state.telegram.submittingPhone);
 
     const requestPhoneCode = async () => {
-        dispatch(requestCode({phone: phoneNumber}));
+        dispatch(requestCode({ phone: phoneNumber }));
     };
 
     const submitCode = () => {
@@ -33,10 +34,15 @@ const TelegramConnect = () => {
         }));
     }
 
+    const connect = async () => {
+        await switchNetwork();
+        setConnectModal(true)
+    }
+
     return (
         <Fragment>
             <Button
-                onButtonClick={() => setConnectModal(true)}
+                onButtonClick={() => connect()}
                 title="Connect to earn 10,000 UTT"
                 theme="primary"
                 key="twitter-connect"
@@ -47,7 +53,7 @@ const TelegramConnect = () => {
                 closeIcon={true}
                 onClose={() => setConnectModal(false)}
                 show={connectModal}
-                style={{maxWidth: 500, minHeight: "60%"}}
+                style={{ maxWidth: 500, minHeight: "60%" }}
             >
                 <ConnectHelper
                     icon={telegram}
@@ -57,7 +63,7 @@ const TelegramConnect = () => {
                 {
                     codeSent ?
                         <div className="telegram-success">
-                            <Checkmark/>
+                            <Checkmark />
                         </div>
                         :
                         <div>
@@ -68,7 +74,7 @@ const TelegramConnect = () => {
                                 value={phoneNumber}
                                 onChange={(e) => setPhoneNumber(e.target.value)}
                             />
-                            <br/>
+                            <br />
 
                             {
                                 codeVisible &&
@@ -86,7 +92,7 @@ const TelegramConnect = () => {
                             <div className="telegram-actions">
                                 {
                                     codeVisible ?
-                                        <UtuButton title="Submit" onButtonClick={submitCode} loading={submittingCode}/>
+                                        <UtuButton title="Submit" onButtonClick={submitCode} loading={submittingCode} />
                                         :
                                         <UtuButton onButtonClick={requestPhoneCode} title="Next" loading={submittingPhone} />
                                 }
