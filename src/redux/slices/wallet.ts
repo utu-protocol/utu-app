@@ -149,7 +149,8 @@ export const disconnectWallet = (): AppThunk => async (dispatch) => {
 };
 
 export const connectApi = (): AppThunk => async (dispatch, getState) => {
-  return addressSignatureVerification(process.env.REACT_APP_API_URL);
+  await addressSignatureVerification(process.env.REACT_APP_API_URL);
+  return window.location.reload();
 };
 
 const switchNetwork = async (chainId: string | number) => {
