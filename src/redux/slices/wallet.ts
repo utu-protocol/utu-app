@@ -140,7 +140,7 @@ export const connectWallet = (): AppThunk => async (dispatch) => {
 };
 
 export const disconnectWallet = (): AppThunk => async (dispatch) => {
-  console.log('disconnect wallet');
+  console.log("disconnect wallet");
   const provider = await web3Modal.cachedProvider;
   await web3Modal.clearCachedProvider();
   if (provider?.disconnect && typeof provider.disconnect === "function") {
@@ -155,6 +155,31 @@ export const connectApi = (): AppThunk => async (dispatch, getState) => {
   return window.location.reload();
 };
 
+const requestNetworkChange = async (network: any) => {
+  await provider.request({
+    method: "wallet_switchEthereumChain",
+    params: [
+      {
+        chainId: utils.hexStripZeros(utils.hexlify(network.chain_id)),
+      },
+    ],
+  });
+};
+
+const addNetwork = async (network: any) => {
+  await provider.request({
+    method: "wallet_addEthereumChain",
+    params: [
+      {
+        chainId: utils.hexStripZeros(utils.hexlify(network?.chain_id)),
+        chainName: network.name,
+        nativeCurrency: network.native_currency,
+        rpcUrls: [network.rpc_url],
+      },
+    ],
+  });
+};
+
 export const switchNetwork = async () => {
   if (Number(currentChainId) === Number(CHAIN_ID)) return;
   // @ts-ignore
@@ -163,35 +188,11 @@ export const switchNetwork = async () => {
   );
   if (!network) return;
   try {
-    await provider.request({
-      method: 'wallet_switchEthereumChain',
-      params: [
-        {
-          chainId: utils.hexStripZeros(utils.hexlify(network.chain_id)),
-        },
-      ],
-    })
+    await requestNetworkChange(network);
   } catch (e: any) {
     if (e.code === 4902) {
-      await provider.request({
-        method: 'wallet_addEthereumChain',
-        params: [
-          {
-            chainId: utils.hexStripZeros(utils.hexlify(network?.chain_id)),
-            chainName: network.name,
-            nativeCurrency: network.native_currency,
-            rpcUrls: [network.rpc_url],
-          },
-        ],
-      })
-      await provider.request({
-        method: 'wallet_switchEthereumChain',
-        params: [
-          {
-            chainId: utils.hexStripZeros(utils.hexlify(network.chain_id)),
-          },
-        ],
-      })
+      await addNetwork(network);
+      await requestNetworkChange(network);
     }
   }
 };
