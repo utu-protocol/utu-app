@@ -4,6 +4,8 @@ This is the UTU App which allows users to connect their wallets, socual media an
 
 It is a React app and has the usual scripts.
 
+The repository name, "utu-wallet", is the historical name of this app. We called it "wallet" because it's the user's most direct way to interact with and review transactions on the UTU Trust Token contract. However, it is not a "wallet" in the usual blockchain account/key management sense, so we decided to rename the app to just "UTU App". Renaming this repository would require updating and re-deploying some dependencies, which is why we haven't done this yet; but we might.
+
 ## Available Scripts
 
 In the project directory, you can run:
