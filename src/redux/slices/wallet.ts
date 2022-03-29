@@ -181,7 +181,7 @@ const addNetwork = async (network: any) => {
 };
 
 export const switchNetwork = async () => {
-  if (Number(currentChainId) === Number(CHAIN_ID)) return;
+  if (Number(currentChainId) === Number(CHAIN_ID)) {return;}
   // @ts-ignore
   const network = supportedChains.find(
     (chain) => chain.chain_id === Number(CHAIN_ID)
