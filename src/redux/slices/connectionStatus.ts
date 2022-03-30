@@ -2,7 +2,8 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AppThunk} from "../store";
 import axios from "axios";
 import dotenv from "dotenv";
-import { getUTUApiAccessToken } from "./wallet";
+import {getUTUApiAccessToken} from "./wallet";
+
 dotenv.config();
 
 
@@ -24,7 +25,7 @@ export const connectionStatusSLice = createSlice({
         setConnectionStatus: (state, action: PayloadAction<any>) => {
             state.connectionType = action.payload;
         },
-        setConnectionTypeLoading: (state, action: PayloadAction<boolean>)=>{
+        setConnectionTypeLoading: (state, action: PayloadAction<boolean>) => {
             state.connectionTypeLoading = action.payload
         }
     }
@@ -34,7 +35,6 @@ export const {
     setConnectionStatus,
     setConnectionTypeLoading
 } = connectionStatusSLice.actions;
-
 
 
 export const connectionStatus = (): AppThunk => async (dispatch, getState) => {
