@@ -89,8 +89,9 @@ export const requestCode =
       notifier.success(message);
     } catch (e: any) {
       dispatch(setSubmittingPhone(false));
+      console.log(e.response.data.message)
       notifier.alert(
-          e.message ? e.message : "Error requesting telegram login code!"
+          e.response ? e.response?.data?.message.toString() : "Error requesting telegram login code!"
       );
     }
   };
@@ -127,7 +128,7 @@ export const sendToken =
       notifier.success(message);
     } catch (e: any) {
       dispatch(setSubmittingCode(false));
-      notifier.alert(e.message ? e.message : "Error submitting telegram login information!");
+      notifier.alert(e.response ? e.response?.data?.message.toString() : "Error submitting telegram login information!");
     }
   };
 

@@ -111,7 +111,7 @@ export const requestToken = (): AppThunk => async (dispatch) => {
     window.location.href = `https://api.twitter.com/oauth/authenticate?oauth_token=${oAuthToken}`;
   } catch (e: any) {
     dispatch(setLoadingToken(false));
-    notifier.alert(e.message ? e.message : "Error requesting token!");
+    notifier.alert(e.response ? e.response?.data?.message.toString() : "Error requesting twitter authentication token!");
   }
 };
 
@@ -146,7 +146,7 @@ export const connectTwitter =
             response,
             "Twitter connection was successful!!",
             (e: any) => {
-              return e.message ? e.message : "Something went wrong connecting twitter, try again or contact tech support"
+              return e.response ? e.response?.data?.message.toString() : "Something went wrong connecting twitter, try again or contact tech support"
             }
         );
       }
