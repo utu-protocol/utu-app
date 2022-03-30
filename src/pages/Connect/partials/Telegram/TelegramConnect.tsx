@@ -22,6 +22,7 @@ const TelegramConnect = () => {
     const codeSent = useSelector((state: RootState) => state.telegram.codeSent);
     const submittingCode: any = useSelector((state: RootState) => state.telegram.submittingCode);
     const submittingPhone: any = useSelector((state: RootState) => state.telegram.submittingPhone);
+    const loadingStatus: boolean = useSelector((state: RootState) => state.connectionStatus.connectionTypeLoading);
 
     const requestPhoneCode = async () => {
         dispatch(requestCode({phone: phoneNumber}));
@@ -35,12 +36,16 @@ const TelegramConnect = () => {
 
     return (
         <Fragment>
-            <Button
-                onButtonClick={() => setConnectModal(true)}
-                title="Connect to earn 10,000 UTT"
-                theme="primary"
-                key="twitter-connect"
-            />
+            {loadingStatus ?
+                <UtuButton onButtonClick={()=>{}} title="" loading={true}  theme="secondary" center key="spinner-btn"/>
+                :
+                <Button
+                    onButtonClick={() => setConnectModal(true)}
+                    title="Connect to earn 10,000 UTT"
+                    theme="primary"
+                    key="twitter-connect"
+                />
+            }
 
             <Modal
                 actions={false}
