@@ -4,7 +4,7 @@ import "./UtuButton.scss";
 interface ButtonProps {
     theme?: string,
     title: string,
-    onButtonClick: () => void,
+    onButtonClick?: () => void,
     loading?: boolean,
     center?: boolean
 }

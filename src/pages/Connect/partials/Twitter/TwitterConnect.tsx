@@ -44,7 +44,7 @@ const TwitterConnect = () => {
     return (
         <Fragment>
             {loadingStatus ?
-                <UtuButton onButtonClick={()=>{}} title="" loading={true}  theme="secondary" center key="spinner-btn"/>
+                <UtuButton title="" loading={true} theme="secondary" center key="spinner-btn"/>
                 :
                 <Button onButtonClick={() => setConnectModal(true)} title="Connect to earn 10,000 UTT" theme="primary"
                         key="twitter-connect"/>

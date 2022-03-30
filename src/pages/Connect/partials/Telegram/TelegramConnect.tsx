@@ -37,7 +37,7 @@ const TelegramConnect = () => {
     return (
         <Fragment>
             {loadingStatus ?
-                <UtuButton onButtonClick={()=>{}} title="" loading={true}  theme="secondary" center key="spinner-btn"/>
+                <UtuButton title="" loading={true} theme="secondary" center key="spinner-btn"/>
                 :
                 <Button
                     onButtonClick={() => setConnectModal(true)}
@@ -97,7 +97,8 @@ const TelegramConnect = () => {
                                     codeVisible ?
                                         <UtuButton title="Submit" onButtonClick={submitCode} loading={submittingCode}/>
                                         :
-                                        <UtuButton onButtonClick={requestPhoneCode} title="Next" loading={submittingPhone} />
+                                        <UtuButton onButtonClick={requestPhoneCode} title="Next"
+                                                   loading={submittingPhone}/>
                                 }
                             </div>
 
