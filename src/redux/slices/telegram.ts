@@ -87,10 +87,11 @@ export const requestCode =
       dispatch(setSubmittingPhone(false));
 
       notifier.success(message);
-    } catch (e) {
+    } catch (e: any) {
       dispatch(setSubmittingPhone(false));
-      console.log(e);
-      notifier.alert("Error requesting telegram login code!");
+      notifier.alert(
+          e.message ? e.message : "Error requesting telegram login code!"
+      );
     }
   };
 
