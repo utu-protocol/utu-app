@@ -96,7 +96,7 @@ export const requestCode =
           const {statusCode, message} = e.response.data
           if (statusCode === 420){
             const seconds = message.split(" ")[3];
-            const time = moment().add(seconds, 'seconds').calendar();
+            const time = moment().add(seconds, "seconds").calendar();
 
             return notifier.alert(`There’s a Telegram connection rate limit active, please wait ${seconds} seconds (${time}) before trying again with this phone number.`);
           }
