@@ -3,6 +3,7 @@ import { AppThunk, RootState } from "../store";
 import axios from "axios";
 import { getUTUApiAccessToken } from "./wallet";
 import { notifier } from "../../components/Notification/notify";
+import {connectionStatus} from "./connectionStatus";
 
 const TWITTER_OATH_TOKEN = "TWITTER_OATH_TOKEN";
 require("dotenv").config();
@@ -142,9 +143,13 @@ export const connectTwitter =
           },
         });
 
+
         await notifier.asyncBlock(
             response,
-            "Twitter connection was successful!!",
+            ()=>{
+              dispatch(connectionStatus());
+              return "Twitter connection was successful!!"
+            },
             (e: any) => {
               return e.response ? e.response?.data?.message.toString() : "Something went wrong connecting twitter, try again or contact tech support"
             }

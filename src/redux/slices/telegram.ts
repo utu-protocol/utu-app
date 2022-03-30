@@ -5,8 +5,8 @@ import dotenv from "dotenv";
 import axios from "axios";
 import { getUTUApiAccessToken } from "./wallet";
 import { notifier } from "../../components/Notification/notify";
-import {secondsToHms} from "../../lib/utilities";
 import moment from "moment";
+import {connectionStatus} from "./connectionStatus";
 
 dotenv.config();
 
@@ -134,7 +134,7 @@ export const sendToken =
       const { message } = response.data;
       dispatch(setTokenSent(true));
       dispatch(setSubmittingCode(false));
-
+      dispatch(connectionStatus());
       notifier.success(message);
     } catch (e: any) {
       dispatch(setSubmittingCode(false));

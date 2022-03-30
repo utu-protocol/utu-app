@@ -31,7 +31,6 @@ const TwitterConnect = () => {
             try {
                 dispatch(connectTwitter({oauth_token, oauth_verifier, oauth_token_secret}))
             } catch (error) {
-                console.error(error);
                 notifier.alert("An Error connecting twitter")
             }
         }
