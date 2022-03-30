@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import axios from "axios";
 import { getUTUApiAccessToken } from "./wallet";
 import { notifier } from "../../components/Notification/notify";
+import {secondsToHms} from "../../lib/utilities";
 
 dotenv.config();
 
@@ -89,10 +90,18 @@ export const requestCode =
       notifier.success(message);
     } catch (e: any) {
       dispatch(setSubmittingPhone(false));
-      console.log(e.response.data.message)
-      notifier.alert(
-          e.response ? e.response?.data?.message.toString() : "Error requesting telegram login code!"
-      );
+
+      if (e.response){
+          const {statusCode, message} = e.response.data
+          if (statusCode === 420){
+            const seconds = message.split(" ")[3];
+            const time = secondsToHms(seconds);
+
+            return notifier.alert(`There’s a Telegram connection rate limit active, please wait ${seconds} seconds (${time}) before trying again with this phone number.`);
+          }
+        return  notifier.alert(message.toString());
+      }
+      notifier.alert("Error requesting telegram login code!");
     }
   };
 
