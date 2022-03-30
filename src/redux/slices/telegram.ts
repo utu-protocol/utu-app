@@ -125,14 +125,11 @@ export const sendToken =
       dispatch(setSubmittingCode(false));
 
       notifier.success(message);
-    } catch (e) {
+    } catch (e: any) {
       dispatch(setSubmittingCode(false));
-      console.log(e);
-      notifier.alert("Error submitting telegram login information!");
+      notifier.alert(e.message ? e.message : "Error submitting telegram login information!");
     }
   };
 
 export default telegramSLice.reducer;
 
-//https://stage-api.ututrust.com/token-listener/connections
-//https://stage-api.ututrust.com/token-listener/balance/0xc8c745De6a84DFF8E604c1fD4BE18baDd8433135

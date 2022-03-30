@@ -109,9 +109,9 @@ export const requestToken = (): AppThunk => async (dispatch) => {
     dispatch(setLoadingToken(false));
     //Oauth Step 2
     window.location.href = `https://api.twitter.com/oauth/authenticate?oauth_token=${oAuthToken}`;
-  } catch (e) {
+  } catch (e: any) {
     dispatch(setLoadingToken(false));
-    notifier.alert("Error requesting token!");
+    notifier.alert(e.message ? e.message : "Error requesting token!");
   }
 };
 
@@ -120,32 +120,36 @@ export const connectTwitter =
   async (dispatch, getState) => {
     const { address } = getState().wallet;
 
-    if (oauth_token && oauth_verifier && address) {
-      const oauth_token_secret = await localStorage.getItem(TWITTER_OATH_TOKEN);
-      const utu_api_token = await getUTUApiAccessToken();
+    if (oauth_token && oauth_verifier) {
+      if (address) {
+        const oauth_token_secret = await localStorage.getItem(TWITTER_OATH_TOKEN);
+        const utu_api_token = await getUTUApiAccessToken();
 
-      const newURL = window.location.href.split("?")[0];
-      window.history.pushState("object", document.title, newURL);
+        const newURL = window.location.href.split("?")[0];
+        window.history.pushState("object", document.title, newURL);
 
-      const response = axios({
-        url: `${process.env.REACT_APP_API_SOCIAL_CONNECTOR_URL}/connections/twitter`,
-        method: "POST",
-        data: {
-          address,
-          oauth_token,
-          oauth_token_secret,
-          oauth_verifier,
-        },
-        headers: {
-          authorization: `Bearer ${utu_api_token}`,
-        },
-      });
+        const response = axios({
+          url: `${process.env.REACT_APP_API_SOCIAL_CONNECTOR_URL}/connections/twitter`,
+          method: "POST",
+          data: {
+            address,
+            oauth_token,
+            oauth_token_secret,
+            oauth_verifier,
+          },
+          headers: {
+            authorization: `Bearer ${utu_api_token}`,
+          },
+        });
 
-      await notifier.asyncBlock(
-        response,
-        "Twitter connection was successful!!",
-        "Something went wrong connecting twitter, try again or contact tech support"
-      );
+        await notifier.asyncBlock(
+            response,
+            "Twitter connection was successful!!",
+            (e: any) => {
+              return e.message ? e.message : "Something went wrong connecting twitter, try again or contact tech support"
+            }
+        );
+      }
     }
   };
 
