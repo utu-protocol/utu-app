@@ -5,10 +5,10 @@ import ConnectHelper from "../ConnectHelper/ConnectHelper";
 import telegram from "../../../../assets/images/telegram.svg";
 
 import "./TelegramConnect.scss";
-import { useAppDispatch } from "../../../../redux/hooks";
-import { requestCode, sendToken } from "../../../../redux/slices/telegram";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../redux/store";
+import {useAppDispatch} from "../../../../redux/hooks";
+import {requestCode, sendToken} from "../../../../redux/slices/telegram";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../../redux/store";
 import Checkmark from "../../../../components/Checkmark/Checkmark";
 import UtuButton from "../../../../components/Button/UtuButton";
 import { switchNetwork } from "../../../../redux/slices/wallet";
@@ -25,7 +25,7 @@ const TelegramConnect = () => {
     const submittingPhone: any = useSelector((state: RootState) => state.telegram.submittingPhone);
 
     const requestPhoneCode = async () => {
-        dispatch(requestCode({ phone: phoneNumber }));
+        dispatch(requestCode({phone: phoneNumber}));
     };
 
     const submitCode = () => {

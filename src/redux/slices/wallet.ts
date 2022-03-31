@@ -5,8 +5,9 @@ import Web3Modal from "web3modal";
 import { providers, utils } from "ethers";
 // @ts-ignore
 import { addressSignatureVerification } from "@ututrust/web-components";
-import { CHAIN_ID } from "../../config";
+import { CHAIN_ID, UNKNOWN_NETWORK_ERROR_CODE } from "../../config";
 import supportedChains from "../../lib/chains";
+
 
 const INFURA_ID = "460f40a260564ac4a4f4b3fffb032dad";
 export const UTU_API_AUTH_TOKEN = "utu-identity-data";
@@ -190,7 +191,7 @@ export const switchNetwork = async () => {
   try {
     await requestNetworkChange(network);
   } catch (e: any) {
-    if (e.code === 4902) {
+    if (e.code === UNKNOWN_NETWORK_ERROR_CODE) {
       await addNetwork(network);
       await requestNetworkChange(network);
     }
