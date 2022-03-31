@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, {Fragment, useState} from "react";
 import Button from "../../../../components/Button";
 import Modal from "../../../../components/Modal/Modal";
 import ConnectHelper from "../ConnectHelper/ConnectHelper";
@@ -62,7 +62,7 @@ const TelegramConnect = () => {
                     dispatch(setTokenSent(false))
                 }}
                 show={connectModal}
-                style={{ maxWidth: 500, minHeight: "60%" }}
+                style={{maxWidth: 500, minHeight: "60%"}}
             >
                 <ConnectHelper
                     icon={telegram}
@@ -72,7 +72,7 @@ const TelegramConnect = () => {
                 {
                     codeSent ?
                         <div className="telegram-success">
-                            <Checkmark />
+                            <Checkmark/>
                         </div>
                         :
                         <div>
@@ -83,7 +83,7 @@ const TelegramConnect = () => {
                                 value={phoneNumber}
                                 onChange={(e) => setPhoneNumber(e.target.value)}
                             />
-                            <br />
+                            <br/>
 
                             {
                                 codeVisible &&
@@ -101,7 +101,7 @@ const TelegramConnect = () => {
                             <div className="telegram-actions">
                                 {
                                     codeVisible ?
-                                        <UtuButton title="Submit" onButtonClick={submitCode} loading={submittingCode} />
+                                        <UtuButton title="Submit" onButtonClick={submitCode} loading={submittingCode}/>
                                         :
                                         <UtuButton onButtonClick={requestPhoneCode} title="Next"
                                                    loading={submittingPhone}/>

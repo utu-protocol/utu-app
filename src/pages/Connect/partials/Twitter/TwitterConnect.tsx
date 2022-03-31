@@ -27,10 +27,10 @@ const TwitterConnect = () => {
     };
 
     const fetchAccessToken = useCallback(() => {
-        const { oauth_token, oauth_verifier } = queryString.parse(window.location.search);
+        const {oauth_token, oauth_verifier} = queryString.parse(window.location.search);
         if (oauth_token && oauth_verifier && address) {
             try {
-                dispatch(connectTwitter({ oauth_token, oauth_verifier, oauth_token_secret }))
+                dispatch(connectTwitter({oauth_token, oauth_verifier, oauth_token_secret}))
             } catch (error) {
                 notifier.alert("An Error connecting twitter")
             }
