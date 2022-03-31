@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useEffect, useState } from "react";
+import React, {Fragment, useCallback, useEffect, useState} from "react";
 import Button from "../../../../components/Button";
 import Modal from "../../../../components/Modal/Modal";
 import twitter from "../../../../assets/images/twitter.svg"
@@ -8,11 +8,11 @@ import UtuButton from "../../../../components/Button/UtuButton";
 import "./TwitterConnection.scss";
 import ConnectHelper from "../ConnectHelper/ConnectHelper";
 import queryString from 'query-string';
-import { selectAddress, switchNetwork } from "../../../../redux/slices/wallet";
-import { notifier } from "../../../../components/Notification/notify";
+import {selectAddress, switchNetwork} from "../../../../redux/slices/wallet";
+import {notifier} from "../../../../components/Notification/notify";
 import Spinner from "../../../../components/Spinner/Spinner";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../redux/store";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../../redux/store";
 
 const TwitterConnect = () => {
     const [connectModal, setConnectModal] = useState(false);
@@ -52,17 +52,17 @@ const TwitterConnect = () => {
                 <UtuButton title="" loading={true} theme="secondary" center key="spinner-btn"/>
                 :
                 <Button onButtonClick={() => connect()} title="Connect to earn 10,000 UTT" theme="primary"
-                        key="twitter-connect"/>
+                key="twitter-connect"/>
             }
 
 
-            <Modal onClose={() => setConnectModal(false)} show={connectModal} style={{ maxWidth: 500, minHeight: "60%" }}
-                onAction={() => submitRequest()}>
-                <ConnectHelper icon={twitter} title="Allow Access" description="You are about to grant access to UTU" />
+            <Modal onClose={() => setConnectModal(false)} show={connectModal} style={{maxWidth: 500, minHeight: "60%"}}
+                   onAction={() => submitRequest()}>
+                <ConnectHelper icon={twitter} title="Allow Access" description="You are about to grant access to UTU"/>
                 {
                     loadingToken &&
                     <div className="twitter-spinner">
-                        <Spinner />
+                        <Spinner/>
                     </div>
                 }
 
