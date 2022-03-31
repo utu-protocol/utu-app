@@ -11,6 +11,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../../redux/store";
 import Checkmark from "../../../../components/Checkmark/Checkmark";
 import UtuButton from "../../../../components/Button/UtuButton";
+import { switchNetwork } from "../../../../redux/slices/wallet";
 
 const TelegramConnect = () => {
     const [connectModal, setConnectModal] = useState(false);
@@ -34,13 +35,18 @@ const TelegramConnect = () => {
         }));
     }
 
+    const connect = async () => {
+        await switchNetwork();
+        setConnectModal(true)
+    }
+
     return (
         <Fragment>
             {loadingStatus ?
                 <UtuButton title="" loading={true} theme="secondary" center key="spinner-btn"/>
                 :
                 <Button
-                    onButtonClick={() => setConnectModal(true)}
+                    onButtonClick={() => connect()}
                     title="Connect to earn 10,000 UTT"
                     theme="primary"
                     key="twitter-connect"

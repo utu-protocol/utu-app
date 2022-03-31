@@ -15,11 +15,11 @@ const AuthProvider = ({ children }: {
     )
 
     const redirectToHome = () => {
-        if (
-            window.location.pathname !== '/'
-        ) {
-            window.location.href = '/';
-        }
+        // if (
+        //     window.location.pathname !== '/'
+        // ) {
+        //     window.location.href = '/';
+        // }
     };
     const checkAccessTokenValidity = useCallback(async () => {
         try {

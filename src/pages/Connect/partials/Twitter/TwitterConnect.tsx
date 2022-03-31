@@ -8,7 +8,7 @@ import UtuButton from "../../../../components/Button/UtuButton";
 import "./TwitterConnection.scss";
 import ConnectHelper from "../ConnectHelper/ConnectHelper";
 import queryString from 'query-string';
-import {selectAddress} from "../../../../redux/slices/wallet";
+import {selectAddress, switchNetwork} from "../../../../redux/slices/wallet";
 import {notifier} from "../../../../components/Notification/notify";
 import Spinner from "../../../../components/Spinner/Spinner";
 import {useSelector} from "react-redux";
@@ -41,13 +41,18 @@ const TwitterConnect = () => {
         fetchAccessToken()
     }, [fetchAccessToken]);
 
+    const connect = async () => {
+        await switchNetwork();
+        setConnectModal(true)
+    }
+
     return (
         <Fragment>
             {loadingStatus ?
                 <UtuButton title="" loading={true} theme="secondary" center key="spinner-btn"/>
                 :
-                <Button onButtonClick={() => setConnectModal(true)} title="Connect to earn 10,000 UTT" theme="primary"
-                        key="twitter-connect"/>
+                <Button onButtonClick={() => connect()} title="Connect to earn 10,000 UTT" theme="primary"
+                key="twitter-connect"/>
             }
 
 
