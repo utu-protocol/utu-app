@@ -15,7 +15,7 @@ const UtuButton = ({theme, title, onButtonClick, loading = false, center = true}
         return;
     }
     return (
-        <button className={`utu-btn ${theme} ${center ? 'btn-center ' : ''} `}
+        <button className={`utu-btn ${theme} ${center ? "btn-center " : ''} `}
                 onClick={loading ? handler : onButtonClick}
                 disabled={loading}>
             {loading ?
