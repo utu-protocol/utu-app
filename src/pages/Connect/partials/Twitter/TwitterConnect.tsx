@@ -2,9 +2,9 @@ import React, { Fragment, useCallback, useEffect, useState } from "react";
 import Button from "../../../../components/Button";
 import Modal from "../../../../components/Modal/Modal";
 import twitter from "../../../../assets/images/twitter.svg"
-import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
-import { connectTwitter, requestToken, selectSecret } from "../../../../redux/slices/twitter";
-
+import {useAppDispatch, useAppSelector} from "../../../../redux/hooks";
+import {connectTwitter, requestToken, selectSecret} from "../../../../redux/slices/twitter";
+import UtuButton from "../../../../components/Button/UtuButton";
 import "./TwitterConnection.scss";
 import ConnectHelper from "../ConnectHelper/ConnectHelper";
 import queryString from 'query-string';
@@ -20,6 +20,7 @@ const TwitterConnect = () => {
     const oauth_token_secret = useAppSelector(selectSecret);
     const address = useAppSelector(selectAddress);
     const loadingToken: boolean = useSelector((state: RootState) => state.twitter.loadingToken);
+    const loadingStatus: boolean = useSelector((state: RootState) => state.connectionStatus.connectionTypeLoading);
 
     const submitRequest = async () => {
         dispatch(requestToken())
@@ -31,7 +32,6 @@ const TwitterConnect = () => {
             try {
                 dispatch(connectTwitter({ oauth_token, oauth_verifier, oauth_token_secret }))
             } catch (error) {
-                console.error(error);
                 notifier.alert("An Error connecting twitter")
             }
         }
@@ -48,8 +48,13 @@ const TwitterConnect = () => {
 
     return (
         <Fragment>
-            <Button onButtonClick={() => connect()} title="Connect to earn 10,000 UTT" theme="primary"
-                key="twitter-connect" />
+            {loadingStatus ?
+                <UtuButton title="" loading={true} theme="secondary" center key="spinner-btn"/>
+                :
+                <Button onButtonClick={() => connect()} title="Connect to earn 10,000 UTT" theme="primary"
+                        key="twitter-connect"/>
+            }
+
 
             <Modal onClose={() => setConnectModal(false)} show={connectModal} style={{ maxWidth: 500, minHeight: "60%" }}
                 onAction={() => submitRequest()}>
