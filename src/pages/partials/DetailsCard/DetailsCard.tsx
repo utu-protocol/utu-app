@@ -10,17 +10,17 @@ interface detailsCardProp {
     loading?: boolean
 }
 
-const DetailsCard = ({icon, title, description, title_sub, actions, loading=false}: detailsCardProp) => {
+const DetailsCard = ({icon, title, description, title_sub, actions, loading = false}: detailsCardProp) => {
     return (
         <Fragment>
             {
                 loading ?
                     <div className="details-card details-card__loading">
                         <div className="description">
-                            <div className="icon skeleton" />
+                            <div className="icon skeleton"/>
 
                             <div className="details">
-                                <div className="title skeleton" />
+                                <div className="title skeleton"/>
                                 <div className="information skeleton"/>
                             </div>
                         </div>
@@ -30,7 +30,12 @@ const DetailsCard = ({icon, title, description, title_sub, actions, loading=fals
                     :
                     <div className="details-card">
                         <div className="description">
-
+                            {
+                                icon &&
+                                <div className="icon">
+                                    <img src={icon} alt="Avatar" height="50"/>
+                                </div>
+                            }
 
                             <div className="details">
                                 <div className="title">

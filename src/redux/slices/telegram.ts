@@ -5,6 +5,8 @@ import dotenv from "dotenv";
 import axios from "axios";
 import { getUTUApiAccessToken } from "./wallet";
 import { notifier } from "../../components/Notification/notify";
+import moment from "moment";
+import {connectionStatus} from "./connectionStatus";
 
 dotenv.config();
 
@@ -87,9 +89,19 @@ export const requestCode =
       dispatch(setSubmittingPhone(false));
 
       notifier.success(message);
-    } catch (e) {
+    } catch (e: any) {
       dispatch(setSubmittingPhone(false));
-      console.log(e);
+
+      if (e.response){
+          const {statusCode, message} = e.response.data
+          if (statusCode === 420){
+            const seconds = message.split(" ")[3];
+            const time = moment().add(seconds, "seconds").calendar();
+
+            return notifier.alert(`There’s a Telegram connection rate limit active, please wait ${seconds} seconds (${time}) before trying again with this phone number.`);
+          }
+        return  notifier.alert(message.toString());
+      }
       notifier.alert("Error requesting telegram login code!");
     }
   };
@@ -122,16 +134,13 @@ export const sendToken =
       const { message } = response.data;
       dispatch(setTokenSent(true));
       dispatch(setSubmittingCode(false));
-
+      dispatch(connectionStatus());
       notifier.success(message);
-    } catch (e) {
+    } catch (e: any) {
       dispatch(setSubmittingCode(false));
-      console.log(e);
-      notifier.alert("Error submitting telegram login information!");
+      notifier.alert(e.response ? e.response?.data?.message.toString() : "Error submitting telegram login information!");
     }
   };
 
 export default telegramSLice.reducer;
 
-//https://stage-api.ututrust.com/token-listener/connections
-//https://stage-api.ututrust.com/token-listener/balance/0xc8c745De6a84DFF8E604c1fD4BE18baDd8433135
