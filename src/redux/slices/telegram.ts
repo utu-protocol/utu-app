@@ -6,7 +6,7 @@ import axios from "axios";
 import { getUTUApiAccessToken } from "./wallet";
 import { notifier } from "../../components/Notification/notify";
 import moment from "moment";
-import {connectionStatus} from "./connectionStatus";
+import { connectionStatus } from "./connectionStatus";
 
 dotenv.config();
 
@@ -15,6 +15,7 @@ interface TelegramSliceState {
   phone_number: string | null;
   codeSent: boolean;
   showCode: boolean;
+  showPasswordField: boolean;
   submittingCode: boolean;
   submittingPhone: boolean;
 }
@@ -23,6 +24,7 @@ const initialState: TelegramSliceState = {
   phoneCodeHash: null,
   phone_number: null,
   showCode: false,
+  showPasswordField: false,
   codeSent: false,
   submittingCode: false,
   submittingPhone: false,
@@ -40,6 +42,9 @@ export const telegramSLice = createSlice({
     },
     setShowCode: (state, action: PayloadAction<boolean>) => {
       state.showCode = action.payload;
+    },
+    setShowPasswordField: (state, action: PayloadAction<boolean>) => {
+      state.showPasswordField = action.payload;
     },
     setTokenSent: (state, action: PayloadAction<boolean>) => {
       state.codeSent = action.payload;
@@ -60,6 +65,7 @@ export const {
   setShowCode,
   setSubmittingCode,
   setSubmittingPhone,
+  setShowPasswordField,
 } = telegramSLice.actions;
 
 export const requestCode =
@@ -92,22 +98,24 @@ export const requestCode =
     } catch (e: any) {
       dispatch(setSubmittingPhone(false));
 
-      if (e.response){
-          const {statusCode, message} = e.response.data
-          if (statusCode === 420){
-            const seconds = message.split(" ")[3];
-            const time = moment().add(seconds, "seconds").calendar();
+      if (e.response) {
+        const { statusCode, message } = e.response.data;
+        if (statusCode === 420) {
+          const seconds = message.split(" ")[3];
+          const time = moment().add(seconds, "seconds").calendar();
 
-            return notifier.alert(`There’s a Telegram connection rate limit active, please wait ${seconds} seconds (${time}) before trying again with this phone number.`);
-          }
-        return  notifier.alert(message.toString());
+          return notifier.alert(
+            `There’s a Telegram connection rate limit active, please wait ${seconds} seconds (${time}) before trying again with this phone number.`
+          );
+        }
+        return notifier.alert(message.toString());
       }
       notifier.alert("Error requesting telegram login code!");
     }
   };
 
 export const sendToken =
-  ({ phone_code }: any): AppThunk =>
+  ({ phone_code, password }: any): AppThunk =>
   async (dispatch, getState) => {
     try {
       const { phoneCodeHash, phone_number } = getState().telegram;
@@ -124,6 +132,7 @@ export const sendToken =
           phone_code_hash: phoneCodeHash,
           phone_code,
           address,
+          password,
         },
         {
           headers: {
@@ -138,9 +147,24 @@ export const sendToken =
       notifier.success(message);
     } catch (e: any) {
       dispatch(setSubmittingCode(false));
-      notifier.alert(e.response ? e.response?.data?.message.toString() : "Error submitting telegram login information!");
+
+      if (
+        e.response &&
+        e.response?.data?.message.toString().includes("SESSION_PASSWORD_NEEDED")
+      ) {
+        dispatch(setShowPasswordField(true));
+        notifier.alert(
+          "Please provide your telegram Two-Step Verification password"
+        );
+        return;
+      }
+
+      notifier.alert(
+        e.response
+          ? e.response?.data?.message.toString()
+          : "Error submitting telegram login information!"
+      );
     }
   };
 
 export default telegramSLice.reducer;
-
