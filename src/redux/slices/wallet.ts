@@ -104,6 +104,8 @@ export const subscribeProvider =
         return dispatch(disconnectWallet());
       }
       await dispatch(setAddress(accounts[0]));
+      // await localStorage.removeItem(UTU_API_AUTH_TOKEN);
+      window.location.reload(); 
     });
     provider.on("chainChanged", async (chainId: number) => {
       currentChainId = chainId;

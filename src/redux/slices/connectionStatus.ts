@@ -54,6 +54,7 @@ export const connectionStatus = (): AppThunk => async (dispatch, getState) => {
         dispatch(setConnectionTypeLoading(false))
         dispatch(setConnectionStatus(result.data.connections));
     } catch (e) {
+        console.log(e);
         dispatch(setConnectionTypeLoading(false))
     }
 }
