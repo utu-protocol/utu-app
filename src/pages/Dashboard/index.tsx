@@ -8,6 +8,7 @@ import {RootState} from "../../redux/store";
 import {useAppDispatch} from "../../redux/hooks";
 import {getTotalStakedOnYou, getTotalYouStaked, getUttBalance} from "../../redux/slices/balance";
 import {getEndorsements} from "../../redux/slices/endorsement";
+import TutorialCard from "../Dashboard/partials/TutorialCard/TutorialCard"
 
 const Dashboard = () => {
     const {
@@ -57,13 +58,30 @@ const Dashboard = () => {
         document.title = 'Dashboard | Utu Wallet';
     });
 
+    const tutorialData = [
+        {
+            title: "Title goes here", 
+            button: "Close", 
+            text: "Select your next action by clicking next or back and it goes over here", 
+            back: "Back", 
+            next: "Next"
+        }
+    ]
+
     return (
         <div className="container-body">
-            <div className="cards-container">
-                {
-                    tokenData.map((data, key) => <TokenCard {...data} key={key}/>)
-                }
+            <div className="test">
+                    {
+                        tutorialData.map((data, key) => <TutorialCard {...data} key={key}/>)
+                    }
+                <div className="cards-container">
+                    {
+                        tokenData.map((data, key) => <TokenCard {...data} key={key}/>)
+                    }
             </div>
+
+            </div>
+
 
             <div className="details-cards">
                 <div className="details-cards--title">

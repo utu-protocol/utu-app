@@ -3,6 +3,7 @@ import Button from "../../../../components/Button";
 import Modal from "../../../../components/Modal/Modal";
 import ConnectHelper from "../ConnectHelper/ConnectHelper";
 import telegram from "../../../../assets/images/telegram.svg";
+import TutorialCard from "../../partials/TutorialCard/TutorialCard";
 
 import "./TelegramConnect.scss";
 import {useAppDispatch} from "../../../../redux/hooks";
@@ -33,13 +34,29 @@ const TelegramConnect = () => {
         }));
     }
 
+    const tutorialData = [
+        {
+            title: "Title goes here", 
+            button: "Close", 
+            text: "Select your next action by clicking next or back and it goes over here", 
+            back: "Back", 
+            next: "Next"
+        }
+    ]
+
     return (
         <Fragment>
-            <Button
+            <div className="test">
+               {
+                 tutorialData.map((data, key) => <TutorialCard {...data} key={key}/>)
+                }
+                 <Button
                 onButtonClick={() => setConnectModal(true)}
                 title="Connect to earn 10,000 UTT"
                 theme="primary"
                 key="twitter-connect"
+            
+
             />
 
             <Modal
@@ -96,6 +113,10 @@ const TelegramConnect = () => {
                 }
 
             </Modal>
+            
+            
+            </div>   
+           
         </Fragment>
     );
 };

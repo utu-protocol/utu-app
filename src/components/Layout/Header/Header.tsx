@@ -9,12 +9,15 @@ import { connectWallet, disconnectWallet, initWallet, selectAddress, connectApi 
 
 const Header = () => {
     const [responsive, setResponsive] = useState(false);
+    // const [walletConnected, setWalletConnected] = useState(false);
+
     const address = useAppSelector(selectAddress);
 
     const dispatch = useAppDispatch();
 
     const connect = async () => {
         await dispatch(connectWallet());
+        // await setWalletConnected(true)
     };
 
     const disconnect = async () => {
@@ -23,6 +26,7 @@ const Header = () => {
 
     useEffect(() => {
         dispatch(initWallet());
+        // setWalletConnected(false)
     }, [dispatch])
 
     return (
@@ -50,7 +54,7 @@ const Header = () => {
                         />
                     )}
                 </div>
-
+   
                 <div className="menu-item icon" onClick={() => setResponsive(!responsive)}>
                     <div>
                         &#9776;

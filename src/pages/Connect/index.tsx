@@ -1,5 +1,7 @@
 import React, {useEffect} from "react";
 import DetailsCard from "../partials/DetailsCard/DetailsCard";
+// import TokenCard from "../Dashboard/partials/TokenCard/TokenCard";
+import TutorialCard from "./partials/TutorialCard/TutorialCard";
 import twitter from "../../assets/images/twitter.svg";
 import Label from "../../components/Label/Label";
 
@@ -16,7 +18,24 @@ import {connectionStatus} from "../../redux/slices/connectionStatus"
 
 
 const Connect = () => {
+
+    const {
+        utt_balance,
+        balance_loading
+    } = useSelector((state: RootState) => state.balance);
+
     const dispatch = useAppDispatch();
+
+
+    const tutorialData = [
+        {
+            title: "Title goes here", 
+            button: "Close", 
+            text: "Select your next action by clicking next or back and it goes over here", 
+            back: "Back", 
+            next: "Next"
+        }
+    ]
 
     useEffect(() => {
         dispatch(connectionStatus());
@@ -27,6 +46,19 @@ const Connect = () => {
     });
 
     const connectionType = useSelector((state: RootState) => state.connectionStatus.connectionType);
+
+    const tutorialTelegram = () => {
+        return (
+            <div> 
+                {
+                 tutorialData.map((data, key) => <TutorialCard {...data} key={key}/>)
+                }                
+                <TelegramConnect key="telegram-connect"/>                    
+            </div>
+
+
+        )
+    }
 
     const isConnected = (social: string) => {
         return connectionType.some((value: any) => value.type.toLowerCase() === social.toLowerCase());
@@ -44,6 +76,7 @@ const Connect = () => {
                         memberships.
                     </p>
                 </div>
+                {/* twitter button to connect */}
                 <DetailsCard key="twitter"
                              title="Twitter"
                              description="See your friends activities on UTU"
@@ -53,7 +86,13 @@ const Connect = () => {
                                      <Label key="twitter-status" title="Connected" theme="basic"/>] : [<TwitterConnect
                                      key="twitter-connect"/>]}
                 />
+                               
 
+                {/* {
+                 tutorialData.map((data, key) => <TutorialCard {...data} key={key}/>)
+                } */}
+
+                {/* telegram button to connect */}
                 <DetailsCard key="telegram"
                              title="Telegram"
                              description="Earn up 0.01UTT for staying connected"
@@ -63,7 +102,7 @@ const Connect = () => {
                                      <Label key="telegram-status" title="Connected" theme="basic"/>] : [<TelegramConnect
                                      key="telegram-connect"/>]}
                 />
-
+             
 
                 {/*<DetailsCard key="discord"*/}
                 {/*             title="Discord"*/}
