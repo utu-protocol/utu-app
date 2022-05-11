@@ -10,10 +10,9 @@
     border-radius: 10px;
     margin-right: 30px;
     margin-bottom: 15px;
-
     min-height: 72px;
     min-width: 10%;
-
+    position: relative;
     &:hover {
       opacity: .9;
     }

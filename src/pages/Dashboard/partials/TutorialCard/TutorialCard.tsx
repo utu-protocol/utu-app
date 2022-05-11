@@ -13,7 +13,7 @@ const TutorialCard = ({title, button, text, back, next}: tutorialCardProps) => {
         <Fragment> 
         
         <div className="tutorial-container">
-                    <div className="tutorial-card">
+                    <div className="tutorial-card-dashboard">
                         <div className="tutorial-card--card"> 
                             <div className="tutorial--title">
                                 <div>{title}</div>
@@ -32,7 +32,7 @@ const TutorialCard = ({title, button, text, back, next}: tutorialCardProps) => {
                         </div>
                        
 
-                        <div className="tooltiptail"></div>
+                        <div className="tooltiptail-dashboard"></div>
                     </div>
 
         </div>

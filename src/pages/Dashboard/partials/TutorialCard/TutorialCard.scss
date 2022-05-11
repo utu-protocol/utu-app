@@ -1,5 +1,5 @@
 .tutorial {
-    &-card {
+    &-card-dashboard {
      // min-height: 9rem;
      // min-width: 10%;
      width: 30rem;
@@ -59,7 +59,7 @@
     }
  }
  
- .tooltiptail {
+ .tooltiptail-dashboard {
      display: block;
      border-color:  #ffffff #fff6bc #ffffff #ffffff ;
      border-style: solid;
@@ -73,7 +73,7 @@
        flex-direction: row;
    }
  
-   .tutorial-card {
+   .tutorial-card-dashboard {
      display: flex;
      flex-direction: row-reverse;
      align-items: center;

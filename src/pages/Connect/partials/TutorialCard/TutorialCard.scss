@@ -1,5 +1,5 @@
 .tutorial {
-   &-card {
+   &-card-connect {
     // min-height: 9rem;
     // min-width: 10%;
     width: 30rem;
@@ -59,7 +59,7 @@
    }
 }
 
-.tooltiptail {
+.tooltiptail-connect {
     display: block;
     border-color: #ffffff #ffffff #ffffff #fff6bc;
     border-style: solid;
@@ -73,7 +73,7 @@
       flex-direction: row;
   }
 
-  .tutorial-card {
+  .tutorial-card-connect {
     display: flex;
     flex-direction: row;
     align-items: center;
