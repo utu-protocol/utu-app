@@ -1,25 +1,44 @@
-import React, {Fragment} from "react";
+import React, {Fragment, useState} from "react";
 import "./TokenCard.scss";
-import TutorialCard from "../../../Dashboard/partials/TutorialCard/TutorialCard"
+import TutorialCard from "../../partials/TutorialCard/TutorialCard"
 
 interface tokenCardProps {
     label: string,
     amount: number | null,
     amount_label?: string,
-    loading: boolean
+    loading: boolean,
+    id: any
 }
+// create a state contains current index
 
-const TokenCard = ({label, amount, amount_label, loading=false}: tokenCardProps) => {
-    const tutorialData = [
+const TokenCard = ({label, amount, amount_label, loading=false, id}: tokenCardProps) => {
+    
+    
+    const [currentCard, setCurrentCard] = useState(0)
+
+    const numberB = [];
+    const total = 3;
+    
+    for (let i = 0; i < total; i++) {
+      numberB.push(i);
+      console.log(i)
+      console.log(typeof i)
+    }
+    console.log(typeof numberB)
+    console.log("numberB", numberB)
+    console.log("numberB-2", numberB)
+
+    
+  const tutorialData = 
         {
-            title: "Title goes here", 
+            title: "The title goes here", 
             button: "Close", 
             text: "Select your next action by clicking next or back and it goes over here", 
             back: "Back", 
             next: "Next"
         }
-    ]
-  
+
+
     return (
         <Fragment>
             {
@@ -41,9 +60,7 @@ const TokenCard = ({label, amount, amount_label, loading=false}: tokenCardProps)
                                 </small>
                             </div>
                         </div>
-                        {
-                        tutorialData.map((data, key) => <TutorialCard {...data} key={key}/>)
-                         }
+                        <TutorialCard id={id} numberB={undefined} {...tutorialData}/>
                     </div>
                     
             }

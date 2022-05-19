@@ -5,7 +5,12 @@
      width: 30rem;
      border-radius: 10px;
      position: absolute;
-     right: 25rem;      
+     display: flex;
+     flex-direction: row-reverse;
+     align-items: center;
+     right: -27rem;
+     bottom: -1rem;
+     z-index: 3;    
      }
     &--title {
      background: #000000;
@@ -61,7 +66,10 @@
  
  .tooltiptail-dashboard {
      display: block;
-     border-color:  #ffffff #fff6bc #ffffff #ffffff ;
+     border-top-color: transparent;
+     border-right-color: #fff6bc;
+     border-bottom-color: transparent;
+     border-left-color: transparent;
      border-style: solid;
      border-width: 20px;
      width: 0px;
@@ -73,14 +81,15 @@
        flex-direction: row;
    }
  
-   .tutorial-card-dashboard {
-     display: flex;
-     flex-direction: row-reverse;
-     align-items: center;
-     right: 13rem;
-     bottom: -4.5rem;
+//    .tutorial-card-dashboard {
+//      display: flex;
+//      flex-direction: row-reverse;
+//      align-items: center;
+//      right: -27rem;
+//      bottom: -4.5rem;
+//      z-index: 3;
  
-   }
+//    }
  
    .tutorial-card--card {
      margin-right: -11px !important

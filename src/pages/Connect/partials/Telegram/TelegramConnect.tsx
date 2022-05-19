@@ -34,15 +34,33 @@ const TelegramConnect = () => {
         }));
     }
 
+    const numberB = [];
+    const total = 3;
+    
+    for (let i = 0; i < total; i++) {
+      numberB.push(i);
+      console.log(i)
+      console.log(typeof i)
+    }
+    console.log(typeof numberB)
+    console.log("numberB", numberB)
+    console.log("numberB-2", numberB)
+
+
     const tutorialData = [
         {
             title: "Title goes here", 
             button: "Close", 
             text: "Select your next action by clicking next or back and it goes over here", 
             back: "Back", 
-            next: "Next"
+            next: "Next",
+            number: [0],
+            numberB: numberB
+
         }
     ]
+
+
 
     return (
         <Fragment>

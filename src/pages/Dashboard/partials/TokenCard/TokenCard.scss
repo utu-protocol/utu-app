@@ -13,6 +13,7 @@
     min-height: 72px;
     min-width: 10%;
     position: relative;
+    z-index: 2;
     &:hover {
       opacity: .9;
     }

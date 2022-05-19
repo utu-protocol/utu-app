@@ -5,10 +5,16 @@ interface tutorialCardProps {
     button: string,
     text: string,
     back: string,
-    next: string
+    next: string,
+    key: number
+    numberB: any
 }
 
-const TutorialCard = ({title, button, text, back, next}: tutorialCardProps) => {
+
+
+const TutorialCard = ({title, button, text, back, next, key, numberB }: tutorialCardProps) => {
+    
+    
     return (
         <Fragment> 
         

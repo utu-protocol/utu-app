@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import "./dashboard.scss";
 import TokenCard from "./partials/TokenCard/TokenCard";
 import DetailsCard from "../partials/DetailsCard/DetailsCard";
@@ -22,6 +22,9 @@ const Dashboard = () => {
     const {endorsements, endorsements_loading} = useSelector((state: RootState) => state.endorsement);
     const {address} = useSelector((state: RootState) => state.wallet);
 
+    // const [currentCard, setCurrentCard] = useState(0)
+
+
     const dispatch = useAppDispatch();
 
     const tokenData = [
@@ -29,20 +32,17 @@ const Dashboard = () => {
             label: "UTT Balance",
             amount: utt_balance,
             amount_label: "UTT",
-            loading: balance_loading
-        },
+            loading: balance_loading        },
         {
             label: "Amount Staked on you",
             amount: total_you_have_staked,
             amount_label: "UTT",
-            loading: staked_on_you_loading
-        },
+            loading: staked_on_you_loading        },
         {
             label: "Total Amount Staked",
             amount: total_staked_on_you,
             amount_label: "UTT",
-            loading: total_you_staked_loading
-        }
+            loading: total_you_staked_loading        }
 
     ]
 
@@ -60,7 +60,21 @@ const Dashboard = () => {
 
     // const tutorialData = [
     //     {
-    //         title: "Title goes here", 
+    //         title: "The first title goes here", 
+    //         button: "Close", 
+    //         text: "Select your next action by clicking next or back and it goes over here", 
+    //         back: "Back", 
+    //         next: "Next"
+    //     },
+    //     {
+    //         title: "The second title goes here", 
+    //         button: "Close", 
+    //         text: "Select your next action by clicking next or back and it goes over here", 
+    //         back: "Back", 
+    //         next: "Next"
+    //     },
+    //     {
+    //         title: "The third title goes here", 
     //         button: "Close", 
     //         text: "Select your next action by clicking next or back and it goes over here", 
     //         back: "Back", 
@@ -72,11 +86,11 @@ const Dashboard = () => {
         <div className="container-body">
             <div className="test">
                     {/* {
-                        tutorialData.map((data, key) => <TutorialCard {...data} key={key}/>)
+                        tutorialData.map((data, key) => <TutorialCard className={undefined} numberB={undefined} {...data} key={key} selected={currentCard === key} onNext={() => { setCurrentCard(key + 1); } }/>)
                     } */}
                 <div className="cards-container">
                     {
-                        tokenData.map((data, key) => <TokenCard {...data} key={key}/>)
+                        tokenData.map((data, key) => <TokenCard {...data} key={key} id={key}/>)
                     }
             </div>
 
