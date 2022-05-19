@@ -1,7 +1,5 @@
 import React, {useEffect} from "react";
 import DetailsCard from "../partials/DetailsCard/DetailsCard";
-// import TokenCard from "../Dashboard/partials/TokenCard/TokenCard";
-// import TutorialCard from "./partials/TutorialCard/TutorialCard";
 import twitter from "../../assets/images/twitter.svg";
 import Label from "../../components/Label/Label";
 
@@ -26,29 +24,6 @@ const Connect = () => {
 
     const dispatch = useAppDispatch();
 
-    // const numberB = [];
-    // const total = 3;
-    
-    // for (let i = 0; i < total; i++) {
-    //   numberB.push(i);
-    //   console.log(i)
-    //   console.log(typeof i)
-    // }
-    // console.log(typeof numberB)
-    // console.log("numberB", numberB)
-    // console.log("numberB-2", numberB)
-
-
-    // const tutorialData = [
-    //     {
-    //         title: "Title goes here", 
-    //         button: "Close", 
-    //         text: "Select your next action by clicking next or back and it goes over here", 
-    //         back: "Back", 
-    //         next: "Next",
-    //         numberB: numberB
-    //     }
-    // ]
 
     useEffect(() => {
         dispatch(connectionStatus());
@@ -63,10 +38,7 @@ const Connect = () => {
     const tutorialTelegram = () => {
         return (
             <div> 
-                {/* {
-                 tutorialData.map((data, key) => <TutorialCard {...data} key={key}/>)
-                }                 */}
-                <TelegramConnect key="telegram-connect"/>                    
+                <TelegramConnect key="telegram-connect" id={undefined}/>                    
             </div>
 
 
@@ -101,9 +73,6 @@ const Connect = () => {
                 />
                                
 
-                {/* {
-                 tutorialData.map((data, key) => <TutorialCard {...data} key={key}/>)
-                } */}
 
                 {/* telegram button to connect */}
                 <DetailsCard key="telegram"
@@ -113,7 +82,7 @@ const Connect = () => {
                              actions={isConnected("telegram") ?
                                  [<Label key="telegram-utt" title={`+10,000 UTT`} theme="secondary"/>,
                                      <Label key="telegram-status" title="Connected" theme="basic"/>] : [<TelegramConnect
-                                     key="telegram-connect"/>]}
+                                         key="telegram-connect" id={undefined}/>]}
                 />
              
 

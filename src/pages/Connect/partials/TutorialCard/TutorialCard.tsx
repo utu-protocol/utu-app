@@ -6,13 +6,14 @@ interface tutorialCardProps {
     text: string,
     back: string,
     next: string,
-    key: number
-    numberB: any
+    key: any,
+    id: any,
+    // onClick: () => any
 }
 
 
 
-const TutorialCard = ({title, button, text, back, next, key, numberB }: tutorialCardProps) => {
+const TutorialCard = ({title, button, text, back, next, key}: tutorialCardProps) => {
     
     
     return (

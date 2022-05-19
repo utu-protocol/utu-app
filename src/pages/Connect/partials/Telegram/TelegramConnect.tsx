@@ -13,7 +13,14 @@ import {RootState} from "../../../../redux/store";
 import Checkmark from "../../../../components/Checkmark/Checkmark";
 import UtuButton from "../../../../components/Button/UtuButton";
 
-const TelegramConnect = () => {
+
+interface telegramConnectProps {
+    key: any,
+    id: any
+}
+
+
+const TelegramConnect = ({id, key}: telegramConnectProps) => {
     const [connectModal, setConnectModal] = useState(false);
 
     const dispatch = useAppDispatch();
@@ -34,18 +41,6 @@ const TelegramConnect = () => {
         }));
     }
 
-    const numberB = [];
-    const total = 3;
-    
-    for (let i = 0; i < total; i++) {
-      numberB.push(i);
-      console.log(i)
-      console.log(typeof i)
-    }
-    console.log(typeof numberB)
-    console.log("numberB", numberB)
-    console.log("numberB-2", numberB)
-
 
     const tutorialData = [
         {
@@ -54,8 +49,6 @@ const TelegramConnect = () => {
             text: "Select your next action by clicking next or back and it goes over here", 
             back: "Back", 
             next: "Next",
-            number: [0],
-            numberB: numberB
 
         }
     ]
@@ -66,7 +59,7 @@ const TelegramConnect = () => {
         <Fragment>
             <div className="test">
                {
-                 tutorialData.map((data, key) => <TutorialCard {...data} key={key}/>)
+                 tutorialData.map((data, key) => <div onClick={() => setConnectModal(true)}><TutorialCard id={undefined} {...data} key={key}/></div>)
                 }
                  <Button
                 onButtonClick={() => setConnectModal(true)}

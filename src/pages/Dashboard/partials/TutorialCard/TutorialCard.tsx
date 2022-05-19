@@ -2,7 +2,7 @@ import React, {Fragment} from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../redux/store";
 import "./TutorialCard.scss";
-import { useState } from "react";
+// import { useState } from "react";
 import {useAppDispatch} from "../../../../redux/hooks";
 import {setCurrentCard} from "../../../../redux/slices/ui"
 interface tutorialCardProps {
@@ -12,28 +12,12 @@ interface tutorialCardProps {
     back: string,
     next: string,
     id: any,
-    numberB: any
 }
 
-const TutorialCard = ({title, button, text, back, next, numberB, id}: tutorialCardProps) => {
+const TutorialCard = ({title, button, text, back, next, id}: tutorialCardProps) => {
     const selected = useSelector((state: RootState) => state.ui.currentCard);
     const dispatch = useAppDispatch();
 
-    const [nextCard, setNextCard] = useState(false);
-    // const [nextCard, setNextCard] = useState(false);
-
-
-        // const numberB = [];
-        // const total = 3;
-        
-        // for (let i = 0; i < total; i++) {
-        //   numberB.push(i);
-        //   console.log(i)
-        //   console.log(typeof i)
-        // }
-        // console.log(typeof numberB)
-        // console.log("numberB", numberB)
-        // console.log("numberB-2", numberB)
     if (selected !== id) {
         console.log("check if it works", selected, id)
         return null;
@@ -47,12 +31,11 @@ const TutorialCard = ({title, button, text, back, next, numberB, id}: tutorialCa
     return (
         <Fragment> 
         
-        <div className={`tutorial-container ${numberB}`}>
+        <div className={`tutorial-container`}>
                     <div className="tutorial-card-dashboard">
                         <div className="tutorial-card--card"> 
                             <div className="tutorial--title">
                                 <div>{title}</div>
-                                <div>{numberB}</div>
                                 <div className="tutorial--title-close">
                                     <div className="tutorial--title-text">{button}</div>
                                     <button className="tutorial--title-btn">x</button>

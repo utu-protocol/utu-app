@@ -9,25 +9,9 @@ interface tokenCardProps {
     loading: boolean,
     id: any
 }
-// create a state contains current index
 
 const TokenCard = ({label, amount, amount_label, loading=false, id}: tokenCardProps) => {
     
-    
-    const [currentCard, setCurrentCard] = useState(0)
-
-    const numberB = [];
-    const total = 3;
-    
-    for (let i = 0; i < total; i++) {
-      numberB.push(i);
-      console.log(i)
-      console.log(typeof i)
-    }
-    console.log(typeof numberB)
-    console.log("numberB", numberB)
-    console.log("numberB-2", numberB)
-
     
   const tutorialData = 
         {
@@ -60,7 +44,7 @@ const TokenCard = ({label, amount, amount_label, loading=false, id}: tokenCardPr
                                 </small>
                             </div>
                         </div>
-                        <TutorialCard id={id} numberB={undefined} {...tutorialData}/>
+                        <TutorialCard id={id} {...tutorialData}/>
                     </div>
                     
             }

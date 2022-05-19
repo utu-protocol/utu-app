@@ -61,11 +61,15 @@
 
 .tooltiptail-connect {
     display: block;
-    border-color: #ffffff #ffffff #ffffff #fff6bc;
+    // border-color: #ffffff #ffffff #ffffff #fff6bc;
     border-style: solid;
     border-width: 20px;
     width: 0px;
     height: 0px;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: #fff6bc;
   }
 
   .tutorial-container {
@@ -77,7 +81,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    right: 13rem;
+    right: 10.5rem;
     bottom: -4.5rem;
 
   }

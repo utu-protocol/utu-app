@@ -8,7 +8,6 @@ import {RootState} from "../../redux/store";
 import {useAppDispatch} from "../../redux/hooks";
 import {getTotalStakedOnYou, getTotalYouStaked, getUttBalance} from "../../redux/slices/balance";
 import {getEndorsements} from "../../redux/slices/endorsement";
-// import TutorialCard from "../Dashboard/partials/TutorialCard/TutorialCard"
 
 const Dashboard = () => {
     const {
@@ -22,7 +21,6 @@ const Dashboard = () => {
     const {endorsements, endorsements_loading} = useSelector((state: RootState) => state.endorsement);
     const {address} = useSelector((state: RootState) => state.wallet);
 
-    // const [currentCard, setCurrentCard] = useState(0)
 
 
     const dispatch = useAppDispatch();
@@ -58,36 +56,9 @@ const Dashboard = () => {
         document.title = 'Dashboard | Utu Wallet';
     });
 
-    // const tutorialData = [
-    //     {
-    //         title: "The first title goes here", 
-    //         button: "Close", 
-    //         text: "Select your next action by clicking next or back and it goes over here", 
-    //         back: "Back", 
-    //         next: "Next"
-    //     },
-    //     {
-    //         title: "The second title goes here", 
-    //         button: "Close", 
-    //         text: "Select your next action by clicking next or back and it goes over here", 
-    //         back: "Back", 
-    //         next: "Next"
-    //     },
-    //     {
-    //         title: "The third title goes here", 
-    //         button: "Close", 
-    //         text: "Select your next action by clicking next or back and it goes over here", 
-    //         back: "Back", 
-    //         next: "Next"
-    //     }
-    // ]
-
     return (
         <div className="container-body">
             <div className="test">
-                    {/* {
-                        tutorialData.map((data, key) => <TutorialCard className={undefined} numberB={undefined} {...data} key={key} selected={currentCard === key} onNext={() => { setCurrentCard(key + 1); } }/>)
-                    } */}
                 <div className="cards-container">
                     {
                         tokenData.map((data, key) => <TokenCard {...data} key={key} id={key}/>)
