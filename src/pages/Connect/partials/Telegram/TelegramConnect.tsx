@@ -22,6 +22,8 @@ interface telegramConnectProps {
 
 const TelegramConnect = ({id, key}: telegramConnectProps) => {
     const [connectModal, setConnectModal] = useState(false);
+    const [showCard, setShowCard] = useState(false);
+
 
     const dispatch = useAppDispatch();
     const [phoneNumber, setPhoneNumber] = useState("");
@@ -59,7 +61,15 @@ const TelegramConnect = ({id, key}: telegramConnectProps) => {
         <Fragment>
             <div className="test">
                {
-                 tutorialData.map((data, key) => <div onClick={() => setConnectModal(true)}><TutorialCard id={undefined} {...data} key={key}/></div>)
+                 tutorialData.map((data, key) => 
+                    <TutorialCard 
+                        id={undefined} 
+                        {...data} 
+                        key={key} 
+                        show={connectModal} 
+                        onModal={() => setConnectModal(true)} 
+                        onClose={() => setConnectModal(false)}
+                    />)
                 }
                  <Button
                 onButtonClick={() => setConnectModal(true)}

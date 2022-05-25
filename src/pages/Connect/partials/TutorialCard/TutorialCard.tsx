@@ -8,25 +8,27 @@ interface tutorialCardProps {
     next: string,
     key: any,
     id: any,
-    // onClick: () => any
+    show: boolean,
+    onClose: () => any;
+    onModal: () => any;
 }
 
 
 
-const TutorialCard = ({title, button, text, back, next, key}: tutorialCardProps) => {
+const TutorialCard = ({title, button, text, back, next, key, onClose, show, onModal}: tutorialCardProps) => {
     
     
     return (
         <Fragment> 
         
-        <div className="tutorial-container">
+        <div className={show ? "tutorial-container  show" : "tutorial-container  hide"}>
                     <div className="tutorial-card-connect">
                         <div className="tutorial-card--card"> 
                             <div className="tutorial--title">
                                 <div>{title}</div>
                                 <div className="tutorial--title-close">
                                     <div className="tutorial--title-text">{button}</div>
-                                    <button className="tutorial--title-btn">x</button>
+                                    <button className="tutorial--title-btn" onClick={onClose}>x</button>
                                 </div>   
                             </div>
                             <div className="tutorial--text">
@@ -34,7 +36,7 @@ const TutorialCard = ({title, button, text, back, next, key}: tutorialCardProps)
                             </div>
                             <div className="tutorial--bottom">
                                 <button className="tutorial--bottom-left">{back}</button>
-                                <button className="tutorial--bottom-right">{next}</button>    
+                                <button className="tutorial--bottom-right" onClick={onModal}>{next}</button>    
                             </div>
                         </div>
                        
