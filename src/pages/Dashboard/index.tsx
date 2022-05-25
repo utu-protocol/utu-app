@@ -54,7 +54,7 @@ const Dashboard = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        document.title = 'Dashboard | Utu Wallet';
+        document.title = 'Dashboard | Utu App';
     });
 
     return (
