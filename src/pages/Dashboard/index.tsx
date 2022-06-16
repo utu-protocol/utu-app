@@ -1,13 +1,13 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import "./dashboard.scss";
 import TokenCard from "./partials/TokenCard/TokenCard";
 import DetailsCard from "../partials/DetailsCard/DetailsCard";
 import Label from "../../components/Label/Label";
-import {useSelector} from "react-redux";
-import {RootState} from "../../redux/store";
-import {useAppDispatch} from "../../redux/hooks";
-import {getTotalStakedOnYou, getTotalYouStaked, getUttBalance} from "../../redux/slices/balance";
-import {getEndorsements} from "../../redux/slices/endorsement";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { useAppDispatch } from "../../redux/hooks";
+import { getUttBalance } from "../../redux/slices/balance";
+import { getEndorsements } from "../../redux/slices/endorsement";
 
 const Dashboard = () => {
     const {
@@ -18,8 +18,8 @@ const Dashboard = () => {
         total_you_staked_loading,
         staked_on_you_loading
     } = useSelector((state: RootState) => state.balance);
-    const {endorsements, endorsements_loading} = useSelector((state: RootState) => state.endorsement);
-    const {address} = useSelector((state: RootState) => state.wallet);
+    const { endorsements, endorsements_loading } = useSelector((state: RootState) => state.endorsement);
+    const { address } = useSelector((state: RootState) => state.wallet);
     const lowerCaseAddress = String(address).toLowerCase();
     const dispatch = useAppDispatch();
 
@@ -32,23 +32,23 @@ const Dashboard = () => {
         },
         {
             label: "Amount Staked on you",
-            amount: total_you_have_staked,
-            amount_label: "UTT",
-            loading: staked_on_you_loading
-        },
-        {
-            label: "Total Amount Staked",
             amount: total_staked_on_you,
             amount_label: "UTT",
             loading: total_you_staked_loading
+        },
+        {
+            label: "Total Amount Staked",
+            amount: total_you_have_staked,
+            amount_label: "UTT",
+            loading: staked_on_you_loading
         }
 
     ]
 
     useEffect(() => {
         dispatch(getUttBalance())
-        dispatch(getTotalStakedOnYou())
-        dispatch(getTotalYouStaked());
+        // dispatch(getTotalStakedOnYou())
+        // dispatch(getTotalYouStaked());
         dispatch(getEndorsements());
 
     }, [dispatch]);
@@ -81,7 +81,7 @@ const Dashboard = () => {
                             />)
                         :
                         endorsements_loading ?
-                            <DetailsCard title="" description="" loading={endorsements_loading}/>
+                            <DetailsCard title="" description="" loading={endorsements_loading} />
                             :
                             <div className="empty-now">
                                 No Activities for now!
