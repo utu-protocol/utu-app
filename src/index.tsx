@@ -12,7 +12,7 @@ import {
 } from "@apollo/client";
 import { client } from './grapql/apollo';
 
-document.title = 'Welcome | Utu Wallet';
+document.title = 'Welcome | UTU App';
 
 ReactDOM.render(
   <React.StrictMode>
