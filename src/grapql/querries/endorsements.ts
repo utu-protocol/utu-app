@@ -26,7 +26,7 @@ export const GET_ENDORSEMENTS_BY_SOURCE = gql`
 
 
 export const GET_ENDORSEMENTS_BY_TARGET = gql`
-  query GET_ENDORSEMENTS($target: String) {
+  query GET_ENDORSEMENTS_BY_TARGET($target: String) {
     endorseEntities(where: { _to: $target }) {
       id
       count
