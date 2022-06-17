@@ -1,20 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk } from "../store";
-import axios from "axios";
 import dotenv from "dotenv";
-import { getUTUApiAccessToken } from "./wallet";
 import { client } from "../../grapql/apollo";
 import {
-  GET_ENDORSEMENTS,
   GET_ENDORSEMENTS_BY_SOURCE,
   GET_ENDORSEMENTS_BY_TARGET,
 } from "../../grapql/querries/endorsements";
-import {
-  setTotalStakedOnYou,
-  setTotalStakedOnYouLoading,
-  setTotalYouHaveStaked,
-  setTotalYouStakedLoading,
-} from "./balance";
+
 dotenv.config();
 
 interface EndorsementState {
@@ -46,8 +38,6 @@ export const { setEndorsements, setEndorsementLoading } =
 export const getEndorsements = (): AppThunk => async (dispatch, getState) => {
   try {
     dispatch(setEndorsementLoading(true));
-    dispatch(setTotalStakedOnYouLoading(true));
-    dispatch(setTotalYouStakedLoading(true));
     const { address } = getState().wallet;
 
     const res_source = await client.query({
@@ -73,22 +63,8 @@ export const getEndorsements = (): AppThunk => async (dispatch, getState) => {
       value: Number(item._value),
     }));
 
-    const totalStakedOnYou = res_target?.data?.endorseEntities?.reduce(
-      (acc: number, endorsement: any) => acc + Number(endorsement._value),
-      0
-    );
-    const totalStaked = res_source?.data?.endorseEntities?.reduce(
-      (acc: number, endorsement: any) => acc + Number(endorsement._value),
-      0
-    );
-
-    dispatch(setTotalStakedOnYou(totalStakedOnYou));
-    dispatch(setTotalYouHaveStaked(totalStaked));
-
     dispatch(setEndorsements(endorsements));
     dispatch(setEndorsementLoading(false));
-    dispatch(setTotalYouStakedLoading(false));
-    dispatch(setTotalStakedOnYouLoading(false));
   } catch (e) {
     console.log(e);
     dispatch(setEndorsementLoading(false));

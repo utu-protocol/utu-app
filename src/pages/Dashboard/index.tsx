@@ -6,7 +6,7 @@ import Label from "../../components/Label/Label";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { useAppDispatch } from "../../redux/hooks";
-import { getUttBalance } from "../../redux/slices/balance";
+import { getUttBalance, getStakedAmountBy, getStakedAmountOn } from "../../redux/slices/balance";
 import { getEndorsements } from "../../redux/slices/endorsement";
 
 const Dashboard = () => {
@@ -47,6 +47,8 @@ const Dashboard = () => {
 
     useEffect(() => {
         dispatch(getUttBalance())
+        dispatch(getStakedAmountBy())
+        dispatch(getStakedAmountOn())
         // dispatch(getTotalStakedOnYou())
         // dispatch(getTotalYouStaked());
         dispatch(getEndorsements());
