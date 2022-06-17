@@ -49,8 +49,6 @@ const Dashboard = () => {
         dispatch(getUttBalance())
         dispatch(getStakedAmountBy())
         dispatch(getStakedAmountOn())
-        // dispatch(getTotalStakedOnYou())
-        // dispatch(getTotalYouStaked());
         dispatch(getEndorsements());
 
     }, [dispatch]);
@@ -78,7 +76,7 @@ const Dashboard = () => {
                                 title={`${endorsement.source === lowerCaseAddress ? 'Endorsement issued' : 'Endorsement received'}`}
                                 description={`${endorsement.source === lowerCaseAddress ? 'You have issued an endorsement of value ' : 'You received an endorsement of value '} ${endorsement.value}`}
                                 actions={[<Label key={index}
-                                    title={`${endorsement.source === lowerCaseAddress ? '- ' : '+ '} ${endorsement.value}`}
+                                    title={`${endorsement.source === lowerCaseAddress ? '- ' : '+ '} ${endorsement.value} UTT`}
                                     theme={`${endorsement.source === lowerCaseAddress ? 'danger' : 'success'}`} />]}
                             />)
                         :
