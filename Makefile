@@ -17,11 +17,16 @@ clean:
 	@rm -rf $(OUTPUTFOLDER)
 	@echo done
 
-build: clean build-dist
+install:
+	@echo installing depencies
+	yarn install
+	@echo done
+
+build: clean install build-dist
 
 build-dist:
 	@echo build release
-	yarn install && yarn build --prod
+	yarn build --prod
 	@echo done
 
 deploy-stage:

@@ -20,7 +20,7 @@ const Dashboard = () => {
     } = useSelector((state: RootState) => state.balance);
     const {endorsements, endorsements_loading} = useSelector((state: RootState) => state.endorsement);
     const {address} = useSelector((state: RootState) => state.wallet);
-
+    const lowerCaseAddress = String(address).toLowerCase();
     const dispatch = useAppDispatch();
 
     const tokenData = [
@@ -54,14 +54,14 @@ const Dashboard = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        document.title = 'Dashboard | Utu Wallet';
+        document.title = 'Dashboard | Utu App';
     });
 
     return (
         <div className="container-body">
             <div className="cards-container">
                 {
-                    tokenData.map((data, key) => <TokenCard {...data} key={key}/>)
+                    tokenData.map((data, key) => <TokenCard {...data} key={key} />)
                 }
             </div>
 
@@ -73,11 +73,11 @@ const Dashboard = () => {
                     endorsements.length > 0 ?
                         endorsements.map((endorsement, index) =>
                             <DetailsCard key={index}
-                                         title={`${endorsement.source === address ? 'Endorsement issued' : 'Endorsement received'}`}
-                                         description={`${endorsement.source === address ? 'You have issued an endorsement of value ' : 'You received an endorsement of value '} ${endorsement.value}`}
-                                         actions={[<Label key={index}
-                                                          title={`${endorsement.source === address ? '- ' : '+ '} ${endorsement.value}` }
-                                                          theme={`${endorsement.source === address ? 'danger' : 'success'}`}/>]}
+                                title={`${endorsement.source === lowerCaseAddress ? 'Endorsement issued' : 'Endorsement received'}`}
+                                description={`${endorsement.source === lowerCaseAddress ? 'You have issued an endorsement of value ' : 'You received an endorsement of value '} ${endorsement.value}`}
+                                actions={[<Label key={index}
+                                    title={`${endorsement.source === lowerCaseAddress ? '- ' : '+ '} ${endorsement.value}`}
+                                    theme={`${endorsement.source === lowerCaseAddress ? 'danger' : 'success'}`} />]}
                             />)
                         :
                         endorsements_loading ?

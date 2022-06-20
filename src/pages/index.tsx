@@ -13,7 +13,7 @@ import AuthProvider from "../providers/Auth";
 const Pages = () => {
     const address = useAppSelector(selectAddress);
     useEffect(() => {
-        document.title = 'Welcome | Utu Wallet';
+        document.title = 'Welcome | UTU App';
     });
     return (
         <AuthProvider>

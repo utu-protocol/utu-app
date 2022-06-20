@@ -5,8 +5,9 @@ import Web3Modal from "web3modal";
 import { providers, utils } from "ethers";
 // @ts-ignore
 import { addressSignatureVerification } from "@ututrust/web-components";
-import { CHAIN_ID } from "../../config";
+import { CHAIN_ID, UNKNOWN_NETWORK_ERROR_CODE } from "../../config";
 import supportedChains from "../../lib/chains";
+
 
 const INFURA_ID = "460f40a260564ac4a4f4b3fffb032dad";
 export const UTU_API_AUTH_TOKEN = "utu-identity-data";
@@ -22,6 +23,7 @@ const providerOptions = {
 
 let web3Modal: any;
 let provider: any;
+let currentChainId: number;
 
 if (typeof window !== "undefined") {
   web3Modal = new Web3Modal({
@@ -102,10 +104,13 @@ export const subscribeProvider =
         return dispatch(disconnectWallet());
       }
       await dispatch(setAddress(accounts[0]));
+      // await localStorage.removeItem(UTU_API_AUTH_TOKEN);
+      window.location.reload(); 
     });
     provider.on("chainChanged", async (chainId: number) => {
+      currentChainId = chainId;
       await dispatch(setChainId(chainId));
-      const { name } = await new providers.Web3Provider(provider).getNetwork;
+      const { name } = await new providers.Web3Provider(provider).getNetwork();
       await dispatch(setNetworkName(name));
     });
   };
@@ -123,14 +128,13 @@ export const connectWallet = (): AppThunk => async (dispatch) => {
 
   const network = await web3Provider.getNetwork();
   const networkName = network.name;
-  const chainId = network.chainId;
+  currentChainId = network.chainId;
 
   dispatch(subscribeProvider(provider));
-  await switchNetwork(chainId);
   // The value we return becomes the `fulfilled` action payload
   const data = {
     address,
-    chainId,
+    chainId: currentChainId,
     networkName,
   };
   dispatch(setWeb3Provider(data));
@@ -139,6 +143,7 @@ export const connectWallet = (): AppThunk => async (dispatch) => {
 };
 
 export const disconnectWallet = (): AppThunk => async (dispatch) => {
+  console.log("disconnect wallet");
   const provider = await web3Modal.cachedProvider;
   await web3Modal.clearCachedProvider();
   if (provider?.disconnect && typeof provider.disconnect === "function") {
@@ -153,13 +158,18 @@ export const connectApi = (): AppThunk => async (dispatch, getState) => {
   return window.location.reload();
 };
 
-const switchNetwork = async (chainId: string | number) => {
-  if (Number(chainId) === Number(CHAIN_ID)) return;
-  // @ts-ignore
-  const network = supportedChains.find(
-    (chain) => chain.chain_id === Number(CHAIN_ID)
-  );
-  if (!network) return;
+const requestNetworkChange = async (network: any) => {
+  await provider.request({
+    method: "wallet_switchEthereumChain",
+    params: [
+      {
+        chainId: utils.hexStripZeros(utils.hexlify(network.chain_id)),
+      },
+    ],
+  });
+};
+
+const addNetwork = async (network: any) => {
   await provider.request({
     method: "wallet_addEthereumChain",
     params: [
@@ -171,14 +181,23 @@ const switchNetwork = async (chainId: string | number) => {
       },
     ],
   });
-  await provider.request({
-    method: "wallet_switchEthereumChain",
-    params: [
-      {
-        chainId: utils.hexStripZeros(utils.hexlify(network.chain_id)),
-      },
-    ],
-  });
+};
+
+export const switchNetwork = async () => {
+  if (Number(currentChainId) === Number(CHAIN_ID)) {return;}
+  // @ts-ignore
+  const network = supportedChains.find(
+    (chain) => chain.chain_id === Number(CHAIN_ID)
+  );
+  if (!network) return;
+  try {
+    await requestNetworkChange(network);
+  } catch (e: any) {
+    if (e.code === UNKNOWN_NETWORK_ERROR_CODE) {
+      await addNetwork(network);
+      await requestNetworkChange(network);
+    }
+  }
 };
 
 export const getUTUApiAccessToken = async () => {

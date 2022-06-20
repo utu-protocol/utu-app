@@ -46,7 +46,7 @@ const Connect = () => {
                 </div>
                 <DetailsCard key="twitter"
                              title="Twitter"
-                             description="See your friends activities on UTU"
+                             description="SSee feedback and recommendations from people you follow on Twitter."
                              icon={twitter}
                              actions={isConnected("twitter") ?
                                  [<Label key="twitter-utt" title={`+10,000 UTT`} theme="secondary"/>,
@@ -56,12 +56,12 @@ const Connect = () => {
 
                 <DetailsCard key="telegram"
                              title="Telegram"
-                             description="Earn up 0.01UTT for staying connected"
+                             description="See feedback and recommendations from your Telegram contacts."
                              icon={telegram}
                              actions={isConnected("telegram") ?
                                  [<Label key="telegram-utt" title={`+10,000 UTT`} theme="secondary"/>,
                                      <Label key="telegram-status" title="Connected" theme="basic"/>] : [<TelegramConnect
-                                     key="telegram-connect"/>]}
+                                         key="telegram-connect" id={undefined}/>]}
                 />
 
 
