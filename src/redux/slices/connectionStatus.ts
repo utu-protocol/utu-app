@@ -6,6 +6,7 @@ import { getUTUApiAccessToken } from "./wallet";
 import { client } from "../../grapql/apollo";
 import { GET_CONNECTIONS } from "../../grapql/querries/connections";
 import { getSocialConnectionType } from "../../utils/helper";
+import { sleep } from "../../lib/utilities";
 
 dotenv.config();
 
@@ -35,6 +36,27 @@ export const connectionStatusSLice = createSlice({
 export const { setConnectionStatus, setConnectionTypeLoading } =
   connectionStatusSLice.actions;
 
+export const connectionStatusFromApi = async (
+  address: string
+): Promise<any[]> => {
+  try {
+    const utu_api_token = await getUTUApiAccessToken();
+    const result = await axios.get(
+      `${process.env.REACT_APP_API_TOKEN_LISTENER_URL}/connections?target_address=${address}`,
+      {
+        headers: {
+          authorization: `Bearer ${utu_api_token}`,
+        },
+      }
+    );
+
+    return result.data.connections;
+  } catch (e) {
+    console.log(e);
+    return [];
+  }
+};
+
 export const connectionStatus = (): AppThunk => async (dispatch, getState) => {
   try {
     dispatch(setConnectionTypeLoading(true));
@@ -47,17 +69,30 @@ export const connectionStatus = (): AppThunk => async (dispatch, getState) => {
     });
     const result =
       data?.connectionEntities?.map((item: any) => ({
-        type: getSocialConnectionType(item._connectedTypeId),
         address: item._user,
+        type: getSocialConnectionType(item._connectedTypeId),
         hash: item._connectedUserIdHash,
       })) || [];
-
+    const listFromApi = await connectionStatusFromApi(address!);
+    const list = [...listFromApi, ...result].filter(
+      (connection, index, array) => {
+        return (
+          array.findIndex((item) => item.hash === connection.hash) === index
+        );
+      }
+    );
     dispatch(setConnectionTypeLoading(false));
-    dispatch(setConnectionStatus(result));
+    dispatch(setConnectionStatus(list));
   } catch (e) {
     console.log(e);
     dispatch(setConnectionTypeLoading(false));
   }
+};
+
+export const  refreshConnectionsStatus = (): AppThunk => async (dispatch)=> {
+  dispatch(setConnectionTypeLoading(true)); 
+  await sleep(3000);
+  return dispatch(connectionStatus());
 };
 
 export default connectionStatusSLice.reducer;
