@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import DetailsCard from "../partials/DetailsCard/DetailsCard";
 import twitter from "../../assets/images/twitter.svg";
 import Label from "../../components/Label/Label";
@@ -7,12 +7,12 @@ import telegram from "../../assets/images/telegram.svg";
 import TwitterConnect from "./partials/Twitter/TwitterConnect";
 import TelegramConnect from "./partials/Telegram/TelegramConnect";
 
-import {useSelector} from "react-redux";
-import {RootState} from "../../redux/store";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 
-import {useAppDispatch} from "../../redux/hooks"
-import {connectionStatus} from "../../redux/slices/connectionStatus"
+import { useAppDispatch } from "../../redux/hooks"
+import { connectionStatus } from "../../redux/slices/connectionStatus"
 
 
 const Connect = () => {
@@ -45,23 +45,23 @@ const Connect = () => {
                     </p>
                 </div>
                 <DetailsCard key="twitter"
-                             title="Twitter"
-                             description="SSee feedback and recommendations from people you follow on Twitter."
-                             icon={twitter}
-                             actions={isConnected("twitter") ?
-                                 [<Label key="twitter-utt" title={`+10,000 UTT`} theme="secondary"/>,
-                                     <Label key="twitter-status" title="Connected" theme="basic"/>] : [<TwitterConnect
-                                     key="twitter-connect"/>]}
+                    title="Twitter"
+                    description="SSee feedback and recommendations from people you follow on Twitter."
+                    icon={twitter}
+                    actions={isConnected("twitter") ?
+                        [<Label key="twitter-utt" title={`+10,000 UTT`} theme="secondary" />,
+                        <Label key="twitter-status" title="Connected" theme="basic" />] : [<TwitterConnect
+                            key="twitter-connect" />]}
                 />
 
                 <DetailsCard key="telegram"
-                             title="Telegram"
-                             description="See feedback and recommendations from your Telegram contacts."
-                             icon={telegram}
-                             actions={isConnected("telegram") ?
-                                 [<Label key="telegram-utt" title={`+10,000 UTT`} theme="secondary"/>,
-                                     <Label key="telegram-status" title="Connected" theme="basic"/>] : [<TelegramConnect
-                                         key="telegram-connect" id={undefined}/>]}
+                    title="Telegram"
+                    description="See feedback and recommendations from your Telegram contacts."
+                    icon={telegram}
+                    actions={isConnected("telegram") ?
+                        [<Label key="telegram-utt" title={`+10,000 UTT`} theme="secondary" />,
+                        <Label key="telegram-status" title="Connected" theme="basic" />] : [<TelegramConnect
+                            key="telegram-connect" />]}
                 />
 
 
