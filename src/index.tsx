@@ -7,13 +7,19 @@ import Pages from './pages/index';
 import reportWebVitals from './reportWebVitals';
 import { store } from './redux/store';
 import { Provider } from 'react-redux';
+import {
+  ApolloProvider,
+} from "@apollo/client";
+import { client } from './grapql/apollo';
 
 document.title = 'Welcome | UTU App';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Pages />
+      <ApolloProvider client={client}>
+        <Pages />
+      </ApolloProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
