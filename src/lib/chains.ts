@@ -200,7 +200,7 @@ const supportedChains: IChainData[] = [
     network: 'polygon',
     chain_id: 137,
     network_id: 137,
-    rpc_url: 'https://rpc-mainnet.maticvigil.com',
+    rpc_url: 'https://polygon-rpc.com',
     explorer: 'https://polygonscan.com',
     native_currency: {
       name: 'MATIC',
