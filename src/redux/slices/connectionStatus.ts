@@ -66,6 +66,7 @@ export const connectionStatus = (): AppThunk => async (dispatch, getState) => {
       variables: {
         address: address?.toLowerCase(),
       },
+      fetchPolicy: 'network-only',
     });
     const result =
       data?.connectionEntities?.map((item: any) => ({
