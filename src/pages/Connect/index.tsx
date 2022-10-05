@@ -46,7 +46,7 @@ const Connect = () => {
                 </div>
                 <DetailsCard key="twitter"
                     title="Twitter"
-                    description="SSee feedback and recommendations from people you follow on Twitter."
+                    description="See feedback and recommendations from people you follow on Twitter."
                     icon={twitter}
                     actions={isConnected("twitter") ?
                         [<Label key="twitter-utt" title={`+10,000 UTT`} theme="secondary" />,
