@@ -6,12 +6,13 @@ import Layout from "../components/Layout";
 import Routes from "../routes";
 import Menu from "../components/Layout/Menu/Menu";
 import { useAppSelector } from "../redux/hooks";
-import { selectAddress } from "../redux/slices/wallet";
+import { selectAddress, selectConnectedState } from "../redux/slices/wallet";
 import ConnectBanner from "./partials/ConnectBanner/ConnectBanner";
 import AuthProvider from "../providers/Auth";
 
 const Pages = () => {
     const address = useAppSelector(selectAddress);
+    const connected = useAppSelector(selectConnectedState);
     useEffect(() => {
         document.title = 'Welcome | UTU App';
     });
@@ -21,7 +22,7 @@ const Pages = () => {
                 <Layout>
                     <div className="container">
                         {
-                            address ?
+                            connected ?
                                 <div>
                                     <Menu />
                                     <Routes />

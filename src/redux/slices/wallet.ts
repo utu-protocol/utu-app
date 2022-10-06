@@ -1,11 +1,11 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import {AppThunk, RootState} from "../store";
+import { providers, utils } from "ethers";
 import Web3Modal from "web3modal";
-import {providers, utils} from "ethers";
+import { AppThunk, RootState } from "../store";
 // @ts-ignore
-import {addressSignatureVerification} from "@ututrust/web-components";
-import {CHAIN_ID, UNKNOWN_NETWORK_ERROR_CODE} from "../../config";
+import { addressSignatureVerification } from "@ututrust/web-components";
+import { CHAIN_ID } from "../../config";
 import supportedChains from "../../lib/chains";
 
 
@@ -17,6 +17,12 @@ const providerOptions = {
         package: WalletConnectProvider, // required
         options: {
             infuraId: INFURA_ID, // required
+            rpc: {
+                1: "https://mainnet.infura.io/v3/" + INFURA_ID,
+                42: "https://kovan.infura.io/v3/" + INFURA_ID,
+                137: "https://polygon-rpc.com",
+                80001: "https://rpc-mumbai.maticvigil.com",
+            },
         },
     },
 };
@@ -35,6 +41,9 @@ if (typeof window !== "undefined") {
 
 export interface WalletState {
     address?: string | null;
+    connecting: boolean;
+    authorizing: boolean;
+    connected: boolean;
     chainId?: number | null;
     networkName?: string | null;
 }
@@ -42,35 +51,57 @@ export interface WalletState {
 const initialState: WalletState = {
     address: null,
     chainId: null,
+    connecting: false,
+    authorizing: false,
+    connected: false,
     networkName: null,
 };
 
 export const walletSlice = createSlice({
-    name: "wallet",
-    initialState,
-    // The `reducers` field lets us define reducers and generate associated actions
-    reducers: {
-        // Use the PayloadAction type to declare the contents of `action.payload`
-        setWeb3Provider: (state, action: PayloadAction<WalletState>) => {
-            state.address = action.payload.address;
-            state.chainId = action.payload.chainId;
-            state.networkName = action.payload.networkName;
-        },
-        resetWeb3Provider: (state) => {
-            state.address = null;
-            state.chainId = null;
-            state.networkName = null;
-        },
-        setAddress: (state, action: PayloadAction<string>) => {
-            state.address = action.payload;
-        },
-        setChainId: (state, action: PayloadAction<number>) => {
-            state.chainId = action.payload;
-        },
-        setNetworkName: (state, action: PayloadAction<string>) => {
-            state.networkName = action.payload;
-        },
+  name: "wallet",
+  initialState,
+  // The `reducers` field lets us define reducers and generate associated actions
+  reducers: {
+    // Use the PayloadAction type to declare the contents of `action.payload`
+    setWeb3Provider: (
+      state,
+      action: PayloadAction<{
+        address?: string | null;
+        chainId?: number | null;
+        networkName?: string | null;
+      }>
+    ) => {
+      state.address = action.payload.address;
+      state.chainId = action.payload.chainId;
+      state.networkName = action.payload.networkName;
     },
+    resetWeb3Provider: (state) => {
+      state.address = null;
+      state.chainId = null;
+      state.networkName = null;
+    },
+    setAddress: (state, action: PayloadAction<string>) => {
+      state.address = action.payload;
+    },
+    setConnecting: (state, action: PayloadAction<boolean>) => {
+      state.connecting = action.payload;
+    },
+    setConnected: (state, action: PayloadAction<boolean>) => {
+        state.connected = action.payload;
+        if(action.payload){
+            state.connecting = false;
+        }
+    },
+    setAuthorizing: (state, action: PayloadAction<boolean>) => {
+        state.authorizing = action.payload;
+    },
+    setChainId: (state, action: PayloadAction<number>) => {
+      state.chainId = action.payload;
+    },
+    setNetworkName: (state, action: PayloadAction<string>) => {
+      state.networkName = action.payload;
+    },
+  },
 });
 
 export const {
@@ -79,12 +110,21 @@ export const {
     setAddress,
     setChainId,
     setNetworkName,
+    setConnecting,
+    setConnected,
+    setAuthorizing,
 } = walletSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.wallet.value)`
 export const selectAddress = (state: RootState) => state.wallet.address;
+
+export const selectConnectingState = (state: RootState) => state.wallet.connecting;
+
+export const selectConnectedState = (state: RootState) => state.wallet.connected;
+
+export const selectAuthorizingState = (state: RootState) => state.wallet.authorizing;
 
 export const initWallet = (): AppThunk => (dispatch) => {
     if (web3Modal && web3Modal.cachedProvider) {
@@ -116,6 +156,7 @@ export const subscribeProvider =
         };
 
 export const connectWallet = (): AppThunk => async (dispatch) => {
+    dispatch(setConnecting(true));
     provider = await web3Modal.connect();
 
     // We plug the initial `provider` into ethers.js and get back
@@ -125,10 +166,12 @@ export const connectWallet = (): AppThunk => async (dispatch) => {
 
     const signer = web3Provider.getSigner();
     const address = await signer.getAddress();
-
+    
     const network = await web3Provider.getNetwork();
     const networkName = network.name;
     currentChainId = network.chainId;
+
+    await switchNetwork();
 
     dispatch(subscribeProvider(provider));
     // The value we return becomes the `fulfilled` action payload
@@ -138,24 +181,39 @@ export const connectWallet = (): AppThunk => async (dispatch) => {
         networkName,
     };
     dispatch(setWeb3Provider(data));
-
     return data;
 };
 
 export const disconnectWallet = (): AppThunk => async (dispatch) => {
-    console.log("disconnect wallet");
+    dispatch(setConnecting(false));
+    dispatch(setAuthorizing(false));
     const provider = await web3Modal.cachedProvider;
     await web3Modal.clearCachedProvider();
     if (provider?.disconnect && typeof provider.disconnect === "function") {
         await provider.disconnect();
     }
+    if (provider?.close && typeof provider.close === "function") {
+        await provider.close();
+    }
+    await localStorage.removeItem('walletconnect');
     await localStorage.removeItem(UTU_API_AUTH_TOKEN);
     dispatch(resetWeb3Provider());
+    window.location.reload();
 };
 
 export const connectApi = (): AppThunk => async (dispatch, getState) => {
-    await addressSignatureVerification(process.env.REACT_APP_API_URL);
-    return window.location.reload();
+    try{
+        dispatch(setAuthorizing(true));
+        await addressSignatureVerification(
+          process.env.REACT_APP_API_URL,
+          provider
+        );
+    }catch(e){
+        
+        throw e;
+    }finally {
+        dispatch(setAuthorizing(false));
+    }
 };
 
 const requestNetworkChange = async (network: any) => {
@@ -197,12 +255,10 @@ export const switchNetwork = async () => {
     );
     if (!network) return;
     try {
+        await addNetwork(network);
         await requestNetworkChange(network);
     } catch (e: any) {
-        if (e.code === UNKNOWN_NETWORK_ERROR_CODE) {
-            await addNetwork(network);
-            await requestNetworkChange(network);
-        }
+      console.log(e);
     }
 };
 
