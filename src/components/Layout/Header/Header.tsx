@@ -17,9 +17,7 @@ const Header = () => {
         await dispatch(connectWallet());
     };
 
-    const disconnect = async () => {
-        dispatch(disconnectWallet())
-    };
+   
 
     useEffect(() => {
         dispatch(initWallet());

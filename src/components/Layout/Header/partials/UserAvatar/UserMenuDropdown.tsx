@@ -4,9 +4,18 @@ import metamask from "../../../../../assets/images/metamask.svg"
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
 import {maskValues} from "../../../../../utils/helper";
+import { useAppDispatch } from "../../../../../redux/hooks";
+import { disconnectWallet } from "../../../../../redux/slices/wallet";
+import UtuButton from "../../../../Button/UtuButton";
 
 const UserMenuDropdown = () => {
     const {address, networkName} = useSelector((state: RootState) => state.wallet);
+    
+    const dispatch = useAppDispatch();
+
+    const disconnect = async () => {
+        dispatch(disconnectWallet())
+    };
 
     return (
         <div className="user-dropdown">
@@ -54,6 +63,11 @@ const UserMenuDropdown = () => {
                             <img src={metamask} alt="Metamask" height="31" className="mr-15"/>
                         </div>
                     </div>
+                </div>
+                <div>
+                    <UtuButton onButtonClick={() => {
+                        disconnect()
+                    }} title="Disconnect" />
                 </div>
             </div>
         </div>

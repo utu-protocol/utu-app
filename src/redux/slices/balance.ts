@@ -92,6 +92,7 @@ export const getStakedAmountBy = (): AppThunk => async (dispatch, getState) => {
             variables: {
                 id: address?.toLowerCase(),
             },
+            fetchPolicy: 'network-only',
         });
 
         const amount = Number(data?.stakedAmountByEntity?.amount || 0);
@@ -114,6 +115,7 @@ export const getStakedAmountOn = (): AppThunk => async (dispatch, getState) => {
             variables: {
                 id: address?.toLowerCase(),
             },
+            fetchPolicy: 'network-only',
         });
 
         const amount = Number(data?.stakedAmountOnEntity?.amount || 0);

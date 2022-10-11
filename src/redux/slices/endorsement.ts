@@ -45,6 +45,7 @@ export const getEndorsements = (): AppThunk => async (dispatch, getState) => {
       variables: {
         source: address?.toLowerCase(),
       },
+      fetchPolicy: 'network-only',
     });
 
     const res_target = await client.query({
@@ -52,6 +53,7 @@ export const getEndorsements = (): AppThunk => async (dispatch, getState) => {
       variables: {
         target: address?.toLowerCase(),
       },
+      fetchPolicy: 'network-only',
     });
 
     const endorsements = [

@@ -3,7 +3,7 @@
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { apiRequest } from '../api';
-import { connectApi, getUTUApiAccessToken } from "../redux/slices/wallet";
+import { connectApi, getUTUApiAccessToken, setConnected, setConnecting } from "../redux/slices/wallet";
 import Defer from 'lodash.defer';
 
 const AuthProvider = ({ children }: {
@@ -30,12 +30,17 @@ const AuthProvider = ({ children }: {
                 await dispatch(connectApi());
             }
         }
+        finally {
+            dispatch(setConnected(true))
+        }
     }, [dispatch]);
 
     const checkIfAccessTokenExist = useCallback(async () => {
+        dispatch(setConnecting(true));
         const accessToken = await getUTUApiAccessToken();
         if (accessToken) return checkAccessTokenValidity();
         await dispatch(connectApi());
+        dispatch(setConnected(true))
     }, [dispatch, checkAccessTokenValidity])
 
 
