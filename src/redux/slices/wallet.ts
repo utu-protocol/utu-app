@@ -156,9 +156,8 @@ export const subscribeProvider =
         };
 
 export const connectWallet = (): AppThunk => async (dispatch) => {
-    dispatch(setConnecting(true));
     provider = await web3Modal.connect();
-
+    dispatch(setConnecting(true));
     // We plug the initial `provider` into ethers.js and get back
     // a Web3Provider. This will add on methods from ethers.js and
     // event listeners such as `.on()` will be different.
