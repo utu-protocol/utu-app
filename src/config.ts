@@ -6,3 +6,7 @@ export const TWITTER_CONNECTION_TYPE_ID = 1;
 export const TELEGRAM_CONNECTION_TYPE_ID = 2;
 
 export const CONTRACT_ADDRESS = process.env.REACT_APP_UTT_CONTRACT_ADDRESS || '0x0000000000000000000000000000000000000000';
+
+export const SDK_ENV = process.env.REACT_APP_UTU_SDK_ENV || 'staging'
+
+export const EVENT_UTU_CONFIG = "utuConfig";
