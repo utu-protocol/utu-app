@@ -203,6 +203,7 @@ export const disconnectWallet = (): AppThunk => async (dispatch) => {
 export const connectApi = (): AppThunk => async (dispatch, getState) => {
     try{
         dispatch(setAuthorizing(true));
+        console.log('API_URL', process.env.REACT_APP_API_URL);
         await addressSignatureVerification(
           process.env.REACT_APP_API_URL,
           provider
