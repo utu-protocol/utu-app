@@ -5,6 +5,7 @@ import telegramReducer from "./slices/telegram";
 import connectionStatusReducer from "./slices/connectionStatus";
 import balanceReducer from "./slices/balance";
 import endorsementReducer from "./slices/endorsement";
+import addressDetailsReducer from './slices/addressDetails';
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +14,8 @@ export const store = configureStore({
     telegram: telegramReducer,
     connectionStatus:connectionStatusReducer,
     balance: balanceReducer,
-    endorsement: endorsementReducer
+    endorsement: endorsementReducer,
+    addressDetails: addressDetailsReducer
   },
 });
 
